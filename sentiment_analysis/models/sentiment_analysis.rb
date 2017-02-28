@@ -1,17 +1,25 @@
 require 'json'
 require 'sentimentalizer'
 require 'unirest'
+require 'open-uri'
 
-text = "The race for DNC Chairman was, of course, totally \"rigged.\" Bernie's guy, like Bernie himself, never had a chance. Clinton demanded Perez!"
-text.gsub!(/\s/, "+")
-p text
+text = "Give the public a break - The FAKE NEWS media is trying to say that large scale immigration in Sweden is working out just beautifully. NOT!"
+
+uri = URI::encode(text)
+
 # curl --get --include 'https://jamiembrown-tweet-sentiment-analysis.p.mashape.com/api/?text=I+love+Mashape!' \
 #   -H 'X-Mashape-Key: 0ALNLSmxWWmshiXMc1chqesGNepmp1eVMi1jsnd7FCcKQHlBbX' \
 #   -H 'Accept: application/json'
 
 
 
+response = Unirest.get "https://jamiembrown-tweet-sentiment-analysis.p.mashape.com/api/?text=#{uri}",
+  headers:{
+    "X-Mashape-Key" => "njxvpOcwZHmshONeuvspfFIht6lBp16cTJFjsnqlpmeHWnaPgn",
+    "Accept" => "application/json"
+  }
 
+  p response
 
 
 
