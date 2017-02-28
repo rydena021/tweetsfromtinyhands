@@ -1,16 +1,16 @@
 <div class="text-center">
   <h1>Tweets from Tiny Hands</h1>
-  <h4>Data Driven Satire</h4>
-  <hr>
 </div>
 
+<hr>
 
 
-<div class="container">
-<svg width="960" height="500"></svg>
+<!-- add late night tweets section ??? -->
+
+<svg width="1200" height="625" class="svg-background" ></svg>
 <script>
 var svg = d3.select("svg"),
-    margin = {top: 20, right: 20, bottom: 30, left: 40},
+    margin = {top: 25, right: 25, bottom: 35, left: 45},
     width = +svg.attr("width") - margin.left - margin.right,
     height = +svg.attr("height") - margin.top - margin.bottom;
 
@@ -52,19 +52,18 @@ d3.csv('<%= asset_path "data.csv" %>', function(error, data) {
         .attr("width", x.bandwidth())
         .attr("height", function(d) { return height - y(d.frequency); })
         .on("mouseover", function(d) {
-          // workaround for html function call below, estimates tweets
+          // workaround for html function below
           var tweets = Math.round(d.frequency * 8000);
             tooltip
               .style("left", d3.event.pageX - 50 + "px")
-              .style("top", d3.event.pageY - 70 + "px")
+              .style("top", d3.event.pageY - 90 + "px")
               .style("display", "inline-block")
-              .html(function(d) { return "<strong>Tweets Sent:</strong> <span style='color:red;font-size:20px'>" + tweets + "</span>"; })
+              .html(function(d) { return "<strong style='color:#0084b4;font-size:30px'>" + tweets + " </strong><span> tweets</span>"; })
         .on("mouseout", function(d){ tooltip.style("display", "none"); });
         });
 });
 
 </script>
-</div>
 
 
 
