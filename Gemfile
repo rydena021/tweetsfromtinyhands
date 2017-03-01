@@ -16,8 +16,6 @@ gem 'font-awesome-sass'
 gem 'simple_form'
 gem 'autoprefixer-rails'
 gem 'unirest'
-# gem "sentimentalizer"
-# gem 'sentimental'
 gem 'figaro'
 
 group :development, :test do
