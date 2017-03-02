@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20170302114436) do
     t.string   "source"
     t.integer  "retweet_count"
     t.string   "text"
-    t.string   "posted_at"
+    t.datetime "posted_at"
     t.boolean  "is_retweet"
     t.integer  "favorite_count"
     t.datetime "created_at",              null: false
