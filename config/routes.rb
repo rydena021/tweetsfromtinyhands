@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   get '/sentiment', to: 'pages#sentiment'
   get '/cloud', to: 'pages#cloud'
   get '/time', to: 'pages#time'
+  get '/followers', to: 'pages#followers'
 end
