@@ -4,13 +4,16 @@ require 'csv'
 
 class WordFrequency
   def self.analyzer
+    # frequency analyzes tweets for (id: a..b)
     Tweet.where(id: 78..79).each do |tweet|
+      # splits tweet into words, regex check for punctuation
       tweet.text.split(/[.,\/#!$%\^&\*;:{}=\-_`~()\s]/).each do |word|
         # unless word is CamelCase, or a mention, ie. @FoxNews
         word.capitalize! unless word.match(/^([A-Z][a-z]*)*$|^@[a-zA-Z]*$/)
-        # check if word already in database before create
+        # increment frequency by one if word already on database
         if Frequency.where(word: word).present?
           increment(word)
+        # else create new word and save if not a stop word
         elsif !stop_word?(word)
           frequency = Frequency.new(word: word, frequency: 1, tweet_id: tweet.id)
           frequency.category = "country" if country?(word)
