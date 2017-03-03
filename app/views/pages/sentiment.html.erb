@@ -1,27 +1,8 @@
-<!-- see line 256 -->
-<%= render 'shared/header' %>
-
-
 <style>
-body{
-    width:1060px;
-    margin:50px auto;
-}
 path {  stroke: #fff; }
 path:hover {  opacity:0.9; }
-rect:hover {  fill:$twitter-verified-blue; }
-.axis {  font: 20px sans-serif; }
 .legend tr{    border-bottom:1px solid grey; }
 .legend tr:first-child{    border-top:1px solid grey; }
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.x.axis path {  display: none; }
 .legend{
     margin-bottom:76px;
     display:inline-block;
@@ -36,22 +17,16 @@ rect:hover {  fill:$twitter-verified-blue; }
     align:right;
     width:50px;
 }
-
 #dashboard {
-  background: white;
+    width:1060px;
+    margin:50px auto;
     color:black;
-
-  border-radius: 35px;
-  margin-left: 50px;
-  margin-top: 50px;
-    border: 5px solid blue;
-
+    margin-left: 50px;
+    margin-top: 50px;
 }
-
 </style>
-<div id='dashboard'>
-</div>
-<script src="https://d3js.org/d3.v3.min.js"></script>
+<%= render 'shared/header' %>
+<div id='dashboard'></div>
 <script>
 function dashboard(id, fData){
     var barColor = '$twitter-dark-blue';
@@ -251,14 +226,8 @@ function dashboard(id, fData){
 }
 </script>
 
+<!-- TODO refactor for .csv -->
 <script>
-
-// mighty craic!
-// freq: values should be actual number of tweets
-// prob would want to view by week/month/overall?
-// test w/ real data
-
-// example month
 var freqData=[
  {Day:'Sun',freq:{negative:19, neutral:5, positive:2}}
 ,{Day:'Mon',freq:{negative:10, neutral:11, positive:5}}
