@@ -1,4 +1,7 @@
 class Tweet < ApplicationRecord
+  include PgSearch
+  pg_search_scope :search_by_text, against: [ :text ]
+
   def sentiment
     p "in method"
     if self.sentiment_score.nil?
