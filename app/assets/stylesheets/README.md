@@ -14,7 +14,7 @@ In your terminal, generate SimpleForm Bootstrap config.
 
 ```bash
 $ bundle install
-$ rails generate simple_form:install --bootstrap
+
 ```
 
 Then replace Rails' stylesheets by Le Wagon's stylesheets:
