@@ -1,16 +1,17 @@
+require 'csv'
 
 class WordFrequency
   def self.analyzer
-    Tweet.where(id: 100..179).each do |tweet|
+    Tweet.where(id: 210..220).each do |tweet|
       tweet.text.split(/[.,\/#!$%\^&\*;:{}=\-_`~()\s]/).each do |word|
         # unless word is CamelCase, or a mention, ie. @FoxNews
         word.capitalize! unless word.match(/^([A-Z][a-z]*)*$|^@[a-zA-Z]*$/)
         # check if word already in database before create
+        word.singularize
         if Word.where(term: word).present?
-          add_id_increment(tweet, word)
-          WordTweet.create(word:word, tweet:tweet)
+          increment(tweet, word)
         elsif !stop_word?(word)
-          word = Word.new(word: word, frequency: 1, tweet_id: tweet.id) # make an array
+          word = Word.new(term: word, frequency: 1) # make an array
           word.category = "country" if country?(word)
           word.save
           WordTweet.create(word:word, tweet:tweet)
@@ -22,16 +23,16 @@ class WordFrequency
   private
 
 
-  def self.add_id_increment(tweet, word)
+  def self.increment(tweet, word)
     word_entry = Word.where(term: word).first
     word_entry.frequency += 1
-    word_entry.tweet_id << tweet.id
     word_entry.save
+    WordTweet.create(word:word_entry, tweet:tweet)
   end
 
   def self.stop_word?(a_word)
 
-    file = File.read('stop_words.csv')
+    file = File.read('db/stop_words.csv')
     array_stop_words = CSV.parse(file).flatten
 
     if array_stop_words.include? a_word.downcase
