@@ -1,8 +1,31 @@
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<style>
+.axis path,
+.axis line {
+  stroke: black;
+  stroke-width: 2px;
+  shape-rendering: crispEdges;
+}
+
+.toolTip {
+  color: black;
+  font-size: 20px;
+  text-align: center;
+  position: absolute;
+  display: none;
+  min-width: 80px;
+  height: auto;
+  background: white;
+  border: 3px solid black;
+  border-radius: 25px;
+  padding: 14px;
+}
+</style>
+
 <%= render 'shared/header' %>
+<svg width="1200" height="625" class="clock" ></svg>
 
-<!-- add late night tweets section ??? -->
-
-<svg width="1200" height="625" class="svg-background" ></svg>
 <script>
 var svg = d3.select("svg"),
     margin = {top: 25, right: 25, bottom: 35, left: 45},
@@ -17,7 +40,6 @@ var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
 var g = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-// if smaller sample, see line 57
 d3.csv('<%= asset_path "time/all_tweets.csv" %>', function(error, data) {
     if (error) throw error;
 
@@ -39,6 +61,7 @@ d3.csv('<%= asset_path "time/all_tweets.csv" %>', function(error, data) {
         .attr("text-anchor", "end")
         .text("Frequency");
 
+
     g.selectAll(".bar")
         .data(data)
       .enter().append("rect")
@@ -48,8 +71,7 @@ d3.csv('<%= asset_path "time/all_tweets.csv" %>', function(error, data) {
         .attr("width", x.bandwidth())
         .attr("height", function(d) { return height - y(d.frequency); })
         .on("mouseover", function(d) {
-          // workaround for html function below
-          var tweets = Math.round(d.frequency * 8000); // change to total #tweets in sample
+          var tweets = Math.round(d.frequency * 8000);
             tooltip
               .style("left", d3.event.pageX - 50 + "px")
               .style("top", d3.event.pageY - 90 + "px")
@@ -58,5 +80,4 @@ d3.csv('<%= asset_path "time/all_tweets.csv" %>', function(error, data) {
         .on("mouseout", function(d){ tooltip.style("display", "none"); });
         });
 });
-
 </script>

@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170301090305) do
+ActiveRecord::Schema.define(version: 20170302114436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "frequencies", force: :cascade do |t|
+    t.string   "word"
+    t.integer  "frequency"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "tweet_id"
+    t.string   "category"
+    t.index ["tweet_id"], name: "index_frequencies_on_tweet_id", using: :btree
+  end
 
   create_table "tweets", force: :cascade do |t|
     t.string   "in_reply_to_screen_name"
@@ -26,6 +36,8 @@ ActiveRecord::Schema.define(version: 20170301090305) do
     t.integer  "favorite_count"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+    t.float    "sentiment_score"
   end
 
+  add_foreign_key "frequencies", "tweets"
 end
