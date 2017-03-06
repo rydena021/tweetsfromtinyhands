@@ -1,3 +1,5 @@
 class Word < ApplicationRecord
-  validates :word, uniqueness: true
+  validates :term, uniqueness: true
+  has_many :word_tweets
+  has_many :tweets, through: :word_tweets
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170303153647) do
+ActiveRecord::Schema.define(version: 20170306094607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,12 +31,21 @@ ActiveRecord::Schema.define(version: 20170303153647) do
     t.string   "source"
     t.integer  "retweet_count"
     t.string   "text"
-    t.datetime "posted_at"
+    t.string   "posted_at"
     t.boolean  "is_retweet"
     t.integer  "favorite_count"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.float    "sentiment_score"
+  end
+
+  create_table "word_tweets", force: :cascade do |t|
+    t.integer  "tweet_id"
+    t.integer  "word_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tweet_id"], name: "index_word_tweets_on_tweet_id", using: :btree
+    t.index ["word_id"], name: "index_word_tweets_on_word_id", using: :btree
   end
 
   create_table "words", force: :cascade do |t|
@@ -48,4 +57,6 @@ ActiveRecord::Schema.define(version: 20170303153647) do
   end
 
   add_foreign_key "frequencies", "tweets"
+  add_foreign_key "word_tweets", "tweets"
+  add_foreign_key "word_tweets", "words"
 end

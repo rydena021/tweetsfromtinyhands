@@ -1,4 +1,7 @@
 class Tweet < ApplicationRecord
+  has_many :word_tweets
+  has_many :words, through: :word_tweets
+
   def sentiment
     p "in method"
     if self.sentiment_score.nil?

@@ -6,13 +6,14 @@ class WordFrequency
         # unless word is CamelCase, or a mention, ie. @FoxNews
         word.capitalize! unless word.match(/^([A-Z][a-z]*)*$|^@[a-zA-Z]*$/)
         # check if word already in database before create
-        if Frequency.where(word: word).present?
-          increment(word)
-          add_id(tweet)
+        if Word.where(term: word).present?
+          add_id_increment(tweet, word)
+          WordTweet.create(word:word, tweet:tweet)
         elsif !stop_word?(word)
-          frequency = Frequency.new(word: word, frequency: 1, tweet_id: tweet.id) # make an array
-          frequency.category = "country" if country?(word)
-          frequency.save
+          word = Word.new(word: word, frequency: 1, tweet_id: tweet.id) # make an array
+          word.category = "country" if country?(word)
+          word.save
+          WordTweet.create(word:word, tweet:tweet)
         end
       end
     end
@@ -22,16 +23,18 @@ class WordFrequency
 
 
   def self.add_id_increment(tweet, word)
-    word_entry = Frequency.where(word: word).first
+    word_entry = Word.where(term: word).first
     word_entry.frequency += 1
     word_entry.tweet_id << tweet.id
     word_entry.save
   end
 
   def self.stop_word?(a_word)
-    stop_words = %w(https a able about across after all almost also am among an and any are as at be because been but by can cannot could dear did do does either else ever every for from get got had has have he her hers him his how however i if in into is it its just least let like likely may me might most must my neither no nor not of off often on only or other our own rather said say says she should since so some than that the their them then there these they this tis to too twas us wants was we were what when where which while who whom why will with would yet you your)
-    # regex which checks for bogus words ie "2342", "2pm", words less than 3 chars
-    if stop_words.include? a_word.downcase
+
+    file = File.read('stop_words.csv')
+    array_stop_words = CSV.parse(file).flatten
+
+    if array_stop_words.include? a_word.downcase
       true
     elsif a_word.downcase.match(/(^\d*$)|(^\d*pm$)|(^..$)|(^.$)/)
       true
