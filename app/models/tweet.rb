@@ -1,4 +1,6 @@
 class Tweet < ApplicationRecord
+  default_scope { order(posted_at: :desc) }
+
   include PgSearch
   pg_search_scope :search_by_text, against: [ :text ]
 
