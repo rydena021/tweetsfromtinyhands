@@ -1,18 +1,16 @@
-require 'json'
-require 'csv'
-# require 'pry-byebug'
 
 class WordFrequency
   def self.analyzer
-    Tweet.where(id: 78..79).each do |tweet|
+    Tweet.where(id: 100..179).each do |tweet|
       tweet.text.split(/[.,\/#!$%\^&\*;:{}=\-_`~()\s]/).each do |word|
         # unless word is CamelCase, or a mention, ie. @FoxNews
         word.capitalize! unless word.match(/^([A-Z][a-z]*)*$|^@[a-zA-Z]*$/)
         # check if word already in database before create
         if Frequency.where(word: word).present?
           increment(word)
+          add_id(tweet)
         elsif !stop_word?(word)
-          frequency = Frequency.new(word: word, frequency: 1, tweet_id: tweet.id)
+          frequency = Frequency.new(word: word, frequency: 1, tweet_id: tweet.id) # make an array
           frequency.category = "country" if country?(word)
           frequency.save
         end
@@ -22,9 +20,11 @@ class WordFrequency
 
   private
 
-  def self.increment(word)
+
+  def self.add_id_increment(tweet, word)
     word_entry = Frequency.where(word: word).first
     word_entry.frequency += 1
+    word_entry.tweet_id << tweet.id
     word_entry.save
   end
 
