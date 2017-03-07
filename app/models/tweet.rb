@@ -1,4 +1,8 @@
 class Tweet < ApplicationRecord
+
+  has_many :word_tweets
+  has_many :words, through: :word_tweets
+
   default_scope { order(posted_at: :desc) }
 
   include PgSearch
