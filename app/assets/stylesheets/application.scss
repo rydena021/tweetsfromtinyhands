@@ -1,22 +1,37 @@
 // Graphical variables
 @import "config/variables";
-@import "config/bootstrap_variables";
+
 
 // External libraries
-@import "bootstrap-sprockets";
-@import "bootstrap";
+// add materialize sprockets
+
+
+
+@import "materialize";
 @import "font-awesome-sprockets";
 @import "font-awesome";
 
 // Your CSS
-@import "layout/index";
-@import "components/index";
 @import "pages/index";
+
 @import "vendor/index";
 @import "d3/index";
+@import "components/index";
 
 
 body {
   background: white;
-  height: 200vh;
+  height: 100vh;
 }
+
+
+.parallax-container
+{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+
+
+

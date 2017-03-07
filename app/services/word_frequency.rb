@@ -1,3 +1,4 @@
+
 require 'csv'
 
 class WordFrequency
@@ -10,6 +11,7 @@ class WordFrequency
         word.singularize
         if Word.where(term: word).present?
           increment(tweet, word)
+
         elsif !stop_word?(word)
           word = Word.new(term: word, frequency: 1) # make an array
           word.category = "country" if country?(word)

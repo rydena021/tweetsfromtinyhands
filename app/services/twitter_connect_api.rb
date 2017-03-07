@@ -1,12 +1,15 @@
 class TwitterConnectApi
 
+
   def self.prepare_access_token
+
     consumer = OAuth::Consumer.new(ENV["ApiKey"], ENV["ApiSecret"], { :site => "https://api.twitter.com", :scheme => :header })
 
     # now create the access token object from passed values
     token_hash = { :oauth_token => ENV["OAuthToken"], :oauth_token_secret => ENV["OAuthTokenSecret"] }
     OAuth::AccessToken.from_hash(consumer, token_hash )
   end
+
 
   def self.last_tweet_twitter_id
     Tweet.first.twitter_id
@@ -37,4 +40,5 @@ class TwitterConnectApi
     end
   end
 end
+
 

@@ -6,7 +6,7 @@ class CreateTweets < ActiveRecord::Migration[5.0]
       t.string :source
       t.integer :retweet_count
       t.string :text
-      t.string :posted_at
+      t.datetime :posted_at
       t.boolean :is_retweet
       t.integer :favorite_count
 

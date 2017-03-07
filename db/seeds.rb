@@ -10,6 +10,6 @@ parsed = JSON.parse(jsonfile)
 parsed.each do |hash|
   Tweet.create(in_reply_to_screen_name: hash["in_reply_to_screen_name"],
     twitter_id: hash["id_str"], source: hash["source"], retweet_count: hash["retweet_count"],
-    text: hash["text"], posted_at: hash["created_at"], is_retweet: hash["is_retweet"],
+    text: hash["text"], posted_at: hash["created_at"].to_datetime, is_retweet: hash["is_retweet"],
     favorite_count: hash["favorite_count"])
 end

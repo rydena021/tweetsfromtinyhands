@@ -1,1 +1,106 @@
-<%= render 'shared/header' %>
+<html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css"  media="screen,projection"/>
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+
+  <div class="parallax-container">
+    <div class="parallax-header">
+      <h2>Trump Tweets</h2>
+      <h3>Tweets from tiny hands</h3>
+    </div>
+    <div id="trump-image">
+      <%= image_tag "tiny_hands.png"%>
+    </div>
+  <div class="parallax"><img src="http://cdn.wallpapersafari.com/64/56/GFNz6y.png">
+    </div>
+  </div>
+  <div class="section white">
+    <div class="row container" style="width: 90%">
+      <div class="col s12 m5">
+        <br>
+        <br>
+        <br>
+        <h5>How often does Donald Trump tweet?</h5>
+        <br>
+        <h5>When is Trump most insulting?</h5>
+        <br>
+        <h5>Are Trumps tweets more negative after his daily viewing of Fox News?</h5>
+      </div>
+      <div class="col s12 offset-m1 m6">
+        <div class="col s12">
+          <div class="card">
+            <div class="card-image waves-effect waves-block waves-light">
+            <%= render 'shared/mocktime' %>
+            </div>
+            <div class="card-content">
+            </div>
+          </div>
+        </div>
+        <div class="col s12">
+          <div class="card">
+            <div class="card-image waves-effect waves-block waves-light">
+            <%= image_tag "sentiment_graph.png" %>
+            </div>
+            <div class="card-content">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="parallax-container">
+      <div class="parallax-header">
+        <h2>Alternate facts?
+        </h2>
+        <h3>Are his words great? Does he have the best words?</h3>
+      </div>
+    <div class="parallax">
+      <img src="http://cdn.wallpapersafari.com/64/56/GFNz6y.png">
+    </div>
+  </div>
+  <div class="row container">
+    <div class="card">
+      <div class="card-image waves-effect waves-block waves-light">
+      <br>
+      <%= image_tag "word_cloud.png" %>
+    </div>
+  </div>
+
+  </div>
+
+      <!--  -->
+ <div class="card">
+    <div class="card-image waves-effect waves-block waves-light">
+    </div>
+    <div class="card-content">
+      <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
+      <p><a href="#">This is a link</a></p>
+    </div>
+    <div class="card-reveal">
+      <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+      <p>Here is some more information about this product that is only revealed once clicked on.</p>
+    </div>
+  </div>
+
+    </div>
+  </div>
+  <div class="parallax-container">
+    <div class="parallax"><img src="http://cdn.wallpapersafari.com/64/56/GFNz6y.png"></div>
+  </div>
+
+
+      <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    </body>
+  </html>
+
+  <!--  -->
+

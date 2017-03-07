@@ -1,0 +1,189 @@
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<style>
+.axis path,
+.axis line {
+  stroke: black;
+  stroke-width: 2px;
+  shape-rendering: crispEdges;
+}
+
+.chart {
+  border-radius: 35px;
+  margin-left: 50px;
+  margin-top: 50px;
+  border: 5px solid blue;
+}
+.toolTip {
+  color: black;
+  font-size: 20px;
+  text-align: center;
+  position: absolute;
+  display: none;
+  min-width: 80px;
+  height: auto;
+  background: white;
+  border: 3px solid black;
+  border-radius: 25px;
+  padding: 14px;
+}
+</style>
+
+<svg width="600" height="312.5" class="clock" ></svg>
+<script>
+
+
+  var clockGroup, fields, formatHour, formatMinute, formatSecond, height, offSetX, offSetY, pi, render, scaleHours, scaleSecsMins, vis, width;
+
+  formatSecond = d3.time.format("%S");
+
+  formatMinute = d3.time.format("%M");
+
+  formatHour = d3.time.format("%H");
+
+  fields = function() {
+    var d, data, hour, minute, second;
+    d = new Date();
+    second = d.getSeconds();
+    minute = d.getMinutes();
+    hour = d.getHours() + minute / 60;
+    return data = [
+      {
+        "unit": "seconds",
+        "text": formatSecond(d),
+        "numeric": second
+      }, {
+        "unit": "minutes",
+        "text": formatMinute(d),
+        "numeric": minute
+      }, {
+        "unit": "hours",
+        "text": formatHour(d),
+        "numeric": hour
+      }
+    ];
+  };
+
+  width = 400;
+
+  height = 200;
+
+  offSetX = 200;
+
+  offSetY = 100;
+
+  pi = Math.PI;
+
+  scaleSecsMins = d3.scale.linear().domain([0, 59 + 59 / 60]).range([0, 2 * pi]);
+
+  scaleHours = d3.scale.linear().domain([0, 11 + 59 / 60]).range([0, 2 * pi]);
+
+  vis = d3.selectAll(".clock").append("svg:svg").attr("width", width).attr("height", height);
+
+  clockGroup = vis.append("svg:g").attr("transform", "translate(" + offSetX + "," + offSetY + ")");
+
+  clockGroup.append("svg:circle").attr("r", 80).attr("fill", "none").attr("class", "clock outercircle").attr("stroke", "black").attr("stroke-width", 2);
+
+  clockGroup.append("svg:circle").attr("r", 4).attr("fill", "black").attr("class", "clock innercircle");
+
+  render = function(data) {
+    var hourArc, minuteArc, secondArc;
+    clockGroup.selectAll(".clockhand").remove();
+    secondArc = d3.svg.arc().innerRadius(0).outerRadius(70).startAngle(function(d) {
+      return scaleSecsMins(d.numeric);
+    }).endAngle(function(d) {
+      return scaleSecsMins(d.numeric);
+    });
+    minuteArc = d3.svg.arc().innerRadius(0).outerRadius(70).startAngle(function(d) {
+      return scaleSecsMins(d.numeric);
+    }).endAngle(function(d) {
+      return scaleSecsMins(d.numeric);
+    });
+    hourArc = d3.svg.arc().innerRadius(0).outerRadius(50).startAngle(function(d) {
+      return scaleHours(d.numeric % 12);
+    }).endAngle(function(d) {
+      return scaleHours(d.numeric % 12);
+    });
+    clockGroup.selectAll(".clockhand").data(data).enter().append("svg:path").attr("d", function(d) {
+      if (d.unit === "seconds") {
+        return secondArc(d);
+      } else if (d.unit === "minutes") {
+        return minuteArc(d);
+      } else if (d.unit === "hours") {
+        return hourArc(d);
+      }
+    }).attr("class", "clockhand").attr("stroke", "black").attr("stroke-width", function(d) {
+      if (d.unit === "seconds") {
+        return 2;
+      } else if (d.unit === "minutes") {
+        return 3;
+      } else if (d.unit === "hours") {
+        return 3;
+      }
+    }).attr("fill", "none");
+  };
+
+  setInterval(function() {
+    var data;
+    data = fields();
+    return render(data);
+  }, 1000);
+</script>
+
+<script>
+var svg = d3.select("svg"),
+    margin = {top: 25, right: 25, bottom: 35, left: 45},
+    width = +svg.attr("width") - margin.left - margin.right,
+    height = +svg.attr("height") - margin.top - margin.bottom;
+
+var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+
+var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+    y = d3.scaleLinear().rangeRound([height, 0]);
+
+var g = svg.append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.csv('<%= asset_path "time/all_tweets.csv" %>', function(error, data) {
+    if (error) throw error;
+
+    x.domain(data.map(function(d) { return d.time; }));
+    y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+
+    g.append("g")
+        .attr("class", "axis axis--x")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+
+    g.append("g")
+        .attr("class", "axis axis--y")
+        .call(d3.axisLeft(y).ticks(5, "%"))
+      .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", "0.71em")
+        .attr("text-anchor", "end")
+        .text("Frequency");
+
+    g.selectAll(".bar")
+        .data(data)
+      .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", function(d) { return x(d.time); })
+        .attr("y", function(d) { return y(d.frequency); })
+        .attr("width", x.bandwidth())
+        .attr("height", function(d) { return height - y(d.frequency); })
+        .on("mouseover", function(d) {
+          // workaround for html function below
+          var tweets = Math.round(d.frequency * 8000);
+            tooltip
+              .style("left", d3.event.pageX - 50 + "px")
+              .style("top", d3.event.pageY - 90 + "px")
+              .style("display", "inline-block")
+              .html(function(d) { return "<strong style='color:#0084b4;font-size:30px'>" + tweets + " </strong><span> tweets</span>"; })
+        .on("mouseout", function(d){ tooltip.style("display", "none"); });
+        });
+});
+</script>
+
+
