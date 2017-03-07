@@ -24,14 +24,44 @@ body {
   height: 100vh;
 }
 
+svg.outline {
+  background-color: #ffff33;
+  border-style: solid;
+  border-color: red;
+}
 
-.parallax-container
-{
+.parallax-container {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  height: 700px;
 }
 
+.parallax-skinny {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 15px;
+}
 
+div.section-top {
+  background-color: $twitter-blue;
+  color: white;
+}
 
+div.section-bottom {
+  background-color: white;
+}
 
+div.nav-wrapper {
+  background-color: black;
+}
+
+div.navbar-fixed a {
+  color: white;
+}
+
+footer.page-footer {
+  background-color: black;
+  color: white;
+}
