@@ -1,0 +1,20 @@
+.parallax-header {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  color: $white;
+  h2 {
+    font-family: $header-font;
+  }
+  h3 {
+    font-family: $base-font;
+  }
+}
+
+.trump-image {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin-right: 0;
+  padding-right: 0;
+}
