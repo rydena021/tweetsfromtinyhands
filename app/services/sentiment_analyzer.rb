@@ -2,7 +2,7 @@ require 'unirest'
 
 class SentimentAnalyzer
   def self.add_sentiment
-    sql = "SELECT * FROM tweets WHERE (tweets.id BETWEEN 1946 AND 2943)"
+    sql = "SELECT * FROM tweets WHERE (tweets.id BETWEEN 2944 AND 3941)"
     ActiveRecord::Base.connection.execute(sql).map do |tweet_hash|
       tweet = Tweet.find(tweet_hash['id'])
       text = tweet.text
