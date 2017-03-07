@@ -1,6 +1,4 @@
-require 'json'
-require 'csv'
-# require 'pry-byebug'
+
 
 class WordFrequency
   def self.analyzer
