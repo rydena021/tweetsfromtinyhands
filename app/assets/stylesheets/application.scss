@@ -1,5 +1,6 @@
 // Graphical variables
 @import "config/variables";
+@import "config/materialize";
 
 
 // External libraries
@@ -13,25 +14,15 @@
 
 // Your CSS
 @import "pages/index";
-
 @import "vendor/index";
 @import "d3/index";
 @import "components/index";
+@import "layouts/index";
 
 
 body {
   background: white;
-  height: 100vh;
 }
-
-
-.parallax-container
-{
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
 
 
 
