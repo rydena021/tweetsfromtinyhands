@@ -1,0 +1,24 @@
+.parallax-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 600px;
+}
+
+.parallax-skinny {
+  height: 20px;
+}
+
+.parallax-banner {
+  height: 750px;
+}
+
+div.section-top {
+  background-color: $twitter-blue;
+  color: white;
+  padding-right: 50px;
+}
+
+div.section-bottom {
+  background-color: white;
+}

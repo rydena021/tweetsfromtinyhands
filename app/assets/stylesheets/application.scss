@@ -1,5 +1,6 @@
 // Graphical variables
 @import "config/variables";
+@import "config/materialize";
 
 
 // External libraries
@@ -13,55 +14,15 @@
 
 // Your CSS
 @import "pages/index";
-
 @import "vendor/index";
 @import "d3/index";
 @import "components/index";
+@import "layouts/index";
 
 
 body {
   background: white;
-  height: 100vh;
 }
 
-svg.outline {
-  background-color: #ffff33;
-  border-style: solid;
-  border-color: red;
-}
 
-.parallax-container {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 700px;
-}
 
-.parallax-skinny {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 15px;
-}
-
-div.section-top {
-  background-color: $twitter-blue;
-  color: white;
-}
-
-div.section-bottom {
-  background-color: white;
-}
-
-div.nav-wrapper {
-  background-color: black;
-}
-
-div.navbar-fixed a {
-  color: white;
-}
-
-footer.page-footer {
-  background-color: black;
-  color: white;
-}
