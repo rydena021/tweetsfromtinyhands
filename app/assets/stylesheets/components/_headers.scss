@@ -1,9 +1,16 @@
 .parallax-header {
   position: absolute;
-  left: 20px;
-  bottom: 190px;
-  color: $white;
+  left: 0px;
+  bottom: 20px;
+  background-color: #1CA6F4;
+  color: white;
+  padding: 0 20px;
+  margin: 0;
+  width: 100vw;
+  text-align: center;
   h2 {
+    font-size: 3em;
+    margin: 0 0;
     font-family: $header-font;
   }
   h3 {
@@ -11,6 +18,22 @@
   }
 }
 
+.second-header {
+  position: absolute;
+  left: 0px;
+  bottom: 20px;
+  color: white;
+  padding: 0 20px;
+  margin: 0;
+  h2 {
+    font-size: 3em;
+    margin: 0 0;
+    font-family: $header-font;
+  }
+  h3 {
+    font-family: $base-font;
+  }
+}
 .trump-image {
   position: absolute;
   bottom: 0;
@@ -19,10 +42,21 @@
   padding-right: 0;
 }
 
+.blue-background{
+  background-color: #1CA6F4;
+}
+
 .hawk {
   width: 90%;
+}
+
+.trump-background {
+  background: url('trumpsilhouette.png');
+  background-size: cover;
+  // width: 100vw;
 }
 
 // .section {
 //   background: #F0F0F0;
 // }
+//<%= image_tag "trumpsilhouette.png", style: "position: relative;"%>
