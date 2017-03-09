@@ -42,7 +42,8 @@ class SentimentAnalyzer
 
     date_months = (start_date..end_date).map { |d| DateTime.new(d.year, d.month, 1)  }.uniq
     date_months.each_with_index do |date, index|
-        SentimentAnalyzer.json_write(tweets.where(posted_at: date..date_months[index + 1] || end_date, date))
+      range = date..(date_months[index + 1] || end_date)
+        SentimentAnalyzer.json_write(Tweet.where(posted_at: range), date)
     end
   end
 end
