@@ -10,7 +10,7 @@ class SentimentAnalyzer
       if tweet.sentiment_score.nil?
         response = Unirest.get "https://jamiembrown-tweet-sentiment-analysis.p.mashape.com/api/?text=#{uri}",
         headers:{
-          "X-Mashape-Key" => ENV["X_Mashape_Key"],
+          "X-Mashape-Key" => "Key disabled",
           "Accept" => "application/json"
         }
         tweet.update_column(:sentiment_score, response.body["score"])

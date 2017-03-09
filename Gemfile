@@ -20,7 +20,7 @@ gem 'autoprefixer-rails'
 gem 'unirest'
 
 gem 'json'
-
+gem 'sentimental'
 
 group :development, :test do
   gem 'binding_of_caller'
