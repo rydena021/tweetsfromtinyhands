@@ -5,6 +5,8 @@ class Tweet < ApplicationRecord
 
   default_scope { order(posted_at: :desc) }
 
+  before_save :convert_to_est
+
   include PgSearch
   pg_search_scope :search_by_text, against: [ :text ]
 
@@ -19,5 +21,9 @@ class Tweet < ApplicationRecord
     else
       "neutral"
     end
+  end
+
+  def convert_to_est
+    self.posted_at += Time.zone_offset('EST')
   end
 end
