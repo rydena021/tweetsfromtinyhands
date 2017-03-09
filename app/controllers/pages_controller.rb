@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
 
-  def home(array, month)
+  def home
+
   end
 end
