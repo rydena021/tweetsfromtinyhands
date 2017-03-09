@@ -1,0 +1,1248 @@
+{
+  "words": [
+    {
+      "term": "Amp",
+      "frequency": 22,
+      "category": null,
+      "tweets": [
+        338,
+        319,
+        316,
+        312,
+        311,
+        309,
+        308,
+        306,
+        302,
+        294,
+        293,
+        263,
+        263,
+        259,
+        259,
+        253,
+        236,
+        236,
+        235,
+        235,
+        235,
+        235
+      ]
+    },
+    {
+      "term": "Country",
+      "frequency": 16,
+      "category": null,
+      "tweets": [
+        275,
+        266,
+        260,
+        246,
+        245,
+        244,
+        241,
+        240,
+        240,
+        237,
+        237,
+        235,
+        235,
+        233,
+        233,
+        218
+      ]
+    },
+    {
+      "term": "Will",
+      "frequency": 15,
+      "category": null,
+      "tweets": [
+        336,
+        322,
+        308,
+        305,
+        300,
+        284,
+        283,
+        262,
+        262,
+        252,
+        247,
+        237,
+        237,
+        222,
+        220
+      ]
+    },
+    {
+      "term": "People",
+      "frequency": 15,
+      "category": null,
+      "tweets": [
+        332,
+        331,
+        269,
+        266,
+        250,
+        246,
+        245,
+        244,
+        241,
+        236,
+        236,
+        231,
+        231,
+        221,
+        218
+      ]
+    },
+    {
+      "term": "Great",
+      "frequency": 14,
+      "category": "other",
+      "tweets": [
+        320,
+        315,
+        309,
+        306,
+        298,
+        289,
+        288,
+        286,
+        283,
+        267,
+        264,
+        263,
+        223,
+        223
+      ]
+    },
+    {
+      "term": "FAKE",
+      "frequency": 13,
+      "category": null,
+      "tweets": [
+        339,
+        333,
+        332,
+        331,
+        323,
+        299,
+        295,
+        280,
+        273,
+        251,
+        238,
+        238,
+        229
+      ]
+    },
+    {
+      "term": "NEWS",
+      "frequency": 12,
+      "category": null,
+      "tweets": [
+        339,
+        332,
+        331,
+        323,
+        299,
+        295,
+        280,
+        273,
+        251,
+        238,
+        238,
+        229
+      ]
+    },
+    {
+      "term": "Media",
+      "frequency": 12,
+      "category": "other",
+      "tweets": [
+        339,
+        335,
+        332,
+        331,
+        328,
+        323,
+        309,
+        299,
+        287,
+        274,
+        251,
+        229
+      ]
+    },
+    {
+      "term": "Prime",
+      "frequency": 11,
+      "category": "other",
+      "tweets": [
+        301,
+        296,
+        292,
+        291,
+        290,
+        289,
+        288,
+        286,
+        285,
+        281,
+        229
+      ]
+    },
+    {
+      "term": "Minister",
+      "frequency": 11,
+      "category": "other",
+      "tweets": [
+        301,
+        296,
+        292,
+        291,
+        290,
+        289,
+        288,
+        286,
+        285,
+        281,
+        229
+      ]
+    },
+    {
+      "term": "Bad",
+      "frequency": 10,
+      "category": null,
+      "tweets": [
+        245,
+        244,
+        241,
+        240,
+        240,
+        238,
+        238,
+        227,
+        218,
+        218
+      ]
+    },
+    {
+      "term": "Abe",
+      "frequency": 9,
+      "category": "other",
+      "tweets": [
+        296,
+        292,
+        291,
+        290,
+        289,
+        288,
+        286,
+        285,
+        285
+      ]
+    },
+    {
+      "term": "Judge",
+      "frequency": 9,
+      "category": null,
+      "tweets": [
+        272,
+        245,
+        244,
+        241,
+        240,
+        240,
+        237,
+        237,
+        217
+      ]
+    },
+    {
+      "term": "@nytimes",
+      "frequency": 9,
+      "category": null,
+      "tweets": [
+        332,
+        331,
+        321,
+        311,
+        280,
+        255,
+        253,
+        238,
+        238
+      ]
+    },
+    {
+      "term": "Security",
+      "frequency": 9,
+      "category": null,
+      "tweets": [
+        343,
+        342,
+        261,
+        250,
+        246,
+        240,
+        240,
+        235,
+        235
+      ]
+    },
+    {
+      "term": "Time",
+      "frequency": 8,
+      "category": "other",
+      "tweets": [
+        329,
+        327,
+        304,
+        297,
+        289,
+        288,
+        286,
+        276
+      ]
+    },
+    {
+      "term": "Big",
+      "frequency": 8,
+      "category": null,
+      "tweets": [
+        336,
+        334,
+        321,
+        299,
+        297,
+        266,
+        235,
+        235
+      ]
+    },
+    {
+      "term": "Failing",
+      "frequency": 7,
+      "category": "other",
+      "tweets": [
+        332,
+        331,
+        321,
+        311,
+        280,
+        255,
+        253
+      ]
+    },
+    {
+      "term": "Iran",
+      "frequency": 7,
+      "category": "country",
+      "tweets": [
+        258,
+        257,
+        228,
+        225,
+        225,
+        224,
+        219
+      ]
+    },
+    {
+      "term": "News",
+      "frequency": 7,
+      "category": "other",
+      "tweets": [
+        335,
+        324,
+        309,
+        295,
+        270,
+        265,
+        250
+      ]
+    },
+    {
+      "term": "Obama",
+      "frequency": 7,
+      "category": "other",
+      "tweets": [
+        325,
+        313,
+        313,
+        258,
+        257,
+        228,
+        220
+      ]
+    },
+    {
+      "term": "Fake",
+      "frequency": 7,
+      "category": "other",
+      "tweets": [
+        335,
+        328,
+        324,
+        309,
+        295,
+        265,
+        250
+      ]
+    },
+    {
+      "term": "Countries",
+      "frequency": 7,
+      "category": null,
+      "tweets": [
+        294,
+        282,
+        269,
+        236,
+        236,
+        234,
+        234
+      ]
+    },
+    {
+      "term": "Ban",
+      "frequency": 7,
+      "category": null,
+      "tweets": [
+        268,
+        242,
+        241,
+        240,
+        240,
+        236,
+        236
+      ]
+    },
+    {
+      "term": "Coming",
+      "frequency": 6,
+      "category": null,
+      "tweets": [
+        305,
+        246,
+        240,
+        240,
+        230,
+        230
+      ]
+    },
+    {
+      "term": "GREAT",
+      "frequency": 6,
+      "category": null,
+      "tweets": [
+        340,
+        248,
+        239,
+        239,
+        231,
+        231
+      ]
+    },
+    {
+      "term": "Morning",
+      "frequency": 6,
+      "category": null,
+      "tweets": [
+        315,
+        306,
+        298,
+        298,
+        230,
+        230
+      ]
+    },
+    {
+      "term": "Japan",
+      "frequency": 6,
+      "category": "country",
+      "tweets": [
+        296,
+        290,
+        289,
+        289,
+        288,
+        288
+      ]
+    },
+    {
+      "term": "General",
+      "frequency": 6,
+      "category": "other",
+      "tweets": [
+        343,
+        342,
+        329,
+        277,
+        276,
+        271
+      ]
+    },
+    {
+      "term": "Florida",
+      "frequency": 6,
+      "category": "other",
+      "tweets": [
+        341,
+        337,
+        336,
+        334,
+        317,
+        299
+      ]
+    },
+    {
+      "term": "AMERICA",
+      "frequency": 6,
+      "category": null,
+      "tweets": [
+        340,
+        248,
+        239,
+        239,
+        231,
+        231
+      ]
+    },
+    {
+      "term": "Congratulations",
+      "frequency": 6,
+      "category": "other",
+      "tweets": [
+        343,
+        304,
+        303,
+        298,
+        271,
+        222
+      ]
+    },
+    {
+      "term": "Deal",
+      "frequency": 6,
+      "category": "other",
+      "tweets": [
+        305,
+        258,
+        257,
+        225,
+        224,
+        220
+      ]
+    },
+    {
+      "term": "Charge",
+      "frequency": 6,
+      "category": null,
+      "tweets": [
+        234,
+        234,
+        234,
+        234,
+        234,
+        234
+      ]
+    },
+    {
+      "term": "Trump",
+      "frequency": 5,
+      "category": "other",
+      "tweets": [
+        307,
+        291,
+        280,
+        269,
+        265
+      ]
+    },
+    {
+      "term": "Winning",
+      "frequency": 5,
+      "category": null,
+      "tweets": [
+        320,
+        276,
+        276,
+        238,
+        238
+      ]
+    },
+    {
+      "term": "Story",
+      "frequency": 5,
+      "category": "other",
+      "tweets": [
+        338,
+        324,
+        324,
+        305,
+        280
+      ]
+    },
+    {
+      "term": "Election",
+      "frequency": 5,
+      "category": null,
+      "tweets": [
+        324,
+        255,
+        250,
+        238,
+        238
+      ]
+    },
+    {
+      "term": "Long",
+      "frequency": 5,
+      "category": "other",
+      "tweets": [
+        329,
+        326,
+        275,
+        273,
+        219
+      ]
+    },
+    {
+      "term": "Today",
+      "frequency": 5,
+      "category": "other",
+      "tweets": [
+        300,
+        289,
+        288,
+        281,
+        262
+      ]
+    },
+    {
+      "term": "Join",
+      "frequency": 5,
+      "category": "other",
+      "tweets": [
+        330,
+        317,
+        277,
+        259,
+        216
+      ]
+    },
+    {
+      "term": "Enemy",
+      "frequency": 5,
+      "category": "other",
+      "tweets": [
+        332,
+        332,
+        331,
+        331,
+        274
+      ]
+    },
+    {
+      "term": "Enjoy",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        254,
+        248,
+        247,
+        243
+      ]
+    },
+    {
+      "term": "Win",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        275,
+        261,
+        255,
+        249
+      ]
+    },
+    {
+      "term": "Shinzo",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        292,
+        291,
+        286,
+        285
+      ]
+    },
+    {
+      "term": "Russia",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        313,
+        311,
+        258,
+        257
+      ]
+    },
+    {
+      "term": "Good",
+      "frequency": 4,
+      "category": null,
+      "tweets": [
+        290,
+        230,
+        230,
+        217
+      ]
+    },
+    {
+      "term": "President",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        307,
+        297,
+        291,
+        228
+      ]
+    },
+    {
+      "term": "Decision",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        279,
+        262,
+        242,
+        241
+      ]
+    },
+    {
+      "term": "American",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        332,
+        331,
+        314,
+        267
+      ]
+    },
+    {
+      "term": "Meeting",
+      "frequency": 4,
+      "category": null,
+      "tweets": [
+        341,
+        302,
+        230,
+        230
+      ]
+    },
+    {
+      "term": "Business",
+      "frequency": 4,
+      "category": null,
+      "tweets": [
+        302,
+        300,
+        230,
+        230
+      ]
+    },
+    {
+      "term": "Apologize",
+      "frequency": 4,
+      "category": null,
+      "tweets": [
+        321,
+        255,
+        238,
+        238
+      ]
+    },
+    {
+      "term": "@CNN",
+      "frequency": 4,
+      "category": "mention",
+      "tweets": [
+        332,
+        331,
+        309,
+        295
+      ]
+    },
+    {
+      "term": "Going",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        327,
+        309,
+        258,
+        257
+      ]
+    },
+    {
+      "term": "@oreillyfactor",
+      "frequency": 4,
+      "category": "mention",
+      "tweets": [
+        254,
+        252,
+        247,
+        243
+      ]
+    },
+    {
+      "term": "Illegal",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        321,
+        305,
+        293,
+        220
+      ]
+    },
+    {
+      "term": "Women",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        302,
+        300,
+        300,
+        259
+      ]
+    },
+    {
+      "term": "Travel",
+      "frequency": 4,
+      "category": null,
+      "tweets": [
+        282,
+        269,
+        240,
+        240
+      ]
+    },
+    {
+      "term": "Democrats",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        326,
+        324,
+        323,
+        260
+      ]
+    },
+    {
+      "term": "Job",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        298,
+        246,
+        227
+      ]
+    },
+    {
+      "term": "Lost",
+      "frequency": 3,
+      "category": null,
+      "tweets": [
+        324,
+        238,
+        238
+      ]
+    },
+    {
+      "term": "Crazy",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        309,
+        258,
+        257
+      ]
+    },
+    {
+      "term": "Mar",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        341,
+        290,
+        285
+      ]
+    },
+    {
+      "term": "United",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        316,
+        286,
+        217
+      ]
+    },
+    {
+      "term": "Happening",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        338,
+        305,
+        256
+      ]
+    },
+    {
+      "term": "Interview",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        273,
+        254,
+        243
+      ]
+    },
+    {
+      "term": "National",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        343,
+        342,
+        259
+      ]
+    },
+    {
+      "term": "NSA",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        329,
+        312,
+        311
+      ]
+    },
+    {
+      "term": "Ivanka",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        287,
+        264,
+        223
+      ]
+    },
+    {
+      "term": "States",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        316,
+        286,
+        217
+      ]
+    },
+    {
+      "term": "Homeland",
+      "frequency": 3,
+      "category": null,
+      "tweets": [
+        246,
+        240,
+        240
+      ]
+    },
+    {
+      "term": "Terrible",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        264,
+        241,
+        224
+      ]
+    },
+    {
+      "term": "Network",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        295,
+        247,
+        243
+      ]
+    },
+    {
+      "term": "Interesting",
+      "frequency": 3,
+      "category": null,
+      "tweets": [
+        341,
+        236,
+        236
+      ]
+    },
+    {
+      "term": "Forced",
+      "frequency": 3,
+      "category": null,
+      "tweets": [
+        255,
+        238,
+        238
+      ]
+    },
+    {
+      "term": "Leading",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        302,
+        300,
+        269
+      ]
+    },
+    {
+      "term": "White",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        336,
+        335,
+        290
+      ]
+    },
+    {
+      "term": "Yesterday",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        328,
+        280,
+        223
+      ]
+    },
+    {
+      "term": "Statement",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        338,
+        292,
+        291
+      ]
+    },
+    {
+      "term": "Wonderful",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        302,
+        287,
+        285
+      ]
+    },
+    {
+      "term": "Jobs",
+      "frequency": 3,
+      "category": null,
+      "tweets": [
+        327,
+        230,
+        230
+      ]
+    },
+    {
+      "term": "Well",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        297,
+        289,
+        288
+      ]
+    },
+    {
+      "term": "Administration",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        313,
+        270,
+        220
+      ]
+    },
+    {
+      "term": "Court",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        245,
+        242,
+        217
+      ]
+    },
+    {
+      "term": "@WhiteHouse",
+      "frequency": 3,
+      "category": "mention",
+      "tweets": [
+        301,
+        259,
+        216
+      ]
+    },
+    {
+      "term": "Ready",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        337,
+        225,
+        215
+      ]
+    },
+    {
+      "term": "Care",
+      "frequency": 3,
+      "category": null,
+      "tweets": [
+        304,
+        230,
+        230
+      ]
+    },
+    {
+      "term": "Joint",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        292,
+        291,
+        281
+      ]
+    },
+    {
+      "term": "Melbourne",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        337,
+        336,
+        317
+      ]
+    },
+    {
+      "term": "Real",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        314,
+        305,
+        256
+      ]
+    },
+    {
+      "term": "Secretary",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        306,
+        303,
+        222
+      ]
+    },
+    {
+      "term": "Daughter",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        287,
+        264,
+        223
+      ]
+    },
+    {
+      "term": "Point",
+      "frequency": 3,
+      "category": null,
+      "tweets": [
+        231,
+        231,
+        221
+      ]
+    },
+    {
+      "term": "Watch",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        330,
+        306,
+        303
+      ]
+    },
+    {
+      "term": "House",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        336,
+        335,
+        290
+      ]
+    },
+    {
+      "term": "Lago",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        341,
+        290,
+        285
+      ]
+    },
+    {
+      "term": "Opinion",
+      "frequency": 3,
+      "category": null,
+      "tweets": [
+        279,
+        237,
+        237
+      ]
+    },
+    {
+      "term": "Intentions",
+      "frequency": 3,
+      "category": null,
+      "tweets": [
+        240,
+        240,
+        218
+      ]
+    },
+    {
+      "term": "Islamic",
+      "frequency": 3,
+      "category": null,
+      "tweets": [
+        256,
+        232,
+        232
+      ]
+    }
+  ]
+}

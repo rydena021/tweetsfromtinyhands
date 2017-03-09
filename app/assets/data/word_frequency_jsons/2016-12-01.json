@@ -1,0 +1,1225 @@
+{
+  "words": [
+    {
+      "term": "Will",
+      "frequency": 40,
+      "category": null,
+      "tweets": [
+        350,
+        366,
+        366,
+        369,
+        370,
+        370,
+        370,
+        371,
+        373,
+        377,
+        397,
+        398,
+        399,
+        401,
+        408,
+        410,
+        416,
+        417,
+        417,
+        418,
+        419,
+        422,
+        426,
+        430,
+        435,
+        436,
+        437,
+        439,
+        440,
+        444,
+        445,
+        450,
+        458,
+        462,
+        466,
+        467,
+        468,
+        471,
+        477,
+        481
+      ]
+    },
+    {
+      "term": "Great",
+      "frequency": 17,
+      "category": "other",
+      "tweets": [
+        349,
+        353,
+        360,
+        379,
+        383,
+        389,
+        407,
+        409,
+        415,
+        428,
+        445,
+        451,
+        462,
+        471,
+        473,
+        479,
+        481
+      ]
+    },
+    {
+      "term": "Today",
+      "frequency": 12,
+      "category": "other",
+      "tweets": [
+        368,
+        379,
+        386,
+        390,
+        396,
+        398,
+        430,
+        436,
+        445,
+        449,
+        472,
+        476
+      ]
+    },
+    {
+      "term": "President",
+      "frequency": 11,
+      "category": "other",
+      "tweets": [
+        354,
+        356,
+        361,
+        386,
+        387,
+        394,
+        397,
+        431,
+        447,
+        448,
+        476
+      ]
+    },
+    {
+      "term": "Amp",
+      "frequency": 11,
+      "category": null,
+      "tweets": [
+        382,
+        391,
+        411,
+        427,
+        433,
+        435,
+        437,
+        439,
+        440,
+        441,
+        458
+      ]
+    },
+    {
+      "term": "Thankyoutour2016",
+      "frequency": 11,
+      "category": "other",
+      "tweets": [
+        394,
+        400,
+        404,
+        411,
+        412,
+        421,
+        442,
+        444,
+        448,
+        455,
+        457
+      ]
+    },
+    {
+      "term": "Join",
+      "frequency": 11,
+      "category": "other",
+      "tweets": [
+        348,
+        394,
+        404,
+        411,
+        412,
+        441,
+        443,
+        444,
+        448,
+        455,
+        478
+      ]
+    },
+    {
+      "term": "Tickets",
+      "frequency": 10,
+      "category": "other",
+      "tweets": [
+        400,
+        400,
+        404,
+        412,
+        421,
+        443,
+        443,
+        444,
+        455,
+        478
+      ]
+    },
+    {
+      "term": "States",
+      "frequency": 10,
+      "category": "other",
+      "tweets": [
+        356,
+        376,
+        382,
+        384,
+        384,
+        386,
+        395,
+        414,
+        465,
+        480
+      ]
+    },
+    {
+      "term": "United",
+      "frequency": 9,
+      "category": "other",
+      "tweets": [
+        360,
+        366,
+        376,
+        378,
+        386,
+        395,
+        446,
+        447,
+        480
+      ]
+    },
+    {
+      "term": "Time",
+      "frequency": 9,
+      "category": "other",
+      "tweets": [
+        360,
+        367,
+        376,
+        401,
+        407,
+        418,
+        435,
+        446,
+        446
+      ]
+    },
+    {
+      "term": "Watch",
+      "frequency": 8,
+      "category": "other",
+      "tweets": [
+        347,
+        394,
+        399,
+        403,
+        410,
+        431,
+        439,
+        451
+      ]
+    },
+    {
+      "term": "Going",
+      "frequency": 8,
+      "category": "other",
+      "tweets": [
+        354,
+        393,
+        403,
+        436,
+        439,
+        461,
+        469,
+        481
+      ]
+    },
+    {
+      "term": "People",
+      "frequency": 8,
+      "category": null,
+      "tweets": [
+        360,
+        370,
+        379,
+        384,
+        391,
+        397,
+        438,
+        479
+      ]
+    },
+    {
+      "term": "Election",
+      "frequency": 8,
+      "category": null,
+      "tweets": [
+        381,
+        385,
+        389,
+        391,
+        424,
+        428,
+        453,
+        472
+      ]
+    },
+    {
+      "term": "Tomorrow",
+      "frequency": 7,
+      "category": "other",
+      "tweets": [
+        400,
+        419,
+        440,
+        441,
+        443,
+        448,
+        481
+      ]
+    },
+    {
+      "term": "John",
+      "frequency": 7,
+      "category": "other",
+      "tweets": [
+        428,
+        440,
+        441,
+        445,
+        471,
+        471,
+        472
+      ]
+    },
+    {
+      "term": "Alabama",
+      "frequency": 7,
+      "category": "other",
+      "tweets": [
+        393,
+        394,
+        396,
+        398,
+        400,
+        404,
+        412
+      ]
+    },
+    {
+      "term": "Jobs",
+      "frequency": 7,
+      "category": null,
+      "tweets": [
+        361,
+        410,
+        410,
+        410,
+        439,
+        446,
+        454
+      ]
+    },
+    {
+      "term": "Kennedy",
+      "frequency": 6,
+      "category": "other",
+      "tweets": [
+        428,
+        440,
+        440,
+        441,
+        471,
+        472
+      ]
+    },
+    {
+      "term": "Hillary",
+      "frequency": 6,
+      "category": "other",
+      "tweets": [
+        368,
+        374,
+        380,
+        382,
+        402,
+        405
+      ]
+    },
+    {
+      "term": "Country",
+      "frequency": 6,
+      "category": null,
+      "tweets": [
+        447,
+        460,
+        468,
+        469,
+        469,
+        474
+      ]
+    },
+    {
+      "term": "Trump",
+      "frequency": 6,
+      "category": "other",
+      "tweets": [
+        351,
+        394,
+        409,
+        411,
+        453,
+        462
+      ]
+    },
+    {
+      "term": "Mobile",
+      "frequency": 6,
+      "category": "other",
+      "tweets": [
+        394,
+        396,
+        400,
+        404,
+        412,
+        421
+      ]
+    },
+    {
+      "term": "Called",
+      "frequency": 6,
+      "category": null,
+      "tweets": [
+        374,
+        383,
+        385,
+        385,
+        391,
+        424
+      ]
+    },
+    {
+      "term": "Pence",
+      "frequency": 6,
+      "category": "other",
+      "tweets": [
+        386,
+        411,
+        433,
+        444,
+        448,
+        471
+      ]
+    },
+    {
+      "term": "China",
+      "frequency": 5,
+      "category": "country",
+      "tweets": [
+        392,
+        395,
+        395,
+        460,
+        461
+      ]
+    },
+    {
+      "term": "Wonderful",
+      "frequency": 5,
+      "category": "other",
+      "tweets": [
+        357,
+        373,
+        393,
+        429,
+        479
+      ]
+    },
+    {
+      "term": "Vote",
+      "frequency": 5,
+      "category": "other",
+      "tweets": [
+        381,
+        382,
+        384,
+        420,
+        440
+      ]
+    },
+    {
+      "term": "Louisiana",
+      "frequency": 5,
+      "category": "other",
+      "tweets": [
+        428,
+        440,
+        441,
+        471,
+        472
+      ]
+    },
+    {
+      "term": "Dollars",
+      "frequency": 5,
+      "category": "other",
+      "tweets": [
+        358,
+        359,
+        372,
+        422,
+        475
+      ]
+    },
+    {
+      "term": "Wisconsin",
+      "frequency": 5,
+      "category": "other",
+      "tweets": [
+        410,
+        411,
+        414,
+        420,
+        463
+      ]
+    },
+    {
+      "term": "@realDonaldTrump",
+      "frequency": 5,
+      "category": "mention",
+      "tweets": [
+        344,
+        387,
+        397,
+        431,
+        433
+      ]
+    },
+    {
+      "term": "@FoxNews",
+      "frequency": 5,
+      "category": "mention",
+      "tweets": [
+        347,
+        364,
+        426,
+        431,
+        462
+      ]
+    },
+    {
+      "term": "Happy",
+      "frequency": 5,
+      "category": "other",
+      "tweets": [
+        344,
+        345,
+        346,
+        362,
+        365
+      ]
+    },
+    {
+      "term": "State",
+      "frequency": 5,
+      "category": "other",
+      "tweets": [
+        415,
+        419,
+        428,
+        472,
+        479
+      ]
+    },
+    {
+      "term": "Hard",
+      "frequency": 5,
+      "category": "other",
+      "tweets": [
+        356,
+        406,
+        423,
+        461,
+        479
+      ]
+    },
+    {
+      "term": "GREAT",
+      "frequency": 5,
+      "category": null,
+      "tweets": [
+        356,
+        383,
+        403,
+        438,
+        439
+      ]
+    },
+    {
+      "term": "Tax",
+      "frequency": 5,
+      "category": null,
+      "tweets": [
+        460,
+        461,
+        465,
+        466,
+        467
+      ]
+    },
+    {
+      "term": "20th",
+      "frequency": 5,
+      "category": "other",
+      "tweets": [
+        352,
+        371,
+        401,
+        418,
+        422
+      ]
+    },
+    {
+      "term": "Air",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        379,
+        445,
+        456,
+        481
+      ]
+    },
+    {
+      "term": "Navy",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        379,
+        395,
+        429,
+        436
+      ]
+    },
+    {
+      "term": "Votes",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        387,
+        414,
+        420,
+        463
+      ]
+    },
+    {
+      "term": "Rally",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        396,
+        398,
+        452,
+        478
+      ]
+    },
+    {
+      "term": "Enjoy",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        364,
+        426,
+        450,
+        462
+      ]
+    },
+    {
+      "term": "Israel",
+      "frequency": 4,
+      "category": "country",
+      "tweets": [
+        352,
+        353,
+        366,
+        378
+      ]
+    },
+    {
+      "term": "Indiana",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        446,
+        474,
+        479,
+        481
+      ]
+    },
+    {
+      "term": "Congratulations",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        385,
+        386,
+        387,
+        476
+      ]
+    },
+    {
+      "term": "Lost",
+      "frequency": 4,
+      "category": null,
+      "tweets": [
+        346,
+        356,
+        391,
+        445
+      ]
+    },
+    {
+      "term": "Business",
+      "frequency": 4,
+      "category": null,
+      "tweets": [
+        406,
+        415,
+        416,
+        469
+      ]
+    },
+    {
+      "term": "Elect",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        387,
+        394,
+        431,
+        448
+      ]
+    },
+    {
+      "term": "Companies",
+      "frequency": 4,
+      "category": null,
+      "tweets": [
+        447,
+        461,
+        465,
+        467
+      ]
+    },
+    {
+      "term": "North",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        451,
+        452,
+        455,
+        457
+      ]
+    },
+    {
+      "term": "Carolina",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        451,
+        452,
+        455,
+        457
+      ]
+    },
+    {
+      "term": "Wrong",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        372,
+        382,
+        384,
+        385
+      ]
+    },
+    {
+      "term": "Presidency",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        372,
+        417,
+        435,
+        476
+      ]
+    },
+    {
+      "term": "@mike",
+      "frequency": 4,
+      "category": "mention",
+      "tweets": [
+        433,
+        444,
+        448,
+        471
+      ]
+    },
+    {
+      "term": "Won",
+      "frequency": 4,
+      "category": "other",
+      "tweets": [
+        359,
+        361,
+        389,
+        453
+      ]
+    },
+    {
+      "term": "Electoral",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        382,
+        386,
+        387
+      ]
+    },
+    {
+      "term": "Saturday",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        412,
+        470,
+        472
+      ]
+    },
+    {
+      "term": "True",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        368,
+        383,
+        434
+      ]
+    },
+    {
+      "term": "Media",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        358,
+        389,
+        406
+      ]
+    },
+    {
+      "term": "Sell",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        466,
+        468,
+        481
+      ]
+    },
+    {
+      "term": "January",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        352,
+        418,
+        422
+      ]
+    },
+    {
+      "term": "Worse",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        390,
+        425,
+        470
+      ]
+    },
+    {
+      "term": "Big",
+      "frequency": 3,
+      "category": null,
+      "tweets": [
+        366,
+        408,
+        437
+      ]
+    },
+    {
+      "term": "Florida",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        398,
+        399,
+        400
+      ]
+    },
+    {
+      "term": "Senate",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        428,
+        441,
+        471
+      ]
+    },
+    {
+      "term": "Live",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        411,
+        441,
+        470
+      ]
+    },
+    {
+      "term": "Campaigning",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        382,
+        428,
+        471
+      ]
+    },
+    {
+      "term": "Interviewed",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        426,
+        430,
+        450
+      ]
+    },
+    {
+      "term": "@DanScavino",
+      "frequency": 3,
+      "category": "mention",
+      "tweets": [
+        388,
+        394,
+        411
+      ]
+    },
+    {
+      "term": "Cost",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        375,
+        375,
+        422
+      ]
+    },
+    {
+      "term": "Focused",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        382,
+        384,
+        410
+      ]
+    },
+    {
+      "term": "Administration",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        350,
+        399,
+        410
+      ]
+    },
+    {
+      "term": "Stay",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        352,
+        427,
+        480
+      ]
+    },
+    {
+      "term": "Secretary",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        415,
+        419,
+        459
+      ]
+    },
+    {
+      "term": "Money",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        357,
+        373,
+        463
+      ]
+    },
+    {
+      "term": "Future",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        416,
+        445,
+        456
+      ]
+    },
+    {
+      "term": "Pennsylvania",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        403,
+        414,
+        463
+      ]
+    },
+    {
+      "term": "Military",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        422,
+        460,
+        475
+      ]
+    },
+    {
+      "term": "Iowa",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        444,
+        448,
+        457
+      ]
+    },
+    {
+      "term": "Leaving",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        361,
+        418,
+        466
+      ]
+    },
+    {
+      "term": "Move",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        349,
+        406,
+        465
+      ]
+    },
+    {
+      "term": "Nations",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        360,
+        366,
+        378
+      ]
+    },
+    {
+      "term": "Working",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        435,
+        446,
+        479
+      ]
+    },
+    {
+      "term": "Tillerson",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        413,
+        415,
+        427
+      ]
+    },
+    {
+      "term": "Workers",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        447,
+        474,
+        481
+      ]
+    },
+    {
+      "term": "Making",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        419,
+        461,
+        465
+      ]
+    },
+    {
+      "term": "Talking",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        379,
+        402,
+        446
+      ]
+    },
+    {
+      "term": "@CNN",
+      "frequency": 3,
+      "category": "mention",
+      "tweets": [
+        347,
+        425,
+        435
+      ]
+    },
+    {
+      "term": "Army",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        429,
+        429,
+        436
+      ]
+    },
+    {
+      "term": "Tonight",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        364,
+        400,
+        455
+      ]
+    },
+    {
+      "term": "Rex",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        413,
+        415,
+        427
+      ]
+    },
+    {
+      "term": "Orlando",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        398,
+        400,
+        421
+      ]
+    },
+    {
+      "term": "Fayetteville",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        451,
+        452,
+        455
+      ]
+    },
+    {
+      "term": "Night",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        398,
+        451,
+        470
+      ]
+    },
+    {
+      "term": "Millions",
+      "frequency": 3,
+      "category": null,
+      "tweets": [
+        358,
+        358,
+        372
+      ]
+    },
+    {
+      "term": "Year",
+      "frequency": 3,
+      "category": "other",
+      "tweets": [
+        346,
+        362,
+        396
+      ]
+    },
+    {
+      "term": "AMERICA",
+      "frequency": 3,
+      "category": null,
+      "tweets": [
+        356,
+        403,
+        439
+      ]
+    }
+  ]
+}

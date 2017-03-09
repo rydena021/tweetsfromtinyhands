@@ -17,4 +17,32 @@ class SentimentAnalyzer
       end
     end
   end
+
+  def self.json_write(array, date)
+    sentiment_hash = {
+      positive: 0
+      negative: 0
+      neutral: 0
+    }
+    array.each do |tweet|
+      sentiment_hash[:positive] += 1 if tweet.sentiment = positive
+      sentiment_hash[:negative] += 1 if tweet.sentiment = negative
+      sentiment_hash[:neutral] += 1 if tweet.sentiment = neutral
+    end
+        }
+    File.open("app/assets/data/sentiment_jsons/#{date.to_date.to_s}.json", 'wb') do |file|
+      file.write(JSON.generate(word_hash))
+    end
+  end
+
+
+  def self.call_json_write
+    start_date = DateTime.parse("2015-06-16").beginning_of_month
+    end_date = DateTime.current.beginning_of_month
+
+    date_months = (start_date..end_date).map { |d| DateTime.new(d.year, d.month, 1)  }.uniq
+    date_months.each_with_index do |date, index|
+        SentimentAnalyzer.json_write(tweets.where(posted_at: date..date_months[index + 1] || end_date, date))
+    end
+  end
 end
