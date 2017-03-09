@@ -11,6 +11,6 @@ parsed.each_with_index do |hash, index|
   Tweet.create(in_reply_to_screen_name: hash["in_reply_to_screen_name"],
     twitter_id: hash["id_str"], source: hash["source"], retweet_count: hash["retweet_count"],
     text: hash["text"], posted_at: hash["created_at"].to_datetime, is_retweet: hash["is_retweet"],
-    favorite_count: hash["favorite_count"])
+    favorite_count: hash["favorite_count"], sentiment_score: 2*rand()-1)
   p "Tweet #{index} was created"
 end
