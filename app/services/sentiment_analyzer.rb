@@ -30,7 +30,7 @@ class SentimentAnalyzer
       sentiment_hash[:neutral] += 1 if tweet.sentiment == "neutral"
     end
     File.open("app/assets/data/sentiment_jsons/#{date.to_date.to_s}.json", 'wb') do |file|
-      file.write(JSON.generate(sentiment_hash))
+      file.write(JSON.pretty_generate(sentiment_hash))
     end
   end
 

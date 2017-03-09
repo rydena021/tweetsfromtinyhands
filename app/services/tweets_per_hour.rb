@@ -9,7 +9,7 @@ def self.counter(array, date)
       hash[tweet.posted_at.hour.to_s] += 1
     end
     File.open("app/assets/data/tweet_hours_jsons/#{date.to_date.to_s}.json", 'w') do |file|
-      file.write(JSON.generate(hash))
+      file.write(JSON.pretty_generate(hash))
     end
   end
 
