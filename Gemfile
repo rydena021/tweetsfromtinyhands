@@ -22,6 +22,7 @@ gem 'unirest'
 
 gem 'json'
 gem 'sentimental'
+gem 'rails_12factor', group: :production
 
 group :development, :test do
   gem 'binding_of_caller'
