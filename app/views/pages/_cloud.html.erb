@@ -1,12 +1,10 @@
-
-
 <script>
   // Word cloud layout by Jason Davies, http://www.jasondavies.com/word-cloud/
 // Algorithm due to Jonathan Feinberg, http://static.mrfeinberg.com/bv_ch03.pdf
 (function() {
 
-if (typeof define === "function" && define.amd) define(["d3"], cloud);
-else cloud(this.d3);
+  if (typeof define === "function" && define.amd) define(["d3"], cloud);
+  else cloud(this.d3);
 
 function cloud(d3) {
   d3.layout.cloud = function cloud() {
@@ -389,9 +387,6 @@ function cloud(d3) {
 
 })();
 
-</script>
-
-<script>
 
 var margin = {top: 20, right: 20, bottom: 40, left: 20},
     width = 960 - margin.left - margin.right,

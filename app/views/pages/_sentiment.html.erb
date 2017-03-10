@@ -25,7 +25,6 @@ path:hover {  opacity:0.9; }
     margin-top: 50px;
 }
 </style>
-<%#= render 'shared/header' %>
 
 <div id='dashboard'></div>
 
@@ -228,13 +227,14 @@ function dashboard(id, fData){
 }
 
 var freqData=[
- {Day:'Sun',freq:{negative:19, neutral:5, positive:2}}
-,{Day:'Mon',freq:{negative:10, neutral:11, positive:5}}
-,{Day:'Tues',freq:{negative:15, neutral:18, positive:9}}
-,{Day:'Wed',freq:{negative:18, neutral:31, positive:4}}
-,{Day:'Thurs',freq:{negative:19, neutral:21, positive:2}}
-,{Day:'Fri',freq:{negative:6, neutral:14, positive:11}}
-,{Day:'Sat',freq:{negative:12, neutral:14, positive:1}}
+ {Day:'Sept',freq:{negative:79, neutral:86, positive:125}}
+,{Day:'Oct',freq:{negative:175, neutral:156, positive:196}}
+,{Day:'Nov',freq:{negative:56, neutral:45, positive:93}}
+,{Day:'Dec',freq:{negative:32, neutral:37, positive:68}}
+,{Day:'Jan',freq:{negative:78, neutral:45, positive:93}}
+,{Day:'Feb',freq:{negative:48, neutral:22, positive:56}}
+,{Day:'Mar',freq:{negative:19, neutral:5, positive:2}}
 ];
+
 dashboard('#dashboard',freqData);
 </script>
