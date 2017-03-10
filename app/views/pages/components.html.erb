@@ -1,0 +1,103 @@
+<div class="parallax-container" style="height: 100vh;">
+  <div class="parallax-header">
+    <h2>Tweets from Tiny Hands</h2>
+  </div>
+
+  <div class="parallax">
+    <%= image_tag "trump-twitter.jpg" %>
+  </div>
+</div>
+
+
+<div class="tabs">
+  <div class="row container" style="width: 90%;">
+    <div class="tab">All time</div>
+    <div class="tab">Aug</div>
+    <div class="tab">Sep</div>
+    <div class="tab">Oct</div>
+    <div class="tab">Nov</div>
+    <div class="tab">Dec</div>
+    <div class="tab">Jan</div>
+    <div class="tab">Feb</div>
+    <div class="tab">last week</div>
+    <div class="tab active">this week</div>
+  </div>
+</div>
+<div class="section trump-background" >
+  <div class="row container" style="width: 90%;">
+    <div class="col s12 m5">
+      <br>
+      <br>
+      <br>
+      <h5>How often does Donald Trump tweet?</h5>
+      <br>
+      <h5>When is Trump most insulting?</h5>
+      <br>
+      <h5>Are Trumps tweets more negative after his daily viewing of Fox News?</h5>
+    </div>
+    <div class="col s12 m7">
+      <div class="col s12">
+        <div class="card">
+          <div class="card-image waves-effect waves-block waves-light">
+          <%= render 'shared/mocktime' %>
+          </div>
+          <div class="card-content">
+          </div>
+        </div>
+      </div>
+      <div class="col s12">
+        <div class="card">
+          <div class="card-image waves-effect waves-block waves-light">
+          <%#= image_tag "sentiment_graph.png" %>
+          <%= render 'sentiment' %>
+          </div>
+          <div class="card-content">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="parallax-container blue-background" style="height: 60vh;">
+  <div class="second-header">
+    <h2>Alternate facts?
+    </h2>
+    <h3>Are his words great? Does he have the best words?</h3>
+  </div>
+    <div id="trump-image">
+      <%= image_tag "trumphands-v1.png", style: "position: absolute; bottom: 0px; right: 0px; width: 60%;"%>
+    </div>
+  <div class="parallax" >
+  </div>
+</div>
+<div class="trump-background">
+  <div class="container" style="margin-bottom: 0;">
+    <br>
+    <%= image_tag "word_cloud.png" %>
+  </div>
+</div>
+<div class="parallax-container" style="height: 90vh;">
+  <div class="second-header">
+    <h2>Alternate facts?
+    </h2>
+    <h3>Are his words great? Does he have the best words?</h3>
+  </div>
+  <div class="parallax" >
+    <%= image_tag "trump-hawk-1", class: "hawk" %>
+  </div>
+</div>
+<div class="trump-background">
+  <div class="container" style="margin-bottom: 0;">
+    <br>
+    <%= image_tag "word_cloud.png" %>
+  </div>
+</div>
+<div class="parallax-container" style="height:79vh">
+  <%= image_tag "trumptrex.png", style: "position: absolute; bottom: 0px; right: 0px; width: 55%;"%>
+  <div class="parallax">
+    <%= image_tag "space-2.jpg", style: "width: 100%" %>
+  </div>
+</div>
