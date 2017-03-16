@@ -1,4 +1,3 @@
-
   function donut(){
   // Default settings
   var canvas = d3.select("body")
@@ -120,25 +119,4 @@
 
   return object;
 };
-
-
-var getData = function(){
-  var x = Math.round(Math.random() * 100),
-      y = 100 - x,
-      data = { "Android": x, "iOS": y},
-      text = "Android = " + x + "<br>iOS =" + y;
-
-  d3.select("#data").html(text);
-  return data;
-};
-
-var chart = donut()
-              .canvas(d3.select("#device"))
-              .data(getData())
-              .render();
-
-
-d3.select("#refresh").on("click", function(){
-  chart.data(getData()).render();
-});
 
