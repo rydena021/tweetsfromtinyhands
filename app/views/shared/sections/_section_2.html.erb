@@ -1,13 +1,20 @@
-<div class="section section-bottom">
+<div class="section section-bottom center-align">
   <div class="row">
-    <div class="col s12">
-      <h1>Sentiment by Day</h1>
-      <div id="sentiment"></div>
+    <div class="col s8">
+      <div class="card-panel grey lighten-2">
+        <h1>Sentiment by Day</h1>
+        <div id="sentiment"></div>
+        <%= render 'shared/dropdown' %>
+      </div>
     </div>
-    <div class="cols 12">
-      <h1>Device Breakdown</h1>
-      <button id="refresh">Refresh Data</button>
-      <div id="device"></div>
+    <div class="col s4">
+      <div class="card-panel grey lighten-2">
+        <h1>Device Breakdown</h1>
+        <div id="device"></div>
+        <%= render 'shared/dropdown' %>
+      </div>
     </div>
   </div>
 </div>
+
+
