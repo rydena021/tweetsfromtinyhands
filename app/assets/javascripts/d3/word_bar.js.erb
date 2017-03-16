@@ -1,11 +1,8 @@
-<div id="word-barZ"></div>
-
-<script>
 d3.json("<%= asset_path 'word_frequency/2016-09-01.json' %>", function(error, data) {
 
   // Set the dimensions of the canvas / graph
-  var margin = {top: 30, right: 20, bottom: 30, left: 200},
-  width = 960 - margin.left - margin.right,
+  var margin = {top: 30, right: 20, bottom: 30, left: 100},
+  width = 600 - margin.left - margin.right,
   height = 500 - margin.top - margin.bottom;
 
   // Ensure correct order
@@ -20,7 +17,7 @@ d3.json("<%= asset_path 'word_frequency/2016-09-01.json' %>", function(error, da
     mentions.push(d.frequency);
   });
 
-  // color set
+  // Color set
   var colors = ['#1DCAFF','#0000b4','#0082ca','#285964','#0d4bcf','#0066AE','#074285','#00187B','#0094ff','#405F83'];
 
   var colorScale = d3.scale.quantize()
@@ -32,7 +29,7 @@ d3.json("<%= asset_path 'word_frequency/2016-09-01.json' %>", function(error, da
   var yScale = d3.scale.linear().domain([0,11]).range([0, height]);
 
   // Add the svg canvas
-  var svg = d3.select("#word-barZ")
+  var svg = d3.select("#word-bar")
       .append("svg")
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
@@ -63,7 +60,7 @@ d3.json("<%= asset_path 'word_frequency/2016-09-01.json' %>", function(error, da
       .attr("class", "y axis")
       .call(yAxis);
 
-  // add individual bars
+  // Add individual bars
   svg.selectAll('rect')
       .data(mentions)
       .enter()
@@ -73,12 +70,11 @@ d3.json("<%= asset_path 'word_frequency/2016-09-01.json' %>", function(error, da
       .style('fill',function(d,i){ return colorScale(i); })
       .attr('width',function(d){ return 0; });
 
-
-  var transit = d3.select("#word-barZ").selectAll("rect")
+  // Transition delay
+  var transit = d3.select("#word-bar").selectAll("rect")
               .data(mentions)
               .transition()
               .duration(1000)
               .attr("width", function(d) {return xScale(d); });
 
 });
-</script>

@@ -23,6 +23,49 @@
 
     <%= yield %>
 
+
+<!-- DONUT -->
+<script>
+  var getData = function(){
+  var x = Math.round(Math.random() * 100),
+      y = 100 - x,
+      data = { "Android": x, "iOS": y},
+      text = "Android = " + x + "<br>iOS =" + y;
+
+  d3.select("#data").html(text);
+    return data;
+  };
+
+  var chart = donut()
+                .canvas(d3.select("#device"))
+                .data(getData())
+                .render();
+
+
+  d3.select("#refresh").on("click", function(){
+    chart.data(getData()).render();
+});
+
+</script>
+<!-- SENTIMENT -->
+<script>
+  d3.json('<%= asset_path "sentiment.json" %>', function(data) {
+    var freqData= data;
+    dashboard('div#sentiment',freqData);
+  });
+
+  function updateSentimentData(path) {
+    d3.json(path, function(data) {
+      var freqData= data;
+      dashboard('div#sentiment',freqData);
+    });
+  };
+</script>
+<!-- WORD CLOUD -->
+<script>
+  draw_cloud("<%= asset_path 'word_frequency/2015-06-01.json' %>");
+</script>
+
         <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>

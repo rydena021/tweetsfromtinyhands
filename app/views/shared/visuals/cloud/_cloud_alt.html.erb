@@ -1,4 +1,4 @@
-<div id="word-cloud"></div>
+<div id="cloud-alt"></div>
 <script>
 
   // setup first cloud
@@ -20,7 +20,7 @@ d3.csv('<%= asset_path "cloud.csv" %>', function(error, data) {
       .spiral("archimedean")
       .on("end", draw)
       .start();
-  var svg = d3.select('div#word-cloud').append("svg")
+  var svg = d3.select('#cloud-alt').append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .style("background", "black")
@@ -76,7 +76,7 @@ function updateCloudData(path,colorScheme) {
         .spiral("archimedean")
         .on("end", draw)
         .start();
-    var svg = d3.select('div#word-cloud').append("svg")
+    var svg = d3.select('#cloud-alt').append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .style("background", "black")
@@ -117,7 +117,7 @@ function updateCloudData(path,colorScheme) {
 });
 }
 
-// Word cloud layout by Jason Davies, http://www.jasondavies.com#word-cloud/
+// Word cloud layout by Jason Davies, http://www.jasondavies.com#cloud-alt/
 // Algorithm due to Jonathan Feinberg, http://static.mrfeinberg.com/bv_ch03.pdf
 (function() {
 if (typeof define === "function" && define.amd) define(["d3"], cloud);

@@ -1,0 +1,66 @@
+function draw_cloud(path) {
+
+// set dimensions
+var margin = {top: 30, right: 30, bottom: 30, left: 30},
+    width = 1000 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+// load json file
+d3.json(path, function(error, data) {
+
+  // setup for word array
+  var data = data.words;
+  var words = [];
+
+  data.forEach(function(d) {
+    words.push(d.term);
+  });
+
+  // set colors and font range
+  var color = d3.scale.ordinal().range(["white", "navy", "grey"]);
+  var fontSize = d3.scale.pow().exponent(5).domain([0,1]).range([25,120]);
+
+  // see API reference at https://github.com/jasondavies/d3-cloud
+  var layout = d3.layout.cloud()
+      .timeInterval(10)
+      .size([width, height])
+      .words(data)
+      .rotate(function() { return (~~(Math.random() * 6) - 3) * 5; })
+      .font('Baloo')
+      .fontSize(function(d,i) { return fontSize(d.frequency/20); })
+      .text(function(d) { return d.term; })
+      .spiral("archimedean")
+      .on("end", draw)
+      .start();
+
+  // select element by id and append svg element
+  var svg = d3.select("#word-cloud").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .style("background", "#1DCAFF")
+      .style("border-radius", "100px")
+    .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  // set dimensions for actual word cloud
+  var wordcloud = svg.append("g")
+      .attr("transform", "translate(" + width/2 + "," + height/2 + ")");
+
+  // place individual words onto word cloud canvas
+  function draw(words) {
+    wordcloud.selectAll("text")
+        .data(words)
+      .enter().append("text")
+        .attr('class','word')
+        .style("font-size", function(d) { return d.size + "px"; }) // assign font size
+        .style("font-family", function(d) { return d.font; })
+        .style("fill", function(d) {  // assign font color
+            var paringObject = data.filter(function(obj) { return obj.term === d.text});
+            return color(paringObject[0].category);
+        })
+        .attr("text-anchor", "middle")
+        .attr("transform", function(d) { return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")"; })
+        .text(function(d) { return d.text; });
+  };
+});
+};

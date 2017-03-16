@@ -94,7 +94,7 @@ d3.csv("<%= asset_path 'keep/followers/followers_2015.csv' %>", function(error, 
 function updateData() {
 
     // Get the data again
-    d3.csv("<%= asset_path 'keep/followers/followers_all.csv' %>", function(error, data) {
+    d3.csv("<%= asset_path 'keep/followers/followers_2017.csv' %>", function(error, data) {
         data.forEach(function(d) {
         d.date = parseDate(d.date);
         d.followers = +d.followers;
