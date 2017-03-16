@@ -1,0 +1,965 @@
+<!-- DONUT -->
+<script>
+    function donut(){
+  // Default settings
+  var canvas = d3.select("body")
+  var data = {};
+  // var showTitle = true;
+  var width = 300,
+      height = 300,
+      radius = Math.min(width, height) / 2;
+
+  var currentVal;
+  var color = d3.scale.category20();
+  var pie = d3.layout.pie()
+    .sort(null)
+    .value(function(d) { return d.value; });
+
+  var svg, g, arc;
+
+
+  var object = {};
+
+  // Method for render/refresh graph
+  object.render = function(){
+    if(!svg){
+      arc = d3.svg.arc()
+      .outerRadius(radius)
+      .innerRadius(radius - (radius/2.5));
+
+      svg = canvas.append("svg")
+        .attr("width", width)
+        .attr("height", height)
+      .append("g")
+        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+      g = svg.selectAll(".arc")
+        .data(pie(d3.entries(data)))
+      .enter().append("g")
+      .attr("class", "arc");
+
+      g.append("path")
+        // Attach current value to g so that we can use it for animation
+        .each(function(d) { this._current = d; })
+        .attr("d", arc)
+        .style("fill", function(d) { return color(d.data.key); });
+      g.append("text")
+          .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+          .attr("dy", ".35em")
+          .style("text-anchor", "middle");
+      g.select("text").text(function(d) { return d.data.key; });
+
+      svg.append("text")
+          .datum(data)
+          .attr("x", 0 )
+          .attr("y", 0 + radius/10 )
+          .attr("class", "text-tooltip")
+          .style("text-anchor", "middle")
+          .attr("font-weight", "bold")
+          .style("font-size", radius/2.5+"px");
+
+      g.on("mouseover", function(obj){
+        console.log(obj)
+        svg.select("text.text-tooltip")
+        .attr("fill", function(d) { return color(obj.data.key); })
+        .text(function(d){
+          return d[obj.data.key] + "%";
+        });
+      });
+
+      g.on("mouseout", function(obj){
+        svg.select("text.text-tooltip").text("");
+      });
+
+    }else{
+      g.data(pie(d3.entries(data))).exit().remove();
+
+      g.select("path")
+      .transition().duration(200)
+      .attrTween("d", function(a){
+        var i = d3.interpolate(this._current, a);
+        this._current = i(0);
+        return function(t) {
+            return arc(i(t));
+        };
+      })
+
+      g.select("text")
+      .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; });
+
+      svg.select("text.text-tooltip").datum(data);
+    }
+    return object;
+  };
+
+  // Getter and setter methods
+  object.data = function(value){
+    if (!arguments.length) return data;
+    data = value;
+    return object;
+  };
+
+  object.canvas = function(value){
+    if (!arguments.length) return canvas;
+    canvas = value;
+    return object;
+  };
+
+  object.width = function(value){
+    if (!arguments.length) return width;
+    width = value;
+    radius = Math.min(width, height) / 2;
+    return object;
+  };
+
+  object.height = function(value){
+    if (!arguments.length) return height;
+    height = value;
+    radius = Math.min(width, height) / 2;
+    return object;
+  };
+
+  return object;
+};
+
+
+</script>
+<script>
+  var getData = function(){
+  var x = Math.round(Math.random() * 100),
+      y = 100 - x,
+      data = { "Android": x, "iOS": y},
+      text = "Android = " + x + "<br>iOS =" + y;
+
+  d3.select("#data").html(text);
+    return data;
+  };
+
+  var chart = donut()
+                .canvas(d3.select("#device"))
+                .data(getData())
+                .render();
+
+
+  d3.select("#refresh").on("click", function(){
+    chart.data(getData()).render();
+});
+
+</script>
+
+
+
+
+<!-- SENTIMENT -->
+<script>
+  function dashboard(id, fData){
+    var barColor = '#1DCAFF';
+    function segColor(c){ return {negative:"red", neutral:"yellow",positive:"green"}[c]; }
+
+    // compute total for each day.
+    fData.forEach(function(d){d.total=d.freq.negative+d.freq.neutral+d.freq.positive;});
+
+    // function to handle histogram.
+    function histoGram(fD){
+        var hG={},    hGDim = {t: 60, r: 0, b: 40, l: 20};
+        hGDim.w = 600 - hGDim.l - hGDim.r,
+        hGDim.h = 400 - hGDim.t - hGDim.b;
+
+        //create svg for histogram.
+        var hGsvg = d3.select(id).append("svg")
+            .attr("width", hGDim.w + hGDim.l + hGDim.r)
+            .attr("height", hGDim.h + hGDim.t + hGDim.b).append("g")
+            .attr("transform", "translate(" + hGDim.l + "," + hGDim.t + ")");
+
+        // create function for x-axis mapping.
+        var x = d3.scale.ordinal().rangeRoundBands([0, hGDim.w], 0.1)
+                .domain(fD.map(function(d) { return d[0]; }));
+
+        // Add x-axis to the histogram svg.
+        hGsvg.append("g").attr("class", "x axis")
+            .attr("transform", "translate(0," + hGDim.h + ")")
+            .call(d3.svg.axis().scale(x).orient("bottom"));
+
+        // Create function for y-axis map.
+        var y = d3.scale.linear().range([hGDim.h, 0])
+                .domain([0, d3.max(fD, function(d) { return d[1]; })]);
+
+        // Create bars for histogram to contain rectangles and freq labels.
+        var bars = hGsvg.selectAll(".bar").data(fD).enter()
+                .append("g").attr("class", "bar");
+
+        // Create the rectangles.
+        bars.append("rect")
+            .attr("x", function(d) { return x(d[0]); })
+            .attr("y", function(d) { return y(d[1]); })
+            .attr("width", x.rangeBand())
+            .attr("height", function(d) { return hGDim.h - y(d[1]); })
+            .attr('fill',barColor)
+            .on("mouseover",mouseover)// mouseover is defined below.
+            .on("mouseout",mouseout);// mouseout is defined below.
+
+        //Create the frequency labels above the rectangles.
+        bars.append("text").text(function(d){ return d3.format(",")(d[1])})
+            .attr("x", function(d) { return x(d[0])+x.rangeBand()/2; })
+            .attr("y", function(d) { return y(d[1])-5; })
+            .attr("text-anchor", "middle");
+
+        function mouseover(d){  // utility function to be called on mouseover.
+            // filter for selected Day.
+            var st = fData.filter(function(s){ return s.Day == d[0];})[0],
+                nD = d3.keys(st.freq).map(function(s){ return {type:s, freq:st.freq[s]};});
+
+            // call update functions of pie-chart and legend.
+            pC.update(nD);
+            leg.update(nD);
+        }
+
+        function mouseout(d){    // utility function to be called on mouseout.
+            // reset the pie-chart and legend.
+            pC.update(tF);
+            leg.update(tF);
+        }
+
+        // Create function to update the bars. This will be used by pie-chart.
+        hG.update = function(nD, color){
+            // update the domain of the y-axis map to reflect change in frequencies.
+            y.domain([0, d3.max(nD, function(d) { return d[1]; })]);
+
+            // Attach the new data to the bars.
+            var bars = hGsvg.selectAll(".bar").data(nD);
+
+            // transition the height and color of rectangles.
+            bars.select("rect").transition().duration(500)
+                .attr("y", function(d) {return y(d[1]); })
+                .attr("height", function(d) { return hGDim.h - y(d[1]); })
+                .attr("fill", color);
+
+            // transition the frequency labels location and change value.
+            bars.select("text").transition().duration(500)
+                .text(function(d){ return d3.format(",")(d[1])})
+                .attr("y", function(d) {return y(d[1])-5; });
+        }
+        return hG;
+    }
+
+    // function to handle pieChart.
+    function pieChart(pD){
+        var pC ={},    pieDim ={w:250, h: 250};
+        pieDim.r = Math.min(pieDim.w, pieDim.h) / 2;
+
+        // create svg for pie chart.
+        var piesvg = d3.select(id).append("svg")
+            .attr("width", pieDim.w).attr("height", pieDim.h).append("g")
+            .attr("transform", "translate("+pieDim.w/2+","+pieDim.h/2+")");
+
+        // create function to draw the arcs of the pie slices.
+        var arc = d3.svg.arc().outerRadius(pieDim.r - 10).innerRadius(0);
+
+        // create a function to compute the pie slice angles.
+        var pie = d3.layout.pie().sort(null).value(function(d) { return d.freq; });
+
+        // Draw the pie slices.
+        piesvg.selectAll("path").data(pie(pD)).enter().append("path").attr("d", arc)
+            .each(function(d) { this._current = d; })
+            .style("fill", function(d) { return segColor(d.data.type); })
+            .on("mouseover",mouseover).on("mouseout",mouseout);
+
+        // create function to update pie-chart. This will be used by histogram.
+        pC.update = function(nD){
+            piesvg.selectAll("path").data(pie(nD)).transition().duration(500)
+                .attrTween("d", arcTween);
+        }
+        // Utility function to be called on mouseover a pie slice.
+        function mouseover(d){
+            // call the update function of histogram with new data.
+            hG.update(fData.map(function(v){
+                return [v.Day,v.freq[d.data.type]];}),segColor(d.data.type));
+        }
+        //Utility function to be called on mouseout a pie slice.
+        function mouseout(d){
+            // call the update function of histogram with all data.
+            hG.update(fData.map(function(v){
+                return [v.Day,v.total];}), barColor);
+        }
+        // Animating the pie-slice requiring a custom function which specifies
+        // how the intermediate paths should be drawn.
+        function arcTween(a) {
+            var i = d3.interpolate(this._current, a);
+            this._current = i(0);
+            return function(t) { return arc(i(t));    };
+        }
+        return pC;
+    }
+
+    // function to handle legend.
+    function legend(lD){
+        var leg = {};
+
+        // create table for legend.
+        var legend = d3.select(id).append("table").attr('class','legend');
+
+        // create one row per segment.
+        var tr = legend.append("tbody").selectAll("tr").data(lD).enter().append("tr");
+
+        // create the first column for each segment.
+        tr.append("td").append("svg").attr("width", '16').attr("height", '16').append("rect")
+            .attr("width", '16').attr("height", '16')
+      .attr("fill",function(d){ return segColor(d.type); });
+
+        // create the second column for each segment.
+        tr.append("td").text(function(d){ return d.type;});
+
+        // create the third column for each segment.
+        tr.append("td").attr("class",'legendFreq')
+            .text(function(d){ return d3.format(",")(d.freq);});
+
+        // create the fourth column for each segment.
+        tr.append("td").attr("class",'legendPerc')
+            .text(function(d){ return getLegend(d,lD);});
+
+        // Utility function to be used to update the legend.
+        leg.update = function(nD){
+            // update the data attached to the row elements.
+            var l = legend.select("tbody").selectAll("tr").data(nD);
+
+            // update the frequencies.
+            l.select(".legendFreq").text(function(d){ return d3.format(",")(d.freq);});
+
+            // update the percentage column.
+            l.select(".legendPerc").text(function(d){ return getLegend(d,nD);});
+        }
+
+        function getLegend(d,aD){ // Utility function to compute percentage.
+            return d3.format("%")(d.freq/d3.sum(aD.map(function(v){ return v.freq; })));
+        }
+
+        return leg;
+    }
+
+    // calculate total tweets by segment for each day.
+    var tF = ['negative','neutral','positive'].map(function(d){
+        return {type:d, freq: d3.sum(fData.map(function(t){ return t.freq[d];}))};
+    });
+
+    // calculate total tweets each day for all segments.
+    var sF = fData.map(function(d){return [d.Day,d.total];});
+
+    var hG = histoGram(sF), // create the histogram.
+        pC = pieChart(tF), // create the pie-chart.
+        leg= legend(tF);  // create the legend.
+}
+
+</script>
+<script>
+  d3.json('<%= asset_path "sentiment.json" %>', function(data) {
+    var freqData= data;
+    dashboard('div#sentiment',freqData);
+  });
+
+  function updateSentimentData(path) {
+    d3.json(path, function(data) {
+      var freqData= data;
+      dashboard('div#sentiment',freqData);
+    });
+  };
+</script>
+
+
+<!-- WORD CLOUD -->
+<script>
+// Word cloud layout by Jason Davies, http://www.jasondavies.com/word-cloud/
+// Algorithm due to Jonathan Feinberg, http://static.mrfeinberg.com/bv_ch03.pdf
+(function(exports) {
+    function cloud() {
+        var size = [256, 256],
+            text = cloudText,
+            font = cloudFont,
+            fontSize = cloudFontSize,
+            fontStyle = cloudFontNormal,
+            fontWeight = cloudFontNormal,
+            rotate = cloudRotate,
+            padding = cloudPadding,
+            spiral = archimedeanSpiral,
+            words = [],
+            timeInterval = Infinity,
+            event = d3.dispatch("word", "end"),
+            timer = null,
+            cloud = {};
+
+        cloud.start = function() {
+            var board = zeroArray((size[0] >> 5) * size[1]),
+                bounds = null,
+                n = words.length,
+                i = -1,
+                tags = [],
+                data = words.map(function(d, i) {
+                    d.text = text.call(this, d, i);
+                    d.font = font.call(this, d, i);
+                    d.style = fontStyle.call(this, d, i);
+                    d.weight = fontWeight.call(this, d, i);
+                    d.rotate = rotate.call(this, d, i);
+                    d.size = ~~fontSize.call(this, d, i);
+                    d.padding = padding.call(this, d, i);
+                    return d;
+                }).sort(function(a, b) { return b.size - a.size; });
+
+            if (timer) clearInterval(timer);
+            timer = setInterval(step, 0);
+            step();
+
+            return cloud;
+
+            function step() {
+                var start = +new Date,
+                    d;
+                while (+new Date - start < timeInterval && ++i < n && timer) {
+                    d = data[i];
+                    d.x = (size[0] ) >> 1;
+                    d.y = (size[1] ) >> 1;
+                    cloudSprite(d, data, i);
+                    if (d.hasText && place(board, d, bounds)) {
+                        tags.push(d);
+                        event.word(d);
+                        if (bounds) cloudBounds(bounds, d);
+                        else bounds = [{x: d.x + d.x0, y: d.y + d.y0}, {x: d.x + d.x1, y: d.y + d.y1}];
+                        // Temporary hack
+                        d.x -= size[0] >> 1;
+                        d.y -= size[1] >> 1;
+                    }
+                }
+                if (i >= n) {
+                    cloud.stop();
+                    event.end(tags, bounds);
+                }
+            }
+        }
+
+        cloud.stop = function() {
+            if (timer) {
+                clearInterval(timer);
+                timer = null;
+            }
+            return cloud;
+        };
+
+        cloud.timeInterval = function(x) {
+            if (!arguments.length) return timeInterval;
+            timeInterval = x == null ? Infinity : x;
+            return cloud;
+        };
+
+        function place(board, tag, bounds) {
+            var perimeter = [{x: 0, y: 0}, {x: size[0], y: size[1]}],
+                startX = tag.x,
+                startY = tag.y,
+                maxDelta = Math.sqrt(size[0] * size[0] + size[1] * size[1]),
+                s = spiral(size),
+                dt = Math.random() < .5 ? 1 : -1,
+                t = -dt,
+                dxdy,
+                dx,
+                dy;
+
+            while (dxdy = s(t += dt)) {
+                dx = ~~dxdy[0];
+                dy = ~~dxdy[1];
+
+                if (Math.min(dx, dy) > maxDelta) break;
+
+                tag.x = startX + dx;
+                tag.y = startY + dy;
+
+                if (tag.x + tag.x0 < 0 || tag.y + tag.y0 < 0 ||
+                    tag.x + tag.x1 > size[0] || tag.y + tag.y1 > size[1]) continue;
+                // TODO only check for collisions within current bounds.
+                if (!bounds || !cloudCollide(tag, board, size[0])) {
+                    if (!bounds || collideRects(tag, bounds)) {
+                        var sprite = tag.sprite,
+                            w = tag.width >> 5,
+                            sw = size[0] >> 5,
+                            lx = tag.x - (w << 4),
+                            sx = lx & 0x7f,
+                            msx = 32 - sx,
+                            h = tag.y1 - tag.y0,
+                            x = (tag.y + tag.y0) * sw + (lx >> 5),
+                            last;
+                        for (var j = 0; j < h; j++) {
+                            last = 0;
+                            for (var i = 0; i <= w; i++) {
+                                board[x + i] |= (last << msx) | (i < w ? (last = sprite[j * w + i]) >>> sx : 0);
+                            }
+                            x += sw;
+                        }
+                        delete tag.sprite;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        cloud.words = function(x) {
+            if (!arguments.length) return words;
+            words = x;
+            return cloud;
+        };
+
+        cloud.size = function(x) {
+            if (!arguments.length) return size;
+            size = [+x[0], +x[1]];
+            return cloud;
+        };
+
+        cloud.font = function(x) {
+            if (!arguments.length) return font;
+            font = d3.functor(x);
+            return cloud;
+        };
+
+        cloud.fontStyle = function(x) {
+            if (!arguments.length) return fontStyle;
+            fontStyle = d3.functor(x);
+            return cloud;
+        };
+
+        cloud.fontWeight = function(x) {
+            if (!arguments.length) return fontWeight;
+            fontWeight = d3.functor(x);
+            return cloud;
+        };
+
+        cloud.rotate = function(x) {
+            if (!arguments.length) return rotate;
+            rotate = d3.functor(x);
+            return cloud;
+        };
+
+        cloud.text = function(x) {
+            if (!arguments.length) return text;
+            text = d3.functor(x);
+            return cloud;
+        };
+
+        cloud.spiral = function(x) {
+            if (!arguments.length) return spiral;
+            spiral = spirals[x + ""] || x;
+            return cloud;
+        };
+
+        cloud.fontSize = function(x) {
+            if (!arguments.length) return fontSize;
+            fontSize = d3.functor(x);
+            return cloud;
+        };
+
+        cloud.padding = function(x) {
+            if (!arguments.length) return padding;
+            padding = d3.functor(x);
+            return cloud;
+        };
+
+        return d3.rebind(cloud, event, "on");
+    }
+
+    function cloudText(d) {
+        return d.text;
+    }
+
+    function cloudFont() {
+        return "serif";
+    }
+
+    function cloudFontNormal() {
+        return "normal";
+    }
+
+    function cloudFontSize(d) {
+        return Math.sqrt(d.value);
+    }
+
+    function cloudRotate() {
+        return (~~(Math.random() * 6) - 3) * 30;
+    }
+
+    function cloudPadding() {
+        return 1;
+    }
+
+    // Fetches a monochrome sprite bitmap for the specified text.
+    // Load in batches for speed.
+    function cloudSprite(d, data, di) {
+        if (d.sprite) return;
+        c.clearRect(0, 0, (cw << 5) / ratio, ch / ratio);
+        var x = 0,
+            y = 0,
+            maxh = 0,
+            n = data.length;
+        --di;
+        while (++di < n) {
+            d = data[di];
+            c.save();
+            c.font = d.style + " " + d.weight + " " + ~~((d.size + 1) / ratio) + "px " + d.font;
+            var w = c.measureText(d.text + "m").width * ratio,
+                h = d.size << 1;
+            if (d.rotate) {
+                var sr = Math.sin(d.rotate * cloudRadians),
+                    cr = Math.cos(d.rotate * cloudRadians),
+                    wcr = w * cr,
+                    wsr = w * sr,
+                    hcr = h * cr,
+                    hsr = h * sr;
+                w = (Math.max(Math.abs(wcr + hsr), Math.abs(wcr - hsr)) + 0x1f) >> 5 << 5;
+                h = ~~Math.max(Math.abs(wsr + hcr), Math.abs(wsr - hcr));
+            } else {
+                w = (w + 0x1f) >> 5 << 5;
+            }
+            if (h > maxh) maxh = h;
+            if (x + w >= (cw << 5)) {
+                x = 0;
+                y += maxh;
+                maxh = 0;
+            }
+            if (y + h >= ch) break;
+            c.translate((x + (w >> 1)) / ratio, (y + (h >> 1)) / ratio);
+            if (d.rotate) c.rotate(d.rotate * cloudRadians);
+            c.fillText(d.text, 0, 0);
+            if (d.padding) c.lineWidth = 2 * d.padding, c.strokeText(d.text, 0, 0);
+            c.restore();
+            d.width = w;
+            d.height = h;
+            d.xoff = x;
+            d.yoff = y;
+            d.x1 = w >> 1;
+            d.y1 = h >> 1;
+            d.x0 = -d.x1;
+            d.y0 = -d.y1;
+            d.hasText = true;
+            x += w;
+        }
+        var pixels = c.getImageData(0, 0, (cw << 5) / ratio, ch / ratio).data,
+            sprite = [];
+        while (--di >= 0) {
+            d = data[di];
+            if (!d.hasText) continue;
+            var w = d.width,
+                w32 = w >> 5,
+                h = d.y1 - d.y0;
+            // Zero the buffer
+            for (var i = 0; i < h * w32; i++) sprite[i] = 0;
+            x = d.xoff;
+            if (x == null) return;
+            y = d.yoff;
+            var seen = 0,
+                seenRow = -1;
+            for (var j = 0; j < h; j++) {
+                for (var i = 0; i < w; i++) {
+                    var k = w32 * j + (i >> 5),
+                        m = pixels[((y + j) * (cw << 5) + (x + i)) << 2] ? 1 << (31 - (i % 32)) : 0;
+                    sprite[k] |= m;
+                    seen |= m;
+                }
+                if (seen) seenRow = j;
+                else {
+                    d.y0++;
+                    h--;
+                    j--;
+                    y++;
+                }
+            }
+            d.y1 = d.y0 + seenRow;
+            d.sprite = sprite.slice(0, (d.y1 - d.y0) * w32);
+        }
+    }
+
+    // Use mask-based collision detection.
+    function cloudCollide(tag, board, sw) {
+        sw >>= 5;
+        var sprite = tag.sprite,
+            w = tag.width >> 5,
+            lx = tag.x - (w << 4),
+            sx = lx & 0x7f,
+            msx = 32 - sx,
+            h = tag.y1 - tag.y0,
+            x = (tag.y + tag.y0) * sw + (lx >> 5),
+            last;
+        for (var j = 0; j < h; j++) {
+            last = 0;
+            for (var i = 0; i <= w; i++) {
+                if (((last << msx) | (i < w ? (last = sprite[j * w + i]) >>> sx : 0))
+                    & board[x + i]) return true;
+            }
+            x += sw;
+        }
+        return false;
+    }
+
+    function cloudBounds(bounds, d) {
+        var b0 = bounds[0],
+            b1 = bounds[1];
+        if (d.x + d.x0 < b0.x) b0.x = d.x + d.x0;
+        if (d.y + d.y0 < b0.y) b0.y = d.y + d.y0;
+        if (d.x + d.x1 > b1.x) b1.x = d.x + d.x1;
+        if (d.y + d.y1 > b1.y) b1.y = d.y + d.y1;
+    }
+
+    function collideRects(a, b) {
+        return a.x + a.x1 > b[0].x && a.x + a.x0 < b[1].x && a.y + a.y1 > b[0].y && a.y + a.y0 < b[1].y;
+    }
+
+    function archimedeanSpiral(size) {
+        var e = size[0] / size[1];
+        return function(t) {
+            return [e * (t *= .1) * Math.cos(t), t * Math.sin(t)];
+        };
+    }
+
+    function rectangularSpiral(size) {
+        var dy = 4,
+            dx = dy * size[0] / size[1],
+            x = 0,
+            y = 0;
+        return function(t) {
+            var sign = t < 0 ? -1 : 1;
+            // See triangular numbers: T_n = n * (n + 1) / 2.
+            switch ((Math.sqrt(1 + 4 * sign * t) - sign) & 3) {
+                case 0:  x += dx; break;
+                case 1:  y += dy; break;
+                case 2:  x -= dx; break;
+                default: y -= dy; break;
+            }
+            return [x, y];
+        };
+    }
+
+    // TODO reuse arrays?
+    function zeroArray(n) {
+        var a = [],
+            i = -1;
+        while (++i < n) a[i] = 0;
+        return a;
+    }
+
+    var cloudRadians = Math.PI / 180,
+        cw = 1 << 11 >> 5,
+        ch = 1 << 11,
+        canvas,
+        ratio = 1;
+
+    if (typeof document !== "undefined") {
+        canvas = document.createElement("canvas");
+        canvas.width = 1;
+        canvas.height = 1;
+        ratio = Math.sqrt(canvas.getContext("2d").getImageData(0, 0, 1, 1).data.length >> 2);
+        canvas.width = (cw << 5) / ratio;
+        canvas.height = ch / ratio;
+    } else {
+        // node-canvas support
+        var Canvas = require("canvas");
+        canvas = new Canvas(cw << 5, ch);
+    }
+
+    var c = canvas.getContext("2d"),
+        spirals = {
+            archimedean: archimedeanSpiral,
+            rectangular: rectangularSpiral
+        };
+    c.fillStyle = c.strokeStyle = "red";
+    c.textAlign = "center";
+
+    exports.cloud = cloud;
+})(typeof exports === "undefined" ? d3.layout || (d3.layout = {}) : exports);
+
+</script>
+<script>
+  draw_cloud("<%= asset_path 'word_frequency/2015-06-01.json' %>");
+</script>
+
+
+
+
+<!-- WORD BAR -->
+<script>
+  d3.json("<%= asset_path 'word_frequency/2016-09-01.json' %>", function(error, data) {
+
+  // Set the dimensions of the canvas / graph
+  var margin = {top: 30, right: 20, bottom: 30, left: 100},
+  width = 600 - margin.left - margin.right,
+  height = 500 - margin.top - margin.bottom;
+
+  // Ensure correct order
+  var words = data.words.slice(0, 10).sort(function(a, b){return b.frequency-a.frequency});
+
+  // Setup arrays and reassign data
+  var mentions = [],
+      categories = [''];
+
+  words.forEach(function(d) {
+    categories.push(d.term);
+    mentions.push(d.frequency);
+  });
+
+  // Color set
+  var colors = ['#1DCAFF','#0000b4','#0082ca','#285964','#0d4bcf','#0066AE','#074285','#00187B','#0094ff','#405F83'];
+
+  var colorScale = d3.scale.quantize()
+          .domain([0,colors.length])
+          .range(colors);
+
+  // Set the ranges
+  var xScale = d3.scale.linear().domain([0, words[0].frequency]).range([0, width]);
+  var yScale = d3.scale.linear().domain([0,11]).range([0, height]);
+
+  // Add the svg canvas
+  var svg = d3.select("#word-bar")
+      .append("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+          .attr("transform",
+                "translate(" + margin.left + "," + margin.top + ")");
+
+  // Define the axes
+  var xAxis = d3.svg.axis();
+    xAxis
+      .orient('bottom')
+      .scale(xScale);
+
+  var yAxis = d3.svg.axis();
+    yAxis
+      .orient('left')
+      .scale(yScale)
+      .tickFormat(function(d,i){ return categories[i]; })
+
+  // Add the X Axis
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  // Add the Y Axis
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis);
+
+  // Add individual bars
+  svg.selectAll('rect')
+      .data(mentions)
+      .enter()
+      .append('rect')
+      .attr('height',33)
+      .attr({'x':0,'y':function(d,i){ return yScale(i)+19; }})
+      .style('fill',function(d,i){ return colorScale(i); })
+      .attr('width',function(d){ return 0; });
+
+  // Transition delay
+  var transit = d3.select("#word-bar").selectAll("rect")
+              .data(mentions)
+              .transition()
+              .duration(1000)
+              .attr("width", function(d) {return xScale(d); });
+
+});
+
+</script>
+
+
+
+
+
+
+
+<!-- FOLLOWERS LINE -->
+<script>
+// Set the dimensions of the canvas / graph
+var margin = {top: 30, right: 20, bottom: 30, left: 100},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+// Parse the date / time
+var parseDate = d3.time.format("%d-%b-%y").parse;
+
+// Set the ranges
+var x = d3.time.scale().range([0, width]);
+var y = d3.scale.linear().range([height, 0]);
+
+// Define the axes
+var xAxis = d3.svg.axis().scale(x)
+    .orient("bottom").ticks(5);
+
+var yAxis = d3.svg.axis().scale(y)
+    .orient("left").ticks(5);
+
+// Define the line
+var valueline = d3.svg.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.followers); });
+
+// Adds the svg canvas
+var svg = d3.select("#followers-line")
+    .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+        .attr("transform",
+              "translate(" + margin.left + "," + margin.top + ")");
+
+// Get the data
+d3.csv("<%= asset_path 'keep/followers/followers_2015.csv' %>", function(error, data) {
+    data.forEach(function(d) {
+        d.date = parseDate(d.date);
+        d.followers = +d.followers;
+    });
+
+    // Scale the range of the data
+    x.domain(d3.extent(data, function(d) { return d.date; }));
+    y.domain([0, d3.max(data, function(d) { return d.followers; })]);
+
+    // Add the valueline path.
+    svg.append("path")
+        .attr("class", "line")
+        .attr("d", valueline(data));
+
+    // Add the X Axis
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+    // Add the Y Axis
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis);
+
+});
+
+// ** Update data section (Called from the onclick)
+function updateData() {
+
+    // Get the data again
+    d3.csv("<%= asset_path 'keep/followers/followers_2017.csv' %>", function(error, data) {
+        data.forEach(function(d) {
+        d.date = parseDate(d.date);
+        d.followers = +d.followers;
+      });
+
+      // Scale the range of the data again
+      x.domain(d3.extent(data, function(d) { return d.date; }));
+      y.domain([0, d3.max(data, function(d) { return d.followers; })]);
+
+    // Select the section we want to apply our changes to
+    var svg = d3.select("#followers-line").transition();
+
+    // Make the changes
+        svg.select(".line")   // change the line
+            .duration(750)
+            .attr("d", valueline(data));
+        svg.select(".x.axis") // change the x axis
+            .duration(750)
+            .call(xAxis);
+        svg.select(".y.axis") // change the y axis
+            .duration(750)
+            .call(yAxis);
+
+    });
+}
+</script>
