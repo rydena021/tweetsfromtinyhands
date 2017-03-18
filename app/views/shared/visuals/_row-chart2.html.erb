@@ -26,7 +26,7 @@
 </style>
 
 
-<div id="word-bar"></div>
+<div class="#row-chart2"></div>
 <div id="tooltip" class="hidden">
   <p><span id="value">100</span></p>
 </div>
@@ -154,7 +154,7 @@ var dataset = dataset.map(function (group) {
         };
     });
 }),
-    svg = d3.select('div#word-bar')
+    svg = d3.select('#row-chart2')
         .append('svg')
         .attr('width', width + margins.left + margins.right + legendPanel.width)
         .attr('height', height + margins.top + margins.bottom)
