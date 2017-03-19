@@ -1,0 +1,250 @@
+[
+  {
+    "month": "2015-06-01",
+    "sentiment": {
+        "positive": 154,
+        "negative": 77,
+        "neutral": 69
+    }
+  },
+  {
+    "month": "2015-07-01",
+    "sentiment": {
+        "positive": 358,
+        "negative": 251,
+        "neutral": 181
+    }
+  },
+  {
+    "month": "2015-08-01",
+    "sentiment": {
+        "positive": 162,
+        "negative": 111,
+        "neutral": 85
+    }
+  },
+  {
+    "month": "2015-09-01",
+    "sentiment": {
+        "positive": 209,
+        "negative": 115,
+        "neutral": 90
+    }
+  },
+  {
+    "month": "2015-10-01",
+    "sentiment": {
+        "positive": 392,
+        "negative": 226,
+        "neutral": 167
+    }
+  },
+  {
+    "month": "2015-11-01",
+    "sentiment": {
+        "positive": 293,
+        "negative": 165,
+        "neutral": 116
+    }
+  },
+  {
+    "month": "2015-12-01",
+    "sentiment": {
+        "positive": 249,
+        "negative": 195,
+        "neutral": 148
+    }
+  },
+  {
+    "month": "2016-01-01",
+    "sentiment": {
+        "positive": 201,
+        "negative": 173,
+        "neutral": 117
+    }
+  },
+  {
+    "month": "2016-02-01",
+    "sentiment": {
+        "positive": 170,
+        "negative": 172,
+        "neutral": 154
+    }
+  },
+  {
+    "month": "2016-03-01",
+    "sentiment": {
+        "positive": 179,
+        "negative": 136,
+        "neutral": 126
+    }
+  },
+  {
+    "month": "2016-04-01",
+    "sentiment": {
+        "positive": 132,
+        "negative": 65,
+        "neutral": 85
+    }
+  },
+  {
+    "month": "2016-05-01",
+    "sentiment": {
+        "positive": 145,
+        "negative": 122,
+        "neutral": 83
+    }
+  },
+  {
+    "month": "2016-06-01",
+    "sentiment": {
+        "positive": 122,
+        "negative": 104,
+        "neutral": 78
+    }
+  },
+  {
+    "month": "2016-07-01",
+    "sentiment": {
+        "positive": 135,
+        "negative": 158,
+        "neutral": 85
+    }
+  },
+  {
+    "month": "2016-08-01",
+    "sentiment": {
+        "positive": 125,
+        "negative": 96,
+        "neutral": 110
+    }
+  },
+  {
+    "month": "2016-09-01",
+    "sentiment": {
+        "positive": 125,
+        "negative": 86,
+        "neutral": 79
+    }
+  },
+  {
+    "month": "2016-10-01",
+    "sentiment": {
+        "positive": 197,
+        "negative": 175,
+        "neutral": 157
+    }
+  },
+  {
+    "month": "2016-1-01",
+    "sentiment": {
+        "positive": 93,
+        "negative": 56,
+        "neutral": 45
+    }
+  },
+  {
+    "month": "2016-12-01",
+    "sentiment": {
+        "positive": 68,
+        "negative": 32,
+        "neutral": 37
+    }
+  },
+  {
+    "month": "2017-01-01",
+    "sentiment": {
+        "positive": 93,
+        "negative": 79,
+        "neutral": 45
+    }
+  },
+  {
+    "month": "2017-02-01",
+    "sentiment": {
+        "positive": 56,
+        "negative": 48,
+        "neutral": 22
+    }
+  },
+  {
+    "month": "2017-03-01",
+    "sentiment": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 0
+    }
+  },
+  {
+    "month": "2017-04-01",
+    "sentiment": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 0
+    }
+  },
+  {
+    "month": "2017-05-01",
+    "sentiment": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 0
+    }
+  },
+  {
+    "month": "2017-06-01",
+    "sentiment": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 0
+    }
+  },
+  {
+    "month": "2017-07-01",
+    "sentiment": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 0
+    }
+  },
+  {
+    "month": "2017-08-01",
+    "sentiment": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 0
+    }
+  },
+  {
+    "month": "2017-09-01",
+    "sentiment": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 0
+    }
+  },
+  {
+    "month": "2017-10-01",
+    "sentiment": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 0
+    }
+  },
+  {
+    "month": "2017-1-01",
+    "sentiment": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 0
+    }
+  },
+  {
+    "month": "2017-12-01",
+    "sentiment": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 0
+    }
+  }
+]

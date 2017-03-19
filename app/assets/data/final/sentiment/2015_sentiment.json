@@ -1,0 +1,58 @@
+[
+  {
+    "month": "2015-06-01",
+    "sentiment": {
+        "positive": 154,
+        "negative": 77,
+        "neutral": 69
+    }
+  },
+  {
+    "month": "2015-07-01",
+    "sentiment": {
+        "positive": 358,
+        "negative": 251,
+        "neutral": 181
+    }
+  },
+  {
+    "month": "2015-08-01",
+    "sentiment": {
+        "positive": 162,
+        "negative": 111,
+        "neutral": 85
+    }
+  },
+  {
+    "month": "2015-09-01",
+    "sentiment": {
+        "positive": 209,
+        "negative": 115,
+        "neutral": 90
+    }
+  },
+  {
+    "month": "2015-10-01",
+    "sentiment": {
+        "positive": 392,
+        "negative": 226,
+        "neutral": 167
+    }
+  },
+  {
+    "month": "2015-11-01",
+    "sentiment": {
+        "positive": 293,
+        "negative": 165,
+        "neutral": 116
+    }
+  },
+  {
+    "month": "2015-12-01",
+    "sentiment": {
+        "positive": 249,
+        "negative": 195,
+        "neutral": 148
+    }
+  }
+]
