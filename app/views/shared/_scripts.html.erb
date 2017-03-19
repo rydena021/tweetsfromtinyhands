@@ -151,6 +151,26 @@
 
 
 <!-- SENTIMENT -->
+<style>
+path {  stroke: #fff; }
+path:hover {  opacity:0.9; }
+.legend tr{    border-bottom:1px solid grey; }
+.legend tr:first-child{    border-top:1px solid grey; }
+.legend{
+    margin-bottom:76px;
+    display:inline-block;
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+.legend td{
+    padding:4px 5px;
+    vertical-align:bottom;
+}
+.legendFreq, .legendPerc{
+    align:right;
+    width:50px;
+}
+</style>
 <script>
   function dashboard(id, fData){
     var barColor = '#1DCAFF';
@@ -952,6 +972,23 @@ draw_cloud("<%= asset_path 'word_frequency/2015-06-01.json' %>");
 
 
 <!-- FOLLOWERS LINE -->
+<style>
+
+path {
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+</style>
 <script>
 // Set the dimensions of the canvas / graph
 var margin = {top: 30, right: 20, bottom: 30, left: 100},

@@ -1,66 +1,308 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
 <style>
+  .line {
+      fill: none;
+      stroke: blue;
+      stroke-width: 2px;
+  }
 
-.bar {
-  fill: steelblue;
-}
+  .axis, .nav-axis {
 
-.bar:hover {
-  fill: brown;
-}
+      text { font: 10px sans-serif; }
 
-.axis--x path {
-  display: none;
-}
+      path, line {
+          fill: none;
+          stroke: #000;
+          shape-rendering: crispEdges;
+      }
 
+      &.x { path { display: none; } }
+  }
+
+  .navigator {
+      .data {
+          fill: #d1ddef;
+          stroke-width: 0px;
+      }
+  }
+
+  .nav-viewport {
+      stroke: #b2b1b6;
+      stroke-width: 0.5px;
+      fill: #5daee0;
+      fill-opacity: 0.3;
+  }
 </style>
-<svg width="960" height="500"></svg>
+
+<br />
+<div style="margin: 0 20px;">
+   <button class="zoom-out">Zoom out</button>
+   <button class="zoom-month">Zoom to last 30 days</button>
+   <button class="zoom-week">Zoom to last 7 days</button>
+</div>
+
+
 <script>
 
-var svg = d3.select("svg"),
-    margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = +svg.attr("width") - margin.left - margin.right,
-    height = +svg.attr("height") - margin.top - margin.bottom;
+var TRANSITION_SPEED = 300;
+//
+// TEMP data and helper functions
+//
+var DATES_RANGE = 90;
+var date = moment().subtract(DATES_RANGE, 'days');
 
-var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-    y = d3.scaleLinear().rangeRound([height, 0]);
+date.set('hour', 0);
+date.set('minute', 0);
+date.set('second', 0);
 
-var g = svg.append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+var data = [];
 
-d3.csv("<%= asset_path 'data.csv' %>", function(d) {
-  d.frequency = +d.frequency;
-  return d;
-}, function(error, data) {
-  if (error) throw error;
+for (var i = 0; i < 90; i++) {
+    data.push({
+        date: date.valueOf(),
+        lineValue: getRandomInt(110, 220) / 1000,
+        columnValue: getRandomInt(20, 105) / 1000
+    });
+    date = date.add(1, 'days');
+}
+    console.log(data);
 
-  x.domain(data.map(function(d) { return d.letter; }));
-  y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-  g.append("g")
-      .attr("class", "axis axis--x")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
+function getMaxValue(data, field) {
+    return Math.max.apply(Math, _.pluck(data, field));
+}
 
-  g.append("g")
-      .attr("class", "axis axis--y")
-      .call(d3.axisLeft(y).ticks(10, "%"))
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", "0.71em")
-      .attr("text-anchor", "end")
-      .text("Frequency");
+function getDateRange(from, to) {
+    var fromIdx = _.findIndex(data, function(item) {
+          return item.date >= from;
+       }),
+       toIdx = _.findIndex(data, function(item) {
+          return item.date >= to;
+       });
 
-  g.selectAll(".bar")
-    .data(data)
-    .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) { return x(d.letter); })
-      .attr("y", function(d) { return y(d.frequency); })
-      .attr("width", x.bandwidth())
-      .attr("height", function(d) { return height - y(d.frequency); });
+   return _.pluck(data.slice(fromIdx, toIdx), "date");
+}
+//
+// END
+//
+var minDate = data[0].date,
+    maxDate = data[data.length - 1].date;
+
+var margin = {top: 20, right: 20, bottom: 30, left: 50},
+    navigatorMarginTop = 30,
+    navigatorHeight = 60,
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom - navigatorHeight - navigatorMarginTop;
+
+var xScale = d3.time.scale()
+    .domain([minDate, maxDate])
+    .range([0, width]);
+
+// This fake ordianal scale is used only because of its
+// `rangeBands` method to automatially calculate the width
+// of columns of column chart
+var fakeOrdinalXScale = d3.scale.ordinal()
+    .domain(_.pluck(data, 'date'))
+    .rangeBands([0, width], 0.4, 0);
+
+var yScale = d3.scale.linear()
+    .domain([0, getMaxValue(data, "lineValue")])
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(xScale)
+    .orient("bottom")
+    .tickSize(-height)
+    .tickFormat(function(d) {
+        return moment(d).format("D MMM");
+    });
+
+var yAxis = d3.svg.axis()
+    .scale(yScale)
+    .orient("left")
+    .ticks(6)
+    .tickSize(-width);
+
+var zoom = d3.behavior.zoom()
+    .x(xScale);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom + navigatorHeight + navigatorMarginTop);
+
+var mainGroup = svg.append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// Clip-path
+var chartsContainer = mainGroup.append('g')
+    .attr('clip-path', 'url(#plotAreaClip)')
+    .call(zoom);
+
+chartsContainer.append('clipPath')
+    .attr('id', 'plotAreaClip')
+    .append('rect')
+    .attr({ width: width, height: height });
+
+// Line chart
+var line = d3.svg.line()
+    .interpolate("basis")
+    .x(function (d) {
+        return xScale(d.date);
+    })
+    .y(function (d) {
+        return yScale(d.lineValue);
+    });
+
+var lineGroup = chartsContainer
+   .append("path")
+      .attr("class", "line")
+      .data(data)
+      .attr("d", line(data));
+
+// Column chart
+var columnGroup = chartsContainer.selectAll(".column")
+   .data(data);
+
+columnGroup.enter()
+   .append("rect")
+      .attr("class", "column")
+      .attr("width", function() {
+         return fakeOrdinalXScale.rangeBand();
+      })
+      .attr("height", function (d) {
+         return height - yScale(d.columnValue);
+      })
+      .attr("x", function (d) {
+         return xScale(d.date);
+      })
+      .attr("y", function (d){
+         return yScale(d.columnValue);
+      });
+
+// Axis
+mainGroup.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis);
+
+mainGroup.append("g")
+    .attr("class", "y axis")
+    .call(yAxis);
+
+// Navigator
+var navXScale = d3.time.scale()
+    .domain([minDate, maxDate])
+    .range([0, width]);
+
+var navYScale = d3.scale.linear()
+    .domain([0, getMaxValue(data, "lineValue") || 1])
+    .range([navigatorHeight, 0]);
+
+var navXAxis = d3.svg.axis()
+    .scale(navXScale)
+    .tickFormat(function(d) {
+        return moment(d).format("MMM");
+    })
+    .orient("bottom");
+
+var navData = d3.svg.area()
+    .interpolate("basis")
+    .x(function (d) {
+        return navXScale(d.date);
+    })
+    .y0(navigatorHeight)
+    .y1(function (d) {
+        return navYScale(d.lineValue);
+    });
+
+var navigatorGroup = svg.append("g")
+   .attr("class", "navigator")
+   .attr("width", width + margin.left + margin.right)
+   .attr("height", navigatorHeight + margin.top + margin.bottom)
+   .attr("transform", "translate(" + margin.left + "," + (margin.top + height + navigatorMarginTop) + ")");
+
+navigatorGroup.append("path")
+    .attr("class", "data")
+    .attr("d", navData(data));
+
+svg.append("g")
+    .attr("class","x nav-axis")
+    .attr("transform", "translate(" + margin.left + "," + (margin.top + height + navigatorHeight + navigatorMarginTop) + ")" )
+    .call(navXAxis);
+
+// Navigator viewport
+var navViewport = d3.svg.brush()
+   .x(navXScale)
+   .extent(xScale.domain())
+   .on("brush", display);
+
+navigatorGroup.append("g")
+   .attr("class", "nav-viewport")
+   .call(navViewport)
+   .selectAll("rect")
+   .attr("height", navigatorHeight);
+
+function display() {
+   var viewportExtent = navViewport.empty() ? navXScale.domain() : navViewport.extent();
+
+   zoomToPeriod(viewportExtent[0], viewportExtent[1]);
+}
+
+d3.select("button.zoom-out").on("click", function() {
+   zoomToPeriod(minDate, maxDate);
 });
 
+d3.select("button.zoom-month").on("click", function() {
+   var to = maxDate,
+       from = moment(to).subtract(30, 'days').valueOf();
+
+   zoomToPeriod(from, to);
+});
+
+d3.select("button.zoom-week").on("click", function() {
+   var to = maxDate,
+       from = moment(to).subtract(7, 'days').valueOf();
+
+   zoomToPeriod(from, to);
+});
+
+function zoomToPeriod(from, to) {
+   chartsContainer.call(zoom.x(xScale.domain([from, to])));
+   fakeOrdinalXScale.domain(getDateRange(from, to));
+   updateAxis();
+   updateCharts();
+}
+
+function updateCharts() {
+   lineGroup
+      .data([data])
+      .attr("d", line);
+
+   lineGroup
+      .exit().remove();
+
+   columnGroup
+      .data(data)
+      .attr("width", function() {
+         return fakeOrdinalXScale.rangeBand();
+      })
+      .attr("x", function (d) {
+         return xScale(d.date);
+      })
+      .attr("y", function (d){
+         return yScale(d.columnValue);
+      });
+
+   columnGroup.exit().remove();
+}
+
+function updateAxis() {
+   mainGroup.select(".x.axis").call(xAxis);
+   mainGroup.select(".y.axis").call(yAxis);
+
+   navViewport.extent(xScale.domain());
+   navigatorGroup.select('.nav-viewport').call(navViewport);
+}
 </script>
