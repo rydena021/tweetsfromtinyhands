@@ -1,4 +1,4 @@
-.parallax-container {
+.parallax-spacer {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -6,19 +6,16 @@
 }
 
 .parallax-skinny {
-  height: 20px;
+  height: 50px;
 }
 
-.parallax-banner {
-  height: 750px;
-}
-
-div.section-top {
-  background-color: $twitter-blue;
+.banner {
   color: white;
-  padding-right: 50px;
+  text-align: center;
+  height: calc(100vh - 60px);
+  background-size: cover !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-div.section-bottom {
-  background-color: white;
-}

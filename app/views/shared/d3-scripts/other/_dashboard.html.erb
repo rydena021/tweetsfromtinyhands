@@ -1,35 +1,8 @@
-<style>
-path {  stroke: #fff; }
-path:hover {  opacity:0.9; }
-.legend tr{    border-bottom:1px solid grey; }
-.legend tr:first-child{    border-top:1px solid grey; }
-.legend{
-    margin-bottom:76px;
-    display:inline-block;
-    border-collapse: collapse;
-    border-spacing: 0px;
-}
-.legend td {
-    padding:4px 5px;
-    vertical-align:bottom;
-}
-.legendFreq, .legendPerc{
-    align:right;
-    width:50px;
-}
-#dashboard {
-    width:1060px;
-    margin:50px auto;
-    color:black;
-    margin-left: 50px;
-    margin-top: 50px;
-}
-</style>
-<%= render 'shared/header' %>
-<div id='dashboard'></div>
+<div id="sentiment"></div>
+
 <script>
 function dashboard(id, fData){
-    var barColor = '$twitter-dark-blue';
+    var barColor = '#1DCAFF';
     function segColor(c){ return {negative:"red", neutral:"yellow",positive:"green"}[c]; }
 
     // compute total for each day.
@@ -38,8 +11,8 @@ function dashboard(id, fData){
     // function to handle histogram.
     function histoGram(fD){
         var hG={},    hGDim = {t: 60, r: 0, b: 40, l: 20};
-        hGDim.w = 500 - hGDim.l - hGDim.r,
-        hGDim.h = 300 - hGDim.t - hGDim.b;
+        hGDim.w = 800 - hGDim.l - hGDim.r,
+        hGDim.h = 400 - hGDim.t - hGDim.b;
 
         //create svg for histogram.
         var hGsvg = d3.select(id).append("svg")
@@ -224,18 +197,16 @@ function dashboard(id, fData){
         pC = pieChart(tF), // create the pie-chart.
         leg= legend(tF);  // create the legend.
 }
-</script>
 
-<!-- TODO refactor for .csv -->
-<script>
-var freqData=[
- {Day:'Sun',freq:{negative:19, neutral:5, positive:2}}
-,{Day:'Mon',freq:{negative:10, neutral:11, positive:5}}
-,{Day:'Tues',freq:{negative:15, neutral:18, positive:9}}
-,{Day:'Wed',freq:{negative:18, neutral:31, positive:4}}
-,{Day:'Thurs',freq:{negative:19, neutral:21, positive:2}}
-,{Day:'Fri',freq:{negative:6, neutral:14, positive:11}}
-,{Day:'Sat',freq:{negative:12, neutral:14, positive:1}}
-];
-dashboard('#dashboard',freqData);
+d3.json('<%= asset_path "other/fake_sentiment.json" %>', function(data) {
+  var freqData= data;
+  dashboard('div#sentiment',freqData);
+});
+
+function updateSentimentData(path) {
+  d3.json(path, function(data) {
+    var freqData= data;
+    dashboard('div#sentiment',freqData);
+  });
+};
 </script>

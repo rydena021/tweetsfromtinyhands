@@ -1,48 +1,19 @@
-<!-- DONUT -->
+<div id="followers-line"></div>
+
+<div class="container">
+  <ul id="dropdown" class="dropdown-content">
+      <li><a onclick="updateLineData('<%= asset_path "keep/followers/followers_2017.csv" %>')">2017</a></li>
+      <li><a onclick="updateLineData('<%= asset_path "keep/followers/followers_2016.csv" %>')">2016</a></li>
+      <li><a onclick="updateLineData('<%= asset_path "keep/followers/followers_2015.csv" %>')">2015</a></li>
+      <li><a onclick="updateLineData('<%= asset_path "keep/followers/followers_all.csv" %>')">All</a></li>
+  </ul>
+  <a class="btn dropdown-button" href="#" data-activates="dropdown">Click<i class="mdi-navigation-arrow-drop-down right"></i></a>
+</div>
+
 <script>
-  var getData = function(){
-  var x = Math.round(Math.random() * 100),
-      y = 100 - x,
-      data = { "Android": x, "iOS": y},
-      text = "Android = " + x + "<br>iOS =" + y;
 
-  d3.select("#data").html(text);
-    return data;
-  };
-
-  var chart = donut()
-                .canvas(d3.select("#device"))
-                .data(getData())
-                .render();
-
-
-  d3.select("#refresh").on("click", function(){
-    chart.data(getData()).render();
-});
-
-</script>
-<!-- SENTIMENT -->
-<script>
-  d3.json('<%= asset_path "sentiment.json" %>', function(data) {
-    var freqData= data;
-    dashboard('div#sentiment',freqData);
-  });
-
-  function updateSentimentData(path) {
-    d3.json(path, function(data) {
-      var freqData= data;
-      dashboard('div#sentiment',freqData);
-    });
-  };
-</script>
-<!-- WORD CLOUD -->
-<script>
-  draw_cloud("<%= asset_path 'word_frequency/2015-06-01.json' %>");
-</script>
-<!-- FOLLOWERS LINE -->
-<script>
-// Set the dimensions of the canvas / graph
-var margin = {top: 30, right: 20, bottom: 30, left: 100},
+  // Set the dimensions of the canvas / graph
+var margin = {top: 30, right: 20, bottom: 30, left: 20},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
@@ -104,10 +75,10 @@ d3.csv("<%= asset_path 'keep/followers/followers_2015.csv' %>", function(error, 
 });
 
 // ** Update data section (Called from the onclick)
-function updateData() {
+function updateLineData(path) {
 
     // Get the data again
-    d3.csv("<%= asset_path 'keep/followers/followers_2017.csv' %>", function(error, data) {
+    d3.csv(path, function(error, data) {
         data.forEach(function(d) {
         d.date = parseDate(d.date);
         d.followers = +d.followers;
@@ -133,4 +104,5 @@ function updateData() {
 
     });
 }
+
 </script>

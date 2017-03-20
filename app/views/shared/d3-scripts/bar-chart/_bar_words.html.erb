@@ -1,9 +1,9 @@
 <h1>Top Ten Words</h1>
-<div id="word-bar"></div>
+<div id="word-bar-1"></div>
 <script>
 // not setup for json
 
-d3.json("<%= asset_path 'word_frequency/2015-06-01.json' %>", function(error, data) {
+d3.json("<%= asset_path 'final/words/2015-06-01.json' %>", function(error, data) {
 
 
   var words = data.words.slice(0, 10).sort(function(a, b){return b.frequency-a.frequency});
@@ -28,7 +28,7 @@ d3.json("<%= asset_path 'word_frequency/2015-06-01.json' %>", function(error, da
           .domain([0,10])
           .range(colors);
 
-  var canvas = d3.select('#word-bar')
+  var canvas = d3.select('#word-bar-1')
           .append('svg')
           .attr({'width':900,'height':550})
 
@@ -67,7 +67,7 @@ d3.json("<%= asset_path 'word_frequency/2015-06-01.json' %>", function(error, da
             .attr('width',function(d){ return 0; });
 
 
-  var transit = d3.select("#word-bar").selectAll("rect")
+  var transit = d3.select("#word-bar-1").selectAll("rect")
               .data(mentions)
               .transition()
               .duration(1000)
