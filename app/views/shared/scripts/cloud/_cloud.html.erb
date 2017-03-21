@@ -10,12 +10,12 @@ svg {
 <script>
 // set dimensions
 var margin = {top: 30, right: 30, bottom: 30, left: 30},
-    width = 1000 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    width = 1200 - margin.left - margin.right,
+    height = 600 - margin.top - margin.bottom;
 
 // load json file
-d3.json("<%= asset_path 'word_frequency/2015-06-01.json' %>", function(error, data) {
-
+d3.json("<%= asset_path 'final/words/2015-06-01.json' %>", function(error, data) {
+console.log (data)
   // setup for word array
   var data = data.words;
   var words = [];
@@ -26,7 +26,7 @@ d3.json("<%= asset_path 'word_frequency/2015-06-01.json' %>", function(error, da
 
   // set colors and font range
   var color = d3.scale.ordinal().range(["white", "navy", "grey"]);
-  var fontSize = d3.scale.pow().exponent(5).domain([0,1]).range([25,120]);
+  var fontSize = d3.scale.pow().exponent(2).domain([0,1]).range([25,120]);
 
   // see API reference at https://github.com/jasondavies/d3-cloud
   var layout = d3.layout.cloud()
@@ -64,6 +64,7 @@ d3.json("<%= asset_path 'word_frequency/2015-06-01.json' %>", function(error, da
         .style("font-family", function(d) { return d.font; })
         .style("fill", function(d) {  // assign font color
             var paringObject = data.filter(function(obj) { return obj.term === d.text});
+            console.log(paringObject);
             return color(paringObject[0].category);
         })
         .attr("text-anchor", "middle")

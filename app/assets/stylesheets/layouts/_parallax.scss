@@ -2,20 +2,10 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 600px;
+  height: 800px;
 }
 
 .parallax-skinny {
   height: 50px;
-}
-
-.banner {
-  color: white;
-  text-align: center;
-  height: calc(100vh - 60px);
-  background-size: cover !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
