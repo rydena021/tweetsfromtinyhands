@@ -2,10 +2,39 @@
   <div class="section">
     <div class="row">
 
+
+
       <div class="col s12">
         <div id="word-cloud"></div>
-        <%= render 'shared/scripts/cloud/cloud' %>
+        <%= render 'shared/scripts/cloud/cloud_transition' %>
       </div>
+
+
+      <div class="col s12">
+        <div id="word-row-chart"></div>
+        <%= render 'shared/scripts/bar-chart/bar_time' %>
+      </div>
+
+
+      <div class="col s12">
+        <button id="refresh">Refresh Data</button>
+        <div id="device"></div>
+        <%= render 'shared/scripts/other/donut' %>
+      </div>
+
+
+      <div class="col s12">
+        <div id="sentiment"></div>
+        <%= render 'shared/scripts/other/dashboard' %>
+      </div>
+
+
+      <div class="col s12">
+        <div id="followers-line"></div>
+        <%= render 'shared/scripts/bar-chart/bar_update' %>
+      </div>
+
+
 
     </div>
   </div>
