@@ -1,58 +1,30 @@
-<style>
+<div class='container-fluid'>
 
-  td {
-    font-size: 18px;
-  }
+  <div class='row'>
+    <div class='col s6' id='dc-hour-chart'>
+      <h4>Tweets by Hour</h4>
+    </div>
+    <div class='col s6' id='dc-device-chart'>
+      <h4>Tweets by Device</h4>
+    </div>
+  </div>
 
-  .dc-data-count small {
-    font-size: 16px;
-  }
-</style>
-<div class="container">
-<!-- DATA COUNT -->
-  <div class="row">
-    <div class="col s12 dc-data-count dc-chart" id="data-count">
-      <h2>Tweet History
-        <small>
-          <span class="filter-count"></span> selected out of <span class="total-count"></span> records |
-           <a id="all" href="#">Reset All</a>
-          </span>
-        </small>
-      </h2>
+  <div class='row'>
+    <div class='col s12' id='dc-date-chart'>
+      <h4>Tweet Timeline</h4>
     </div>
   </div>
-  <!-- PIE CHARTS -->
-  <div class="row">
-    <div class="col s6 pie-chart">
-      <h4>Device <small><a id="device">reset</a></small></h4>
-      <div class="dc-chart" id="chart-ring-device"></div>
-    </div>
-    <div class="col s6 pie-chart">
-      <h4>Year <small><a id="year">reset</a></small></h4>
-    <div class="dc-chart" id="chart-ring-year"></div>
-    </div>
-  </div>
-  <!-- BAR CHARTS -->
-  <div class="row">
-    <div class="col s6 bar-chart">
-      <h4>Time <small><a id="hour">reset</a></small></h4>
-      <div class="dc-chart" id="chart-bar-hour"></div>
-    </div>
-    <div class="col s6 bar-chart">
-      <h4>Word <small><a id="word">reset</a></small></h4>
-    <div class="dc-chart" id="chart-bar-word"></div>
-    </div>
-  </div>
-  <!-- DATA TABLE -->
-  <div class="row">
-    <div class="col s12">
-      <table class="bordered highlight responsive-table" id="data-table">
+
+
+
+  <div class='row'>
+    <div class='col s12'>
+      <table class='table highlight' id='dc-table-graph'>
         <thead>
-          <tr class="header">
+          <tr class='header'>
             <th>Date</th>
             <th>Time</th>
             <th>Tweet</th>
-            <th>Retweets</th>
             <th>Device</th>
           </tr>
         </thead>
@@ -61,8 +33,13 @@
   </div>
 </div>
 
-<script type="text/javascript">
-d3.json("<%= asset_path 'tweets.json' %>", function (error, tweets) {
+
+
+<script>
+
+// Load tweets from JSON
+d3.json("<%= asset_path 'tweets.json' %>", function(error, tweets) {
+
   // TODO: rewrite functions below for cleaner, accurate data assignment.
 
   // Shitty string cleaner to remove URLs.
@@ -95,9 +72,9 @@ d3.json("<%= asset_path 'tweets.json' %>", function (error, tweets) {
         metrics.exclams = tweet.match(/!/g).length;
       }
       return metrics;
-  }
+  };
 
-  // Regexs for assigning appropriate device
+  // Regexs for device assignment.
   function getDevice(tweet) {
       switch (true) {
           case /Twitter for Android/i.test(tweet):
@@ -130,98 +107,92 @@ d3.json("<%= asset_path 'tweets.json' %>", function (error, tweets) {
       }
   };
 
-  // Various time/date formatters.
-  var fullDateFormat = d3.time.format("%a %b %d %X %Z %Y"),
-      formatDate = d3.time.format("%a %b %d"),
-      formatTime = d3.time.format("%I:%M %p"),
-      formatDayOfWeek = d3.time.format('%a'),
-      formatMonth = d3.time.format('%b'),
-      formatYear = d3.time.format('%Y');
+  // Various formatters.
+  var formatTime = d3.time.format("%I:%M %p"),
+      formatHour = d3.time.format("%H"),
+      formatDate = d3.time.format("%a %b %d %X %Z %Y");
+      formatTableDate = d3.time.format("%x"),
 
-  // A nest operator, for grouping the tweet list.
-  var nestByDate = d3.nest()
-      .key(function(d) { return d3.time.day(d.date); });
-
-  // A little coercion to ensure tweet data formatted the way dc.js expects.
   tweets.forEach(function(d, i) {
-      d.index = i;
-
-      d.date = fullDateFormat.parse(d.created_at);
-      d.tdate = formatDate(d.date);
-      d.year = +formatYear(d.date);
-      d.month = formatMonth(d.date);
-      d.day = formatDayOfWeek(d.date);
-      d.time = formatTime(d.date);
-
-      d.id = +d.id;
-      d.followers = +d.user.followers_count;
-      d.retweets = +d.retweet_count;
-      d.favorites = +d.favorite_count;
-      d.text = cleanTweet(d.text);
-      d.metrics = tweetMetrics(d.text);
-      d.device = getDevice(d.source);
-      d.url = "https://twitter.com/realDonaldTrump/status/" + d.id_str;
-
+    d.index = +i;
+    d.id = +d.id;
+    d.retweet_count = +d.retweet_count;
+    d.favorite_count = +d.favorite_count;
+    d.text = cleanTweet(d.text);
+    d.metrics = tweetMetrics(d.text);
+    d.device = getDevice(d.source);
+    d.date = formatDate.parse(d.created_at);
   });
-  // set crossfilter
+
+  // Create the dc.js chart objects & link to div
+  var dataTable = dc.dataTable("#dc-table-graph"),
+      hourChart = dc.barChart("#dc-hour-chart"),
+      dateChart = dc.barChart("#dc-date-chart"),
+      deviceChart = dc.pieChart("#dc-device-chart");
+
+
+    // Run the data through crossfilter and load our 'facts'
   var facts = crossfilter(tweets);
 
-  // create dimensions (x-axis values) // monthDim  = facts.dimension(dc.pluck('month'))
-  var deviceDim = facts.dimension(function(d) {return d.device;}),
-      allDim = facts.dimension(function(d) {return d;});
+  // Create dataTable dimension
+  var hourDimension = facts.dimension(function (d) { return formatHour(d.date); }),
+      hourValueGroupCount = hourDimension.group().reduceCount(function(d) { return formatHour(d.date); }), // counts
 
-  // create groups (y-axis values)
-  var all = facts.groupAll();
-  var countPerDevice = deviceDim.group().reduceCount();
+      deviceDimension = facts.dimension(function(d) {return d.device; }),
+      deviceValueGroupCount = deviceDimension.group().reduceCount(function(d) { return formatHour(d.device); });
 
-  // specify charts
-  var deviceChart   = dc.pieChart('#chart-ring-device'),
-      dataCount = dc.dataCount('#data-count')
-      dataTable = dc.dataTable('#data-table');
+      dateDimension = facts.dimension(function(d) {return d.date; }),
+      dateValueGroupCount = dateDimension.group().reduceCount(function(d) { return d.date; });
+
+  // Setup the charts
+  hourChart.width(600)
+    .height(400)
+    .margins({top: 10, right: 10, bottom: 20, left: 40}) .dimension(hourDimension)
+    .group(hourValueGroupCount)
+    .round(d3.time.day.round)
+    .transitionDuration(500)
+    .x(d3.scale.linear().domain([0, 24])) .elasticY(true)
+    .xAxis().tickFormat();
 
   deviceChart
       .width(250)
       .height(250)
-      .dimension(deviceDim)
-      .group(countPerDevice)
+      .dimension(deviceDimension)
+      .group(deviceValueGroupCount)
       .innerRadius(20);
 
-  dataCount
-      .dimension(facts)
-      .group(all);
+  // Setup the charts
+  dateChart.width(960)
+    .height(300)
+    .margins({top: 10, right: 10, bottom: 20, left: 40}) .dimension(dateDimension)
+    .group(dateValueGroupCount)
+    .transitionDuration(500)
+    .centerBar(true)
+    .x(d3.scale.ordinal().domain([new Date(2015, 5, 1), new Date(2017, 5, 1)])) .elasticY(true)
+    .filter([new Date(2017, 0, 1), new Date(2017, 3, 1)])
+    .xAxis().tickFormat();
 
-  dataTable
-    .dimension(allDim)
-    .group(function (d) { return 'dc.js insists on putting a row here, removed below using JS'; })
-    .size(100)
+  // Table of earthquake data
+  dataTable.width(960).height(800)
+    .dimension(dateDimension)
+    .group(function(d) { return "dc.js insists on putting a row here so I remove it using JS"
+     })
+    .size(50)
     .columns([
-      function (d) { return d.tdate; },
-      function (d) { return d.time; },
-      function (d) { return '<a href="' + d.url + '">' + d.text + '</a>'; },
-      function (d) { return d.retweets; },
-      function (d) { return d.device; }
+      function(d) { return formatTableDate(d.date); },
+      function(d) { return formatTime(d.date); },
+      function(d) { return d.text; },
+      function(d) { return d.device; }
     ])
-    .sortBy(function(d) {return d.date;})
+    .sortBy(function(d){ return d.date; })
     .order(d3.descending)
     .on('renderlet', function (table) {
       // each time table is rendered remove nasty extra row dc.js insists on adding
       table.select('tr.dc-table-group').remove();
     });
-
-  // register handlers
-  d3.selectAll('a#all').on('click', function () {
-    dc.filterAll();
-    dc.renderAll();
-  });
-
-  d3.selectAll('a#device').on('click', function () {
-    deviceChart.filterAll();
-    dc.redrawAll();
-  });
-
-  // showtime!
+  // Render the Charts
   dc.renderAll();
 
 });
 
-</script>
+  </script>
