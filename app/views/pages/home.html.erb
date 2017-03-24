@@ -24,6 +24,12 @@ h1, h2 {
   text-rendering: optimizeLegibility;
 }
 
+aside {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+}
+
 #body > p {
   line-height: 1.5em;
   width: 640px;
@@ -34,14 +40,11 @@ h1, h2 {
   padding: 10px 0;
 }
 
+
 .chart {
   display: inline-block;
   height: 151px;
   margin-bottom: 20px;
-}
-
-.tweet-text {
-  /*width: 1000px;*/
 }
 
 .reset {
@@ -90,80 +93,85 @@ h1, h2 {
   width: 920px;
 }
 
-
+#tweet-list .device,
+#tweet-list .retweets,
 #tweet-list .time {
-  color: #999;
+  width: 100px;
 }
 
 
-
-#tweet-list .early {
-  color: green;
+#tweet-list .tweet-text {
+  width: 1050px;
 }
 
-/*aside {
-  position: absolute;
-  left: 740px;
-  font-size: smaller;
-  width: 220px;
-}*/
+
 
 </style>
 
+<div class="center-align">
+  <h1><a href="https://www.lewagon.com/copenhagen"><%= image_tag("logo.jpg", size: "150", align: "center") %></a>Tweets from Tiny Hands<a href="https://www.lewagon.com/copenhagen"><%= image_tag("logo2.jpg", size: "150", align: "center") %></a></h1>
+</div>
+<hr>
 
 <div class="container-fluid">
 
-  <div class="center-align">
-    <h1><a href="https://www.lewagon.com/copenhagen"><%= image_tag("logo.jpg", size: "150", align: "center") %></a>Tweets from Tiny Hands<a href="https://www.lewagon.com/copenhagen"><%= image_tag("logo2.jpg", size: "150", align: "center") %></a></h1>
-  </div>
 
-  <hr>
 
-  <aside class= "right-align" id="totals"><span id="active">-</span> of <span id="total">-</span> tweets selected.
-<div class="title"><a href="javascript:reset(1)" class="reset">reset</a></div></aside>
 
   <div id="charts">
-    <div class="row center-align">
-      <div class="col s12">
+    <div class="row">
+      <!-- HOUR CHART -->
+      <div class="col s3 offset-s1">
         <div class="chart" id="hour-chart">
           <div class="title">Time of Day</div>
         </div>
       </div>
+      <!-- PREFILTERS -->
+      <div class="col s4">
+        <ul list-style-type="circle";>
+          <li>Twitter activity <a href="javascript:filter([null, [new Date(2015, 5, 16), new Date(2017, 0, 20)]])">before</a> || <a href="javascript:filter([null, [new Date(2017, 0, 20), new Date(2017, 3, 1)]])">after</a> inaugeration</li>
+          <li>Little Donnie Trumpkin's <a href="javascript:filter([[0, 5], null])">Twilight Tweets...</a></li>
+          <li>What was Trump talking about over the <a href="javascript:filter([null, [new Date(2016, 11, 20), new Date(2017, 0, 1)]])">holidays</a>?</li>
+          <li></li>
+        </ul>
+      </div>
+      <!-- DATA COUNT -->
+      <div class="col s3 center-align">
+        <div class="card-panel light-blue darken-3">
+          <aside id="totals"><span id="active">-</span> of <span id="total">-</span> tweets selected.
+          </aside>
+        </div>
+          <a href="javascript:filter([null, null])">Reset All Filters</a>
+      </div>
     </div>
-    <div class="row center-align">
-      <div class="col s12">
+    <!-- DATE CHART -->
+    <div class="row">
+      <div class="col s9 offset-s2">
         <div class="chart" id="date-chart" >
           <div class="title">Date</div>
         </div>
       </div>
     </div>
   </div>
-
-<hr>
   <!-- DATA TABLE -->
+    <div class="row">
+      <div class="col s10 offset-s1 lists">
+        <div class="list" id="tweet-list">
 
-
-</div>
-
-
-<div class="container">
-  <div class="row">
-    <div class="col s12">
-      <table class="table bordered highlight responsive-table lists">
-        <thead>
-          <tr class="header">
-            <th>Time</th>
-            <th>Retweets</th>
-          </tr>
-        </thead>
-        <tbody class="list" id="tweet-list"></tbody>
-      </table>
+        </div>
+      </div>
     </div>
-  </div>
+
 </div>
 
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
+
+
+
+
+
+
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script> -->
 <script>
 
 // Load tweet data
@@ -326,7 +334,7 @@ d3.json("<%= asset_path 'tweets.json' %>", function(error, tweets) {
   };
 
   function tweetList(div) {
-    var tweetsByDate = nestByDate.entries(date.top(40));
+    var tweetsByDate = nestByDate.entries(date.top(100));
 
     div.each(function() {
       var date = d3.select(this).selectAll(".date")
@@ -336,7 +344,7 @@ d3.json("<%= asset_path 'tweets.json' %>", function(error, tweets) {
           .attr("class", "date")
         .append("tr")
           .attr("class", "day")
-          .html(function(d) { return '<td colspan="3">' + formatDate(d.values[0].date) + '</td>'; });
+          .html(function(d) { return '<td colspan="3"><h5>' + formatDate(d.values[0].date) + '</h5></td>'; });
 
       date.exit().remove();
 
@@ -355,8 +363,8 @@ d3.json("<%= asset_path 'tweets.json' %>", function(error, tweets) {
           .html(function(d) { return '<a href="https://twitter.com/realDonaldTrump/status/' + d.id_str + '">' + d.text + '</a>'; });
 
       tweetEnter.append("td")
-          .attr("class", "retweets")
-          .text(function(d) { return d.retweet_count; });
+          .attr("class", "device")
+          .text(function(d) { return d.device; });
 
       tweet.exit().remove();
 
