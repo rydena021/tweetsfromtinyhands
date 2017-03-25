@@ -15,11 +15,11 @@ h1 {
 
 .title-header {
   margin-top: 30px;
-  margin-bottom: 50px;
   background-color: white;
   width: 95%;
 }
-
+.title-header img {
+}
 
 h1 + h2 {
   margin-top: 0;
@@ -56,11 +56,6 @@ nav ul:not(.browser-default) li {
 
 #charts {
   padding: 10px 0;
-  margin-top: 50px;
-}
-
-#tweet-list {
-  background: white;
 }
 
 .chart {
@@ -177,10 +172,11 @@ nav ul:not(.browser-default) li {
               Here are a few suggestions to help get you started:</p><br>
               <div class="col s10 offset-s1">
                 <ul>
-                  <li><a href="javascript:filter([null, [new Date(2015, 5, 16), new Date(2016, 10, 8)]])">before </a> | <a href="javascript:filter([null, [new Date(2016, 10, 8), new Date(2017, 3, 1)]])">after </a> election</li><br>
-                  <li><a href="javascript:filter([null, [new Date(2017, 0, 20), new Date(2017, 3, 1)]])">presidential </a>tweets</li><br>
+                  <li><a href="javascript:filter([null, [new Date(2017, 0, 20), new Date(2017, 3, 1)]])">President in Tweet</a></li>
+                  <li><a href="javascript:filter([null, [new Date(2015, 5, 16), new Date(2016, 10, 8)]])">before </a> | <a href="javascript:filter([null, [new Date(2016, 10, 8), new Date(2017, 3, 1)]])">after </a> election</li>
                   <li><a href="javascript:filter([[0, 5], null])">after hours</a></li>
-                  <li>over the <a href="javascript:filter([null, [new Date(2016, 11, 20), new Date(2017, 0, 1)]])">holidays</a></li><br>
+                  <li>over the <a href="javascript:filter([null, [new Date(2016, 11, 20), new Date(2017, 0, 1)]])">holidays</a></li>
+                  <li>Android, iPhone, or Other</li>
                 </ul>
                 </div>
             </div>
@@ -207,25 +203,31 @@ nav ul:not(.browser-default) li {
     </div>
   </div>
 
+  <!-- DATA COUNT -->
+  <div class="row">
+    <div class="col s10 m6 l4 offset-s1 offset-m3 offset-l4 center-align">
+      <div class="card-panel light-blue darken-3">
+        <aside id="totals"><span id="active">-</span> of <span id="total">-</span> tweets selected.
+        </aside>
+      </div>
+        <a href="javascript:filter([null, null])">Reset All Filters</a>
+    </div>
+  </div>
+
   <!-- DATA VIZ -->
   <div id="charts">
     <div class="row">
-
       <!-- HOUR CHART -->
-      <div class="col s12 m5 offset-m1 center-align">
+      <div class="col s6">
         <div class="chart" id="hour-chart">
           <div class="title">Time of Day</div>
         </div>
       </div>
-
-      <!-- DATA COUNT -->
-      <div class="col s12 m4 center-align">
-        <div class="card-panel light-blue darken-3">
-          <aside id="totals"><span id="active">-</span> of <span id="total">-</span> tweets selected.</aside>
+      <div class="col s6">
+        <div class="chart" id="device-chart">
+          <div class="title">Device</div>
         </div>
-        <a href="javascript:filter([null, null])">Reset All Filters</a>
       </div>
-
     </div>
     <!-- DATE CHART -->
     <div class="row">
@@ -236,7 +238,6 @@ nav ul:not(.browser-default) li {
       </div>
     </div>
   </div>
-
   <!-- DATA TABLE -->
     <div class="row">
       <div class="col s12 m10 offset-m1 lists">
@@ -359,7 +360,7 @@ d3.json("<%= asset_path 'tweets.json' %>", function(error, tweets) {
       hour = tweet.dimension(function(d) { return d.date.getHours() + d.date.getMinutes() / 60; }),
       hours = hour.group(Math.floor),
       device = tweet.dimension(function(d) { return d.device; }),
-      devices = hour.group(Math.floor);
+      devices = hour.group();
 
   var charts = [
 
@@ -369,6 +370,13 @@ d3.json("<%= asset_path 'tweets.json' %>", function(error, tweets) {
       .x(d3.scale.linear()
         .domain([0, 24])
         .rangeRound([0, 10 * 24])),
+
+    barChart()
+        .dimension(device)
+        .group(devices)
+      .x(d3.scale.ordinal()
+        .domain(tweets.map(function(d) { return d.device; }))
+        .rangeRoundBands([0, 10 * 24])),
 
     barChart()
         .dimension(date)
@@ -544,6 +552,7 @@ d3.json("<%= asset_path 'tweets.json' %>", function(error, tweets) {
       });
 
       function barPath(groups) {
+        console.log(groups)
         var path = [],
             i = -1,
             n = groups.length,

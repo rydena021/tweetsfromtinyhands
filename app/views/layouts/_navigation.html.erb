@@ -1,0 +1,22 @@
+<div class="navbar-fixed">
+  <nav>
+    <div class="nav-wrapper blue-grey darken-4">
+      <a href="https://www.lewagon.com/copenhagen" class="brand-logo"><div class="logo-background"><%= image_tag("bird_avatar", size: "50", align: "center", class: "logo-image") %></div></a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><%= link_to "Home", '/' %></li>
+        <li><%= link_to "Materialize", '/test1' %></li>
+        <li><%= link_to "dc.js", '/test2' %></li>
+        <li><%= link_to "Test", '/test3' %></li>
+        <li><%= link_to "GitHub", 'https://github.com/rydena021/rails-tiny-hands' %></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li><%= link_to "Home", '/' %></li>
+        <li><%= link_to "Materialize", '/test1' %></li>
+        <li><%= link_to "dc.js", '/test2' %></li>
+        <li><%= link_to "Test", '/test3' %></li>
+        <li><%= link_to "GitHub", 'https://github.com/rydena021/rails-tiny-hands' %></li>
+      </ul>
+    </div>
+  </nav>
+</div>
