@@ -1,43 +1,263 @@
-<div class='container-fluid'>
+<style>
 
-  <div class='row'>
-    <div class='col s6' id='dc-hour-chart'>
-      <h4>Tweets by Hour</h4>
+@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700);
+
+
+h1 {
+  font-size: 96px;
+  font-weight: bold;
+  margin-top: -0.2em;
+  line-height: 1.1em;
+  padding-bottom: 21px;
+  padding-top: 21px;
+  margin-bottom: 0;
+}
+
+.title-header {
+  margin-top: 30px;
+  margin-bottom: 50px;
+  background-color: white;
+  width: 95%;
+}
+
+
+h1 + h2 {
+  margin-top: 0;
+}
+
+h2 {
+  font-weight: 400;
+  font-size: 28px;
+}
+
+h1, h2 {
+  font-family: "Yanone Kaffeesatz";
+  text-rendering: optimizeLegibility;
+}
+
+aside {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+ul:not(.browser-default) li {
+    list-style-type: square;
+}
+nav ul:not(.browser-default) li {
+    list-style-type: none;
+}
+
+#body > p {
+  line-height: 1.5em;
+  width: 640px;
+  text-rendering: optimizeLegibility;
+}
+
+#charts {
+  padding: 10px 0;
+  margin-top: 50px;
+}
+
+#tweet-list {
+  background: white;
+}
+
+.chart {
+  display: inline-block;
+  height: 151px;
+  margin-bottom: 20px;
+}
+
+.reset {
+  padding-left: 1em;
+  font-size: smaller;
+  color: #ccc;
+}
+
+.background.bar {
+  fill: #ccc;
+}
+
+.foreground.bar {
+  fill: steelblue;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  font: 10px sans-serif;
+}
+
+.brush rect.extent {
+  fill: steelblue;
+  fill-opacity: .125;
+}
+
+.brush .resize path {
+  fill: #eee;
+  stroke: #666;
+}
+
+#hour-chart {
+  width: 260px;
+}
+
+#distance-chart {
+  width: 420px;
+}
+
+#date-chart {
+  width: 920px;
+}
+
+#tweet-list .device,
+#tweet-list .retweets,
+#tweet-list .time {
+  width: 100px;
+}
+
+
+#tweet-list .tweet-text {
+  width: 1050px;
+}
+
+</style>
+
+
+<div class="container-fluid">
+
+  <!-- TITLE/LOGO -->
+  <div class="row title-header">
+    <div class="col s12 m8 l6 offset-l1 right-align">
+      <h1>Tweets from<br>Tiny Hands</h1>
     </div>
-    <div class='col s6' id='dc-device-chart'>
-      <h4>Tweets by Device</h4>
+    <div class="col s12 m4 l5 left-align">
+      <%= image_tag("logo", size: "225") %>
     </div>
   </div>
 
-  <div class='row'>
-    <div class='col s12' id='dc-date-chart'>
-      <h4>Tweet Timeline</h4>
+
+  <!-- ABOUT -->
+  <div class="row">
+    <div class="col s12 m10 offset-m1">
+      <div class="card horizontal">
+
+        <div class="card-image">
+          <%= image_tag("bird_on_phone", class: "") %>
+          <span class="card-title"></span>
+        </div>
+
+        <div class="card-stacked">
+          <!-- TABS -->
+          <div class="card-tabs">
+            <ul class="tabs tabs-fixed-width">
+              <li class="tab"><a class="active" href="#about-tab">About</a></li>
+              <li class="tab"><a href="#explore-tab">Explore</a></li>
+              <li class="tab"><a href="#facts-tab">Quick Facts</a></li>
+            </ul>
+          </div>
+          <!-- CONTENT -->
+          <div class="card-content grey lighten-4">
+            <!-- ABOUT -->
+            <div id="about-tab">
+              <p>Tweets from Tiny Hands is a data visualization site based entirely off of Donald Trump's Twitter activity. We wanted to display Trump's tweets in a way that is highly engaging, intuitive, and entertaining. This is data-driven satire.
+              <br><br>
+              This dataset begins June 16, 2015 -- when Trump delared his candidacy -- and will continue until little Donny Trumpkins is either impeached or his term is over. All of Trump's tweet data was gathered using Twitter's Rest API. Future tweets will similarly be pulled and integrated into the site <strong>in realtime</strong>.
+              <br><br>
+              Data visuals are powered by <%= link_to "D3", "https://github.com/d3/d3/wiki" %>, <%= link_to " Crossfilter", "https://github.com/square/crossfilter/wiki" %>, and <%= link_to " dc.js", "https://github.com/dc-js/dc.js/wiki" %>. Combining these tools provides several filtering options and allows for a high degree of user interactivity -- checkout the 'Explore' tab for more information.
+            </div>
+            <!-- EXPLORE -->
+            <div id="explore-tab">
+              <p>This site utilizes a special library -- <%= link_to "Crossfilter", "https://github.com/square/crossfilter/wiki" %> -- to sort through large datasets nearly instantaneously. This can yield some pretty interesting results.
+              Here are a few suggestions to help get you started:</p><br>
+              <div class="col s10 offset-s1">
+                <ul>
+                  <li><a href="javascript:filter([null, [new Date(2015, 5, 16), new Date(2016, 10, 8)]])">before </a> | <a href="javascript:filter([null, [new Date(2016, 10, 8), new Date(2017, 3, 1)]])">after </a> election</li><br>
+                  <li><a href="javascript:filter([null, [new Date(2017, 0, 20), new Date(2017, 3, 1)]])">presidential </a>tweets</li><br>
+                  <li><a href="javascript:filter([[0, 5], null])">after hours</a></li><br>
+                  <li>over the <a href="javascript:filter([null, [new Date(2016, 11, 20), new Date(2017, 0, 1)]])">holidays</a></li><br>
+                </ul>
+                </div>
+            </div>
+            <!-- QUICK FACTS -->
+            <div id="facts-tab">
+              <div class="col s10 offset-s1">
+              <h5 class="center-align">Totals</h5>
+                <ul>
+                  <li>Tweets:</li>
+                  <li>Words:</li>
+                  <li>Chars:</li>
+                  <li>Retweets:</li>
+                  <li>Followers:</li>
+                </ul>
+              <p class="center-align">The current database contains ??? tweets</p>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 
+  <!-- DATA VIZ -->
+  <div id="charts">
+    <div class="row">
 
+      <!-- HOUR CHART -->
+      <div class="col s12 m5 offset-m1 center-align">
+        <div class="chart" id="hour-chart">
+          <div class="title">Time of Day</div>
+        </div>
+      </div>
 
-  <div class='row'>
-    <div class='col s12'>
-      <table class='table highlight' id='dc-table-graph'>
-        <thead>
-          <tr class='header'>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Tweet</th>
-            <th>Device</th>
-          </tr>
-        </thead>
-      </table>
+      <!-- DATA COUNT -->
+      <div class="col s12 m4 center-align">
+        <div class="card-panel light-blue darken-3">
+          <aside id="totals"><span id="active">-</span> of <span id="total">-</span> tweets selected.</aside>
+        </div>
+        <a href="javascript:filter([null, null])">Reset All Filters</a>
+      </div>
+
+    </div>
+    <!-- DATE CHART -->
+    <div class="row">
+      <div class="col s12 m9 offset-m2">
+        <div class="chart" id="date-chart" >
+          <div class="title">Date</div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- DATA TABLE -->
+    <div class="row">
+      <div class="col s12 m10 offset-m1 lists">
+        <div class="list" id="tweet-list">
+
+        </div>
+      </div>
+    </div>
+
 </div>
+
+
+
+
+
 
 
 
 <script>
 
-// Load tweets from JSON
+// Load tweet data
 d3.json("<%= asset_path 'tweets.json' %>", function(error, tweets) {
 
   // TODO: rewrite functions below for cleaner, accurate data assignment.
@@ -72,7 +292,7 @@ d3.json("<%= asset_path 'tweets.json' %>", function(error, tweets) {
         metrics.exclams = tweet.match(/!/g).length;
       }
       return metrics;
-  };
+  }
 
   // Regexs for device assignment.
   function getDevice(tweet) {
@@ -108,11 +328,17 @@ d3.json("<%= asset_path 'tweets.json' %>", function(error, tweets) {
   };
 
   // Various formatters.
-  var formatTime = d3.time.format("%I:%M %p"),
-      formatHour = d3.time.format("%H"),
-      formatDate = d3.time.format("%a %b %d %X %Z %Y");
-      formatTableDate = d3.time.format("%x"),
+  var formatNumber = d3.format(",d"),
+      formatChange = d3.format("+,d"),
+      formatDate = d3.time.format("%B %d, %Y"),
+      formatTime = d3.time.format("%I:%M %p"),
+      fullDateFormat = d3.time.format("%a %b %d %X %Z %Y");
 
+  // A nest operator, for grouping the tweet list.
+  var nestByDate = d3.nest()
+      .key(function(d) { return d3.time.day(d.date); });
+
+  // A little coercion, since the CSV is untyped.
   tweets.forEach(function(d, i) {
     d.index = +i;
     d.id = +d.id;
@@ -121,78 +347,309 @@ d3.json("<%= asset_path 'tweets.json' %>", function(error, tweets) {
     d.text = cleanTweet(d.text);
     d.metrics = tweetMetrics(d.text);
     d.device = getDevice(d.source);
-    d.date = formatDate.parse(d.created_at);
+    d.date = fullDateFormat.parse(d.created_at);
   });
-
-  // Create the dc.js chart objects & link to div
-  var dataTable = dc.dataTable("#dc-table-graph"),
-      hourChart = dc.barChart("#dc-hour-chart"),
-      dateChart = dc.barChart("#dc-date-chart"),
-      deviceChart = dc.pieChart("#dc-device-chart");
+  // Create the crossfilter for the relevant dimensions and groups.
+  var tweet = crossfilter(tweets),
+      all = tweet.groupAll();
 
 
-    // Run the data through crossfilter and load our 'facts'
-  var facts = crossfilter(tweets);
+  var date = tweet.dimension(function(d) { return d.date; }),
+      dates = date.group(d3.time.day),
+      hour = tweet.dimension(function(d) { return d.date.getHours() + d.date.getMinutes() / 60; }),
+      hours = hour.group(Math.floor),
+      device = tweet.dimension(function(d) { return d.device; }),
+      devices = hour.group(Math.floor);
 
-  // Create dataTable dimension
-  var hourDimension = facts.dimension(function (d) { return formatHour(d.date); }),
-      hourValueGroupCount = hourDimension.group().reduceCount(function(d) { return formatHour(d.date); }), // counts
+  var charts = [
 
-      deviceDimension = facts.dimension(function(d) {return d.device; }),
-      deviceValueGroupCount = deviceDimension.group().reduceCount(function(d) { return formatHour(d.device); });
+    barChart()
+        .dimension(hour)
+        .group(hours)
+      .x(d3.scale.linear()
+        .domain([0, 24])
+        .rangeRound([0, 10 * 24])),
 
-      dateDimension = facts.dimension(function(d) {return d.date; }),
-      dateValueGroupCount = dateDimension.group().reduceCount(function(d) { return d.date; });
+    barChart()
+        .dimension(date)
+        .group(dates)
+        .round(d3.time.day.round)
+      .x(d3.time.scale()
+        .domain([new Date(2016, 2, 28), new Date(2017, 3, 1)])
+        .rangeRound([0, 10 * 90]))
+        .filter([new Date(2017, 0, 1), new Date(2017, 3, 1)])
 
-  // Setup the charts
-  hourChart.width(600)
-    .height(400)
-    .margins({top: 10, right: 10, bottom: 20, left: 40}) .dimension(hourDimension)
-    .group(hourValueGroupCount)
-    .round(d3.time.day.round)
-    .transitionDuration(500)
-    .x(d3.scale.linear().domain([0, 24])) .elasticY(true)
-    .xAxis().tickFormat();
+  ];
 
-  deviceChart
-      .width(250)
-      .height(250)
-      .dimension(deviceDimension)
-      .group(deviceValueGroupCount)
-      .innerRadius(20);
+  // Given our array of charts, which we assume are in the same order as the
+  // .chart elements in the DOM, bind the charts to the DOM and render them.
+  // We also listen to the chart's brush events to update the display.
+  var chart = d3.selectAll(".chart")
+      .data(charts)
+      .each(function(chart) { chart.on("brush", renderAll).on("brushend", renderAll); });
 
-  // Setup the charts
-  dateChart.width(960)
-    .height(300)
-    .margins({top: 10, right: 10, bottom: 20, left: 40}) .dimension(dateDimension)
-    .group(dateValueGroupCount)
-    .transitionDuration(500)
-    .centerBar(true)
-    .x(d3.scale.ordinal().domain([new Date(2015, 5, 1), new Date(2017, 5, 1)])) .elasticY(true)
-    .filter([new Date(2017, 0, 1), new Date(2017, 3, 1)])
-    .xAxis().tickFormat();
+  // Render the initial lists.
+  var list = d3.selectAll(".list")
+      .data([tweetList]);
 
-  // Table of earthquake data
-  dataTable.width(960).height(800)
-    .dimension(dateDimension)
-    .group(function(d) { return "dc.js insists on putting a row here so I remove it using JS"
-     })
-    .size(50)
-    .columns([
-      function(d) { return formatTableDate(d.date); },
-      function(d) { return formatTime(d.date); },
-      function(d) { return d.text; },
-      function(d) { return d.device; }
-    ])
-    .sortBy(function(d){ return d.date; })
-    .order(d3.descending)
-    .on('renderlet', function (table) {
-      // each time table is rendered remove nasty extra row dc.js insists on adding
-      table.select('tr.dc-table-group').remove();
+  // Render the total.
+  d3.selectAll("#total")
+      .text(formatNumber(tweet.size()));
+
+  renderAll();
+
+  // Renders the specified chart or list.
+  function render(method) {
+    d3.select(this).call(method);
+  }
+
+  // Whenever the brush moves, re-rendering everything.
+  function renderAll() {
+    chart.each(render);
+    list.each(render);
+    d3.select("#active").text(formatNumber(all.value()));
+  }
+
+  window.filter = function(filters) {
+    filters.forEach(function(d, i) { charts[i].filter(d); });
+    renderAll();
+  };
+
+  window.reset = function(i) {
+    charts[i].filter(null);
+    renderAll();
+  };
+
+  function tweetList(div) {
+    var tweetsByDate = nestByDate.entries(date.top(50));
+
+    div.each(function() {
+      var date = d3.select(this).selectAll(".date")
+          .data(tweetsByDate, function(d) { return d.key; });
+
+      date.enter().append("div")
+          .attr("class", "date")
+        .append("tr")
+          .attr("class", "day")
+          .html(function(d) { return '<td colspan="3"><h5>' + formatDate(d.values[0].date) + '</h5></td>'; });
+
+      date.exit().remove();
+
+      var tweet = date.order().selectAll(".tweet")
+          .data(function(d) { return d.values; }, function(d) { return d.index; });
+
+      var tweetEnter = tweet.enter().append("tr")
+          .attr("class", "tweet");
+
+      tweetEnter.append("td")
+          .attr("class", "time")
+          .text(function(d) { return formatTime(d.date); });
+
+      tweetEnter.append("td")
+          .attr("class", "tweet-text")
+          .html(function(d) { return '<a href="https://twitter.com/realDonaldTrump/status/' + d.id_str + '">' + d.text + '</a>'; });
+
+      tweetEnter.append("td")
+          .attr("class", "device")
+          .text(function(d) { return d.device; });
+
+      tweet.exit().remove();
+
+      tweet.order();
     });
-  // Render the Charts
-  dc.renderAll();
+  }
 
+  function barChart() {
+    if (!barChart.id) barChart.id = 0;
+
+    var margin = {top: 10, right: 10, bottom: 20, left: 10},
+        x,
+        y = d3.scale.linear().range([100, 0]),
+        id = barChart.id++,
+        axis = d3.svg.axis().orient("bottom"),
+        brush = d3.svg.brush(),
+        brushDirty,
+        dimension,
+        group,
+        round;
+
+    function chart(div) {
+      var width = x.range()[1],
+          height = y.range()[0];
+
+      y.domain([0, group.top(1)[0].value]);
+
+      div.each(function() {
+        var div = d3.select(this),
+            g = div.select("g");
+
+        // Create the skeletal chart.
+        if (g.empty()) {
+          div.select(".title").append("a")
+              .attr("href", "javascript:reset(" + id + ")")
+              .attr("class", "reset")
+              .text("reset")
+              .style("display", "none");
+
+          g = div.append("svg")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+          g.append("clipPath")
+              .attr("id", "clip-" + id)
+            .append("rect")
+              .attr("width", width)
+              .attr("height", height);
+
+          g.selectAll(".bar")
+              .data(["background", "foreground"])
+            .enter().append("path")
+              .attr("class", function(d) { return d + " bar"; })
+              .datum(group.all());
+
+          g.selectAll(".foreground.bar")
+              .attr("clip-path", "url(#clip-" + id + ")");
+
+          g.append("g")
+              .attr("class", "axis")
+              .attr("transform", "translate(0," + height + ")")
+              .call(axis);
+
+          // Initialize the brush component with pretty resize handles.
+          var gBrush = g.append("g").attr("class", "brush").call(brush);
+          gBrush.selectAll("rect").attr("height", height);
+          gBrush.selectAll(".resize").append("path").attr("d", resizePath);
+        }
+
+        // Only redraw the brush if set externally.
+        if (brushDirty) {
+          brushDirty = false;
+          g.selectAll(".brush").call(brush);
+          div.select(".title a").style("display", brush.empty() ? "none" : null);
+          if (brush.empty()) {
+            g.selectAll("#clip-" + id + " rect")
+                .attr("x", 0)
+                .attr("width", width);
+          } else {
+            var extent = brush.extent();
+            g.selectAll("#clip-" + id + " rect")
+                .attr("x", x(extent[0]))
+                .attr("width", x(extent[1]) - x(extent[0]));
+          }
+        }
+
+        g.selectAll(".bar").attr("d", barPath);
+      });
+
+      function barPath(groups) {
+        var path = [],
+            i = -1,
+            n = groups.length,
+            d;
+        while (++i < n) {
+          d = groups[i];
+          path.push("M", x(d.key), ",", height, "V", y(d.value), "h9V", height);
+        }
+        return path.join("");
+      }
+
+      function resizePath(d) {
+        var e = +(d == "e"),
+            x = e ? 1 : -1,
+            y = height / 3;
+        return "M" + (.5 * x) + "," + y
+            + "A6,6 0 0 " + e + " " + (6.5 * x) + "," + (y + 6)
+            + "V" + (2 * y - 6)
+            + "A6,6 0 0 " + e + " " + (.5 * x) + "," + (2 * y)
+            + "Z"
+            + "M" + (2.5 * x) + "," + (y + 8)
+            + "V" + (2 * y - 8)
+            + "M" + (4.5 * x) + "," + (y + 8)
+            + "V" + (2 * y - 8);
+      }
+    }
+
+    brush.on("brushstart.chart", function() {
+      var div = d3.select(this.parentNode.parentNode.parentNode);
+      div.select(".title a").style("display", null);
+    });
+
+    brush.on("brush.chart", function() {
+      var g = d3.select(this.parentNode),
+          extent = brush.extent();
+      if (round) g.select(".brush")
+          .call(brush.extent(extent = extent.map(round)))
+        .selectAll(".resize")
+          .style("display", null);
+      g.select("#clip-" + id + " rect")
+          .attr("x", x(extent[0]))
+          .attr("width", x(extent[1]) - x(extent[0]));
+      dimension.filterRange(extent);
+    });
+
+    brush.on("brushend.chart", function() {
+      if (brush.empty()) {
+        var div = d3.select(this.parentNode.parentNode.parentNode);
+        div.select(".title a").style("display", "none");
+        div.select("#clip-" + id + " rect").attr("x", null).attr("width", "100%");
+        dimension.filterAll();
+      }
+    });
+
+    chart.margin = function(_) {
+      if (!arguments.length) return margin;
+      margin = _;
+      return chart;
+    };
+
+    chart.x = function(_) {
+      if (!arguments.length) return x;
+      x = _;
+      axis.scale(x);
+      brush.x(x);
+      return chart;
+    };
+
+    chart.y = function(_) {
+      if (!arguments.length) return y;
+      y = _;
+      return chart;
+    };
+
+    chart.dimension = function(_) {
+      if (!arguments.length) return dimension;
+      dimension = _;
+      return chart;
+    };
+
+    chart.filter = function(_) {
+      if (_) {
+        brush.extent(_);
+        dimension.filterRange(_);
+      } else {
+        brush.clear();
+        dimension.filterAll();
+      }
+      brushDirty = true;
+      return chart;
+    };
+
+    chart.group = function(_) {
+      if (!arguments.length) return group;
+      group = _;
+      return chart;
+    };
+
+    chart.round = function(_) {
+      if (!arguments.length) return round;
+      round = _;
+      return chart;
+    };
+
+    return d3.rebind(chart, brush, "on");
+  }
 });
 
-  </script>
+</script>
