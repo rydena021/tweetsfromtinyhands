@@ -1,16 +1,25 @@
 <div class="container-fluid">
   <!-- TITLE/LOGO -->
-  <h1>Tweets from Tiny Hands</h1>
 
+<div class="center-align">
+  <h1>Tweets from Tiny Hands</h1>
+<!--   <a href="javascript:deviceChart.filterAll().filter('iPhone');dc.redrawAll();">iPhone</a> vs.
+  <a href="javascript:deviceChart.filterAll().filter('Android');dc.redrawAll();">Android</a>
+  <br><br>
+  <a href="javascript:hourChart.filterAll().filter([0,4]);dc.redrawAll();">After Hours</a>
+  <br><br>
+  <a href="javascript:dateChart.filterAll().filter([new Date(2015, 5, 1), new Date(2016, 10, 7)]);dc.redrawAll();">Before</a> |
+  <a href="javascript:dateChart.filterAll().filter([new Date(2016, 10, 8), new Date(2017, 3, 1)]);dc.redrawAll();">After</a> election -->
+</div>
 
 <div class="charts">
     <!-- DAY / DEVICE -->
   <div class='row'>
-    <div class='col s12 m4' id='dc-dayweek-chart'>
-      <a class="reset" href="javascript:dayOfWeekChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+    <div class='col s12 m4' id='dc-day-chart'>
+      <a class="reset" href="javascript:dayChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
     </div>
-    <div class="col s12 m3 offset-m1" id='dc-sentiment-chart'>
-      <a class="reset" href="javascript:sentimentChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+    <div class="col s12 m3 offset-m1" id='dc-device-chart'>
+      <a class="reset" href="javascript:deviceChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
     </div>
     <div class='col s12 m4' id='dc-hour-chart'>
       <a class="reset" href="javascript:hourChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
@@ -18,12 +27,9 @@
   </div>
   <br>
   <!-- TIMELINE -->
-  <div class='row'>
-    <div class='col s12 m9' id='dc-time-chart'>
-      <a class="reset" href="javascript:timeChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
-    </div>
-    <div class='col s12 m3' id='dc-device-chart'>
-      <a class="reset" href="javascript:deviceChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+  <div class='row center-align'>
+    <div class='col s12 m8 offset-m1' id='dc-date-chart'>
+      <a class="reset" href="javascript:dateChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
     </div>
   </div>
 </div>
@@ -44,11 +50,10 @@
 </div>
 <script>
 // Create the dc.js chart objects & link to div
-var dayOfWeekChart = dc.rowChart("#dc-dayweek-chart");
-var sentimentChart = dc.pieChart("#dc-sentiment-chart");
-var hourChart = dc.barChart("#dc-hour-chart");
-var timeChart = dc.lineChart("#dc-time-chart");
+var dayChart = dc.rowChart("#dc-day-chart");
 var deviceChart = dc.pieChart("#dc-device-chart");
+var hourChart = dc.barChart("#dc-hour-chart");
+var dateChart = dc.lineChart("#dc-date-chart");
 var dataTable = dc.dataTable("#dc-data-table");
 
 // Load tweet data from JSON file.
@@ -155,10 +160,6 @@ d3.json('<%= asset_path 'tweets.json' %>', function (tweets) {
   });
   var dayOfWeekGroup = dayOfWeek.group();
 
-  // Create sentiment dimension/group.
-  var sentimentDim = facts.dimension(function (d) { return getDevice(d.source); });
-  var sentimentGroup = sentimentDim.group();
-
   // Create hour dimension/group.
   var hourDim = facts.dimension(function(d) { return d.date.getHours() + d.date.getMinutes() / 60; });
   var hourGroup = hourDim.group(Math.floor);
@@ -172,7 +173,7 @@ d3.json('<%= asset_path 'tweets.json' %>', function (tweets) {
   var deviceGroup = deviceDim.group();
 
   // Weekday row chart
-  dayOfWeekChart.width(470)
+  dayChart.width(470)
     .height(250)
     .margins({top: 15, left: 40, right: 10, bottom: 20})
     .dimension(dayOfWeek)
@@ -182,39 +183,6 @@ d3.json('<%= asset_path 'tweets.json' %>', function (tweets) {
     .label(function (d){ return d.key.split(".")[1]; })
     .title(function(d){return d.value;})
     .elasticX(true)
-    .xAxis();
-
-  // Sentiment pie chart
-  sentimentChart.width(250)
-    .height(250)
-    .radius(110)
-    .innerRadius(20)
-    .dimension(sentimentDim)
-    .group(sentimentGroup)
-    .transitionDuration(500)
-    .colors(d3.scale.category20())
-    .title(function(d){console.log(d)});
-
-  // Hour bar graph
-  hourChart.width(450)
-    .height(250)
-    .margins({top: 15, left: 20, right: 10, bottom: 20})
-    .dimension(hourDim)
-    .group(hourGroup)
-    .x(d3.scale.linear().domain([0, 24]))
-    .elasticY(true)
-    .xAxis();
-
-  // Time line graph
-  timeChart.width(980)
-    .height(250)
-    .margins({top: 10, right: 10, bottom: 20, left: 40})
-    .dimension(dateDim)
-    .group(dateGroup)
-    .transitionDuration(500)
-    .elasticY(true)
-    // .x(d3.time.scale().domain([new Date(2016, 2, 28), new Date(2017, 3, 1)]))
-    .x(d3.time.scale().domain(d3.extent(tweets, function(d) { return d.date; })))
     .xAxis();
 
   // Device pie chart
@@ -227,6 +195,28 @@ d3.json('<%= asset_path 'tweets.json' %>', function (tweets) {
     .transitionDuration(500)
     .colors(d3.scale.category10())
     .title(function(d){return d.value;});
+
+  // Hour bar graph
+  hourChart.width(450)
+    .height(250)
+    .margins({top: 15, left: 20, right: 10, bottom: 20})
+    .dimension(hourDim)
+    .group(hourGroup)
+    .x(d3.scale.linear().domain([0, 24]))
+    .elasticY(true)
+    .xAxis();
+
+  // Time line graph
+  dateChart.width(1100)
+    .height(250)
+    .margins({top: 10, right: 10, bottom: 20, left: 40})
+    .dimension(dateDim)
+    .group(dateGroup)
+    .transitionDuration(500)
+    .elasticY(true)
+    // .x(d3.time.scale().domain([new Date(2016, 2, 28), new Date(2017, 3, 1)]))
+    .x(d3.time.scale().domain(d3.extent(tweets, function(d) { return d.date; })))
+    .xAxis();
 
   // Data table
   dataTable.width(960)
