@@ -1,272 +1,44 @@
-<style>
-  svg {
-    border: 1px dotted red;
-  }
-  text.y-axis-label,
-  text.x-axis-label {
-    font-size: 10px;
-    font-weight: 700;
-  }
+<div class="row">
 
-  .title-logo h4 {
-    margin-top: 0;
-  }
-</style>
-<div class="container">
-
-  <!-- TITLE/LOGO -->
-  <div class="row">
-    <div class="title-logo center-align">
-      <%= image_tag("logo", size: "175", align: "center") %>
-      <h4>Tweets from Tiny Hands</h4>
-    </div>
-    <hr><br>
+  <!-- SIDE NAV -->
+  <div class="card-panel green col s12 m4 l3">
+    <span class="white-text flow-text" style="font-size:16px;">This content will be: 3-columns-wide on large screens, 4-columns-wide on medium screens, 12-columns-wide on small screens. Think of all the years passed by in which you said to yourself "I'll do it tomorrow," and how the gods have again and again granted you periods of grace of which you have not availed yourself. It is time to realize that you are a member of the Universe, that you are born of Nature itself, and to know that a limit has been set to your time. Use every moment wisely, to perceive your inner refulgence, or 'twill be gone and nevermore within your reach. - Marcus Aurelius Think of all the years passed by in which you said to yourself "I'll do it tomorrow," and how the gods have again and again granted you periods of grace of which you have not availed yourself. It is time to realize that you are a member of the Universe, that you are born of Nature itself, and to know that a limit has been set to your time. Use every moment wisely, to perceive your inner refulgence, or 'twill be gone and nevermore within your reach. - Marcus Aurelius Think of all the years passed by in which you said to yourself "I'll do it tomorrow," and how the gods have again and again granted you periods of grace of which you have not availed yourself. It is time to realize that you are a member of the Universe, that you are born of Nature itself, and to know that a limit has been set to your time. Use every moment wisely, to perceive your inner refulgence, or 'twill be gone and nevermore within your reach. - Marcus Aurelius</span>
   </div>
 
-<!-- MINI CHARTS: DAY, TIME, DEVICE, SENTIMENT -->
-<div class="row">
-    <div id="day-chart">
-        <strong>Tweets by Day of Week</strong>
-        <a class="reset" href="javascript:dayChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+  <!-- MAIN CONTENT -->
+  <div class="card-panel purple col s12 m8 l9">
+    <span class="white-text flow-text">This content will be: 9-columns-wide on large screens, 8-columns-wide on medium screens, and 12-columns-wide on small screens.<br><br>Think of all the years passed by in which you said to yourself "I'll do it tomorrow," and how the gods have again and again granted you periods of grace of which you have not availed yourself. It is time to realize that you are a member of the Universe, that you are born of Nature itself, and to know that a limit has been set to your time. Use every moment wisely, to perceive your inner refulgence, or 'twill be gone and nevermore within your reach. - Marcus Aurelius. Think of all the years passed by in which you said to yourself "I'll do it tomorrow," and how the gods have again and again granted you periods of grace of which you have not availed yourself. It is time to realize that you are a member of the Universe, that you are born of Nature itself, and to know that a limit has been set to your time. Use every moment wisely, to perceive your inner refulgence, or 'twill be gone and nevermore within your reach. - Marcus Aurelius<br><br>Think of all the years passed by in which you said to yourself "I'll do it tomorrow," and how the gods have again and again granted you periods of grace of which you have not availed yourself. It is time to realize that you are a member of the Universe, that you are born of Nature itself, and to know that a limit has been set to your time. Use every moment wisely, to perceive your inner refulgence, or 'twill be gone and nevermore within your reach. - Marcus Aurelius. Think of all the years passed by in which you said to yourself "I'll do it tomorrow," and how the gods have again and again granted you periods of grace of which you have not availed yourself. It is time to realize that you are a member of the Universe, that you are born of Nature itself, and to know that a limit has been set to your time. Use every moment wisely, to perceive your inner refulgence, or 'twill be gone and nevermore within your reach. - Marcus Aurelius</span>
+  </div>
 
-        <div class="clearfix"></div>
-    </div>
-
-    <div id="hour-chart">
-        <strong>Tweets by Hour of Day</strong>
-        <a class="reset" href="javascript:hourChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
-
-        <div class="clearfix"></div>
-    </div>
-
-    <div id="device-chart">
-        <strong>Tweets by Device</strong>
-        <a class="reset" href="javascript:deviceChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
-
-        <div class="clearfix"></div>
-    </div>
-
-    <div id="sentiment-chart">
-        <strong>Tweets by Sentiment</strong>
-        <a class="reset" href="javascript:sentimentChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
-
-        <div class="clearfix"></div>
-    </div>
 </div>
 
-<!-- VOLUME CHART -->
+<!-- GRIDS -->
 <div class="row">
-  <div id="volume-chart">
-      <strong>Tweet Timeline</strong>
-      <a class="reset" href="javascript:volumeChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
-
-      <div class="clearfix"></div>
+  <div class="col s12">
+    <div class="card-panel blue"><span class="white-text">s12</span></div>
+  </div>
+  <div class="col s12 m4 l2">
+    <div class="card-panel teal"><span class="white-text">s12 m4 l2</span></div>
+  </div>
+  <div class="col s12 m4 l8">
+    <div class="card-panel teal lighten-2"><span class="white-text">s12 m4 l8</span></div>
+  </div>
+  <div class="col s12 m4 l2">
+    <div class="card-panel teal"><span class="white-text">s12 m4 l2</span></div>
   </div>
 </div>
-
-<!-- DATATABLE AND DATA COUNT -->
+<!-- GRIDS -->
 <div class="row">
-  <div>
-    <div class="dc-data-count">
-      <span class="filter-count"></span> selected out of <span class="total-count"></span> records | <a
-            href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
-    </div>
+  <div class="col s12 m6 l3">
+    <div class="card-panel orange"><span class="white-text">s12 m6 l3</span></div>
   </div>
-  <table class="table table-hover dc-data-table"></table>
+  <div class="col s12 m6 l3">
+    <div class="card-panel orange"><span class="white-text">s12 m6 l3</span></div>
+  </div>
+  <div class="col s12 m6 l3">
+    <div class="card-panel orange"><span class="white-text">s12 m6 l3</span></div>
+  </div>
+  <div class="col s12 m6 l3">
+    <div class="card-panel orange"><span class="white-text">s12 m6 l3</span></div>
+  </div>
 </div>
-
-<div class="clearfix"></div>
-
-</div>
-
-<script>
-
-// Create chart objects.
-// var dataCount = dc.dataTable('.dc-data-count');
-var dayChart = dc.rowChart('#day-chart');
-var hourChart = dc.barChart('#hour-chart');
-var deviceChart = dc.pieChart('#device-chart');
-var sentimentChart = dc.pieChart('#sentiment-chart');
-
-var volumeChart = dc.barChart('#volume-chart');
-
-var dataTable = dc.dataTable('.dc-data-table');
-
-// Various formatters.
-var formatFullDate = d3.time.format("%a %b %d %X %Z %Y");
-var formatDate = d3.time.format('%a %m/%d');
-var formatTime = d3.time.format('%I:%M %p');
-
-// Shitty tweet cleaner to remove URLs.
-function cleanTweet(text) {
-    switch(true) {
-        case /https:\/\/t.co+\S+/i.test(text):
-          return text.replace(/https:\/\/t.co+\S+/gi,'');
-          break;
-        default:
-          return text;
-          break;
-    }
-};
-// Regexs for device assignment.
-function setDevice(source) {
-    if (/Twitter for Android/i.test(source)) { return "Android"; }
-    else if (/Twitter for iPhone/i.test(source)) { return "iPhone"; }
-    else if (/Twitter Web Client/i.test(source)) { return "Web Client"; }
-    else if (/Twitter for iPad/i.test(source)) { return "iPad"; }
-    else if (/Twitter Ads/i.test(source)) { return "Ads"; }
-    else if (/Instagram/i.test(source)) { return "Instagram"; }
-    else if (/Periscope/i.test(source)) { return "Periscope"; }
-    else if (/Media Studio/i.test(source)) { return "Media Studio"; }
-    else { return "Unknown" }
-};
-// Temporary workaround to fake sentiment data.
-function fakeSentiment (n) {
-    if (n < 2) {
-        return 'Positive';
-    } else if (n > 6) {
-        return 'Negative'
-    }
-    else {
-        return 'Neutral'
-    }
-};
-
-
-d3.json('<%= asset_path 'tweets.json' %>', function (data) {
-
-
-    // Casting data into expected formats.
-    data.forEach(function(d, i) {
-        d.fullDate = formatFullDate.parse(d.created_at);
-
-        d.date = formatDate(d.fullDate);
-        d.time = formatTime(d.fullDate);
-
-        d.text = cleanTweet(d.text);
-        d.device = setDevice(d.source);
-        d.sentiment = fakeSentiment(Math.random(10)*10);
-    });
-
-    // Load the data into CrossFilter.
-    var facts = crossfilter(data);
-
-    // Create data dimensions and groupings.
-    var all = facts.groupAll();
-
-    // Create full date dimension.
-    var dateDimension = facts.dimension(function (d) { return d.fullDate; });
-    var dateGroup = dateDimension.group(d3.time.day);
-
-    // Create time-of-day dimension.
-    var hourDimension = facts.dimension(function(d) { return d.fullDate.getHours() + d.fullDate.getMinutes() / 60; });
-    var hourGroup = hourDimension.group(Math.floor);
-
-    // Create categorical day-of-week dimension
-    var dayOfWeek = facts.dimension(function (d) {
-        var day = d.fullDate.getDay();
-        var name = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        return day + '.' + name[day];
-    });
-    var dayOfWeekGroup = dayOfWeek.group();
-
-    // Create categorical device dimension
-    var deviceDimension = facts.dimension(function (d) {
-      if (d.device === 'Android' || d.device === 'iPhone' ) {
-          return d.device;
-      } else {
-          return 'Other'
-      }
-    });
-    var deviceGroup = deviceDimension.group();
-
-    // Create categorical device dimension
-    var sentimentDimension = facts.dimension(function (d) { return d.sentiment; });
-    var sentimentGroup = sentimentDimension.group();
-
-    // count all the facts
-    dc.dataCount(".dc-data-count")
-        .dimension(facts)
-        .group(all);
-
-    // Day of week row chart
-    dayChart.width(250)
-        .height(200)
-        .margins({top: 20, left: 10, right: 10, bottom: 20})
-        .dimension(dayOfWeek)
-        .group(dayOfWeekGroup)
-        .ordinalColors(['#0000B3', 'blue', '#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#dadaeb'])
-        .label(function (d) { return d.key.split('.')[1]; })
-        .title(function (d) { return d.value; })
-        .elasticX(true)
-        .xAxis().ticks(4);
-
-    // Time of day bar chart
-    hourChart.width(350)
-        .height(200)
-        .margins({top: 15, left: 35, right: 10, bottom: 30})
-        .dimension(hourDimension)
-        .group(hourGroup)
-        .gap(1)
-        .x(d3.scale.linear().domain([0, 24]))
-        .yAxisLabel('# TWEETS')
-        .elasticY(true)
-        .yAxis().ticks(5);
-
-    // Device pie chart
-    deviceChart.width(190)
-        .height(200)
-        .radius(90)
-        .innerRadius(20)
-        .dimension(deviceDimension)
-        .group(deviceGroup)
-        .ordinalColors(['#76FF03', '#6baed6', '#78909C'])
-        .title(function(d) {return d.value;});
-
-        // Device pie chart
-    sentimentChart.width(190)
-        .height(200)
-        .radius(90)
-        .dimension(sentimentDimension)
-        .group(sentimentGroup)
-        .ordinalColors(['red', 'yellow', 'green'])
-        .title(function(d) {return d.value;})
-        .label(function (d) { return d.key });
-
-    // Tweet bar chart
-    volumeChart.height(150).width(1000)
-        .margins({top: 20, left: 30, right: 10, bottom: 30})
-        .dimension(dateDimension)
-        .group(dateGroup)
-        .round(d3.time.day.round)
-        .x(d3.time.scale().domain(d3.extent(data, function(d) { return d.fullDate; })))
-        .yAxisLabel('# TWEETS')
-        .yAxis().ticks(5);
-
-    // Data table
-    dataTable
-        .dimension(dateDimension)
-        .group(function(d) { return "Tweet Table" })
-        .size(25)
-        // .columns([
-        //     function(d) { return formatDate(d.fullDate); },
-        //     function(d) { return formatTime(d.fullDate); },
-        //     function(d) { return d.text; },
-        //     function(d) { return d.device; }
-        // ])
-        .columns([
-            'date',
-            'time',
-            'text',
-            'device'
-        ])
-        .sortBy(function(d){ return d.fullDate; })
-        .order(d3.descending)
-        .on('renderlet', function (table) {
-            table.select('tr.dc-table-group').remove();
-        });
-
-    dc.renderAll();
-
-});
-</script>

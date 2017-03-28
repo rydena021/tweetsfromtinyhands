@@ -1,350 +1,235 @@
-<script>
-$(document).ready(function () {
-    d3.json('data.json', function (data) {
-        var genderPieChart = dc.pieChart('#genderPie');
-        var marriagePieChart = dc.pieChart('#marriagePie');
-        var ageDefaultersChart = dc.barChart('#ageDefaulters');
-        var limitBalDefaultersChart = dc.lineChart('#limitBalDefaulters');
-        var defaultCountTicker = dc.numberDisplay('.default-count');
-        var ndx = crossfilter(data);
-        var defaultDim = ndx.dimension(function (d) {
-            return d['default payment next month'];
-        });
-        var genderDim = ndx.dimension(function (d) {
-            var sex = d['SEX'];
-            if (sex === 1) {
-                return 'Male';
-            } else if (sex === 2) {
-                return 'Female';
-            } else {
-                return 'Unknown';
-            }
-        });
-        var marriageDim = ndx.dimension(function (d) {
-            var status = d['MARRIAGE'];
-            if (status === 1) {
-                return 'Married';
-            } else if (status === 2) {
-                return 'Single';
-            } else if (status === 3) {
-                return 'Others';
-            } else {
-                return 'Unknown';
-            }
-        });
-
-        genderPieChart
-            .width(180)
-            .height(180)
-            .radius(80)
-            .dimension(genderDim)
-            .group(genderDim.group());
-        genderPieChart.controlsUseVisibility(true);
-        $('#genderPie > a').on('click', function (e) {
-            genderPieChart.filterAll();
-            dc.redrawAll();
-            e.preventDefault();
-        });
-
-        marriagePieChart
-            .width(180)
-            .height(180)
-            .radius(80)
-            .dimension(marriageDim)
-            .group(marriageDim.group());
-        marriagePieChart.controlsUseVisibility(true);
-        $('#marriagePie > a').on('click', function (e) {
-            marriagePieChart.filterAll();
-            dc.redrawAll();
-            e.preventDefault();
-        });
-        ageMinMax = d3.extent(data, function (d) {
-            return d['AGE'];
-        });
-        ageDefaultersDim = ndx.dimension(function (d) {
-            return d['AGE'];
-        });
-
-        ageDefaultersChart
-            .width(900)
-            .height(250)
-            .dimension(ageDefaultersDim)
-            .group(ageDefaultersDim.group().reduceSum(dc.pluck('default payment next month')))
-            .x(d3.scale.linear().domain(ageMinMax))
-            .elasticY(true)
-            .elasticX(true)
-            .xAxisLabel('Age')
-            .yAxisLabel('People Who Defaulted')
-            .controlsUseVisibility(true);
-
-        $('#ageDefaulters > a').on('click', function (e) {
-            ageDefaultersChart.filterAll();
-            dc.redrawAll();
-            e.preventDefault();
-        });
-
-        limitDefaultersDim = ndx.dimension(function (d) {
-            return d['LIMIT_BAL'];
-        });
-
-        limitBalMinMax = d3.extent(data, function (d) {
-            return d['LIMIT_BAL'];
-        });
-
-        limitBalDefaultersChart
-            .width(900)
-            .height(250)
-            .dimension(limitDefaultersDim)
-            .group(limitDefaultersDim.group().reduceSum(dc.pluck('default payment next month')))
-            .x(d3.scale.linear().domain(limitBalMinMax))
-            .renderArea(true)
-            .mouseZoomable(true)
-            .elasticY(true)
-            .xAxisLabel('Amount of Credit Given')
-            .yAxisLabel('People')
-            .turnOnControls(true)
-            .controlsUseVisibility(true);
-
-        $('#limitBalDefaulters > a').on('click', function (e) {
-            limitBalDefaultersChart.focus();
-            limitBalDefaultersChart.filterAll();
-            dc.redrawAll();
-            e.preventDefault();
-        });
-
-
-        defaultCountTicker
-            .group(defaultDim.group())
-            .formatNumber(d3.format(''));
-
-
-        dc.renderAll();
-
-    });
-});
-</script>
-
-<div class="container">
-
-<!-- new! first pie chart -->
-<div class="row">
-  <div id="gain-loss-chart">
-    <strong>Days by Gain/Loss</strong>
-    <a class="reset" href="javascript:gainOrLossChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
-    <div class="clearfix"></div>
+<div class="container-fluid">
+  <!-- TITLE/LOGO -->
+  <div class="center-align">
+    <h1>Tweets from Tiny Hands</h1>
   </div>
+
+  <div class="charts">
+      <!-- DAY / DEVICE -->
+    <div class='row'>
+      <div class='col s12 m4' id='dc-day-chart'>
+        <a class="reset" href="javascript:dayChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+      </div>
+      <div class="col s12 m3 offset-m1" id='dc-device-chart'>
+        <a class="reset" href="javascript:deviceChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+      </div>
+      <div class='col s12 m4' id='dc-hour-chart'>
+        <a class="reset" href="javascript:hourChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+      </div>
+    </div>
+    <br>
+    <!-- TIMELINE -->
+    <div class='row center-align'>
+      <div class='col s12 m8 offset-m1' id='dc-date-chart'>
+        <a class="reset" href="javascript:dateChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATATABLE -->
+  <div class='row'>
+    <div class='col s12'>
+      <table class='table bordered highlight' id='dc-data-table'>
+        <thead>
+          <tr class='header'>
+            <th>Date</th> <th></th> <th>Tweet</th> <th>Device</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+
 </div>
+<script>
+// Create the dc.js chart objects & link to div
+var dayChart = dc.rowChart("#dc-day-chart");
+var deviceChart = dc.pieChart("#dc-device-chart");
+var hourChart = dc.barChart("#dc-hour-chart");
+var dateChart = dc.lineChart("#dc-date-chart");
+var dataTable = dc.dataTable("#dc-data-table");
 
-<div class="row">
-  <!-- create navigation buttons with bootstrap styles -->
-  <nav>
-    <ul class="pager">
-      <li class="pager-prev nasdaqTableFirstButton">
-        <a href="#">
-          << First
-        </a>
-      </li>
-      <li class="nasdaqTablePreviousButton">
-        <a href="#">
-          < Previous
-        </a>
-      </li>
-      <span>
-          <span class="nasdaqTableStartNumber">0</span>-<span class="nasdaqTableEndNumber">0</span>
-          of <span class="nasdaqTableTotalRowCount">0</span> records.
-      </span>
-      <li class="nasdaqTableNextButton">
-        <a href="#">
-          Next >
-        </a>
-      </li>
-      <li class="pager-next nasdaqTableLastButton">
-        <a href="#">
-          Last >>
-        </a>
-      </li>
-    </ul>
-  </nav>
-  <!-- create a table to host the dataTable -->
-  <table class="dc-data-table table table-hover"></table>
-</div> <!-- end row containing datatable -->
+// Load tweet data from JSON file.
+d3.json('<%= asset_path 'tweets.json' %>', function (tweets) {
 
-</div>
+  // Shitty string cleaner to remove URLs.
+  function cleanTweet(text) {
+      switch(true) {
+          case /https:\/\/t.co+\S+/i.test(text):
+            return text.replace(/https:\/\/t.co+\S+/gi,'');
+            break;
+          default:
+            return text;
+            break;
+      }
+  };
+    // Regexs for device assignment.
+  function setDevice(source) {
+      switch (true) {
+          case /Twitter for Android/i.test(source):
+            return "Android";
+            break;
+          case /Twitter for iPhone/i.test(source):
+            return "iPhone";
+            break;
+          case /Twitter Web Client/i.test(source):
+            return "Web Client";
+            break;
+          case /Twitter for iPad/i.test(source):
+            return "iPad";
+            break;
+          case /Instagram/i.test(source):
+            return "Instagram";
+            break;
+          case /Periscope/i.test(source):
+            return "Periscope";
+            break;
+          case /Media Studio/i.test(source):
+            return "Media Studio";
+            break;
+          case /Twitter Ads/i.test(source):
+            return "Ad";
+            break;
+          default:
+            return "Unknown";
+            break;
+      }
+  };
 
-<script type='text/javascript'>
-var facts; // this will be our CrossFilter variable
+  // Regexs for device assignment.
+  function getDevice(tweet) {
+      switch (true) {
+          case /Twitter for Android/i.test(tweet):
+            return "Android";
+            break;
+          case /Twitter for iPhone/i.test(tweet):
+            return "iPhone";
+            break;
+          case /Twitter Web Client/i.test(tweet):
+            return "Web Client";
+            break;
+          default:
+            return "Other";
+            break;
+      }
+  };
 
-// this is the variable that holds the first pie chart (new!)
-var gainOrLossChart = dc.pieChart('#gain-loss-chart');
-var nasdaqTable = dc.dataTable('.dc-data-table');
+  // Various formatters.
+  var fullDateFormat = d3.time.format("%a %b %d %X %Z %Y"),
+      formatDate = d3.time.format("%a %b %e"),
+      formatTime = d3.time.format("%I:%M %p");
 
-// pagination controls for nasdaqTable
-var nasdaqTableOffset = 0, nasdaqTableItemsPerPage = 10;
-
-function nasdaqPaginationDisplay() {
-  // This function does the following:
-  // disable << First, Previous if already at 0
-  // disable >> Next, Last if already at last page
-  // display number of records shown
-
-  var totalRowCount = facts.size();
-  // update numbers shown
-  d3.select(".nasdaqTableTotalRowCount").text(totalRowCount);
-  d3.select(".nasdaqTableStartNumber").text(nasdaqTableOffset + 1);
-  d3.select(".nasdaqTableEndNumber").text(
-    Math.min(nasdaqTableOffset + nasdaqTableItemsPerPage, totalRowCount)
-  );
-  // disable first/previous buttons if we're at the start of the list
-  d3.select(".nasdaqTableFirstButton").classed("disabled",
-     nasdaqTableOffset <= 0
-  );
-  d3.select(".nasdaqTablePreviousButton").classed("disabled",
-     nasdaqTableOffset <= 0
-  );
-  // similarly with next/last buttons if we're at end of list
-  d3.select(".nasdaqTableNextButton").classed("disabled",
-     nasdaqTableOffset >= facts.size() - (facts.size() % nasdaqTableItemsPerPage)
-  );
-  d3.select(".nasdaqTableLastButton").classed("disabled",
-     nasdaqTableOffset >= facts.size() - (facts.size() % nasdaqTableItemsPerPage)
-  );
-  // attach click handlers to the buttons and set them to fire only when enabled
-  d3.select(".nasdaqTableFirstButton").on("click", function() {
-     if (!d3.select(this).classed("disabled")) {
-       nasdaqTableFirst();
-     }
+  // A little coercion, since the CSV is untyped.
+  tweets.forEach(function(d, i) {
+    d.index = +i;
+    d.id = +d.id;
+    d.date = fullDateFormat.parse(d.created_at);
+    d.text = cleanTweet(d.text);
+    d.device = setDevice(d.source);
   });
-  d3.select(".nasdaqTablePreviousButton").on("click", function() {
-     if (!d3.select(this).classed("disabled")) {
-       nasdaqTablePrevious();
-     }
-  });
-  d3.select(".nasdaqTableNextButton").on("click", function() {
-     if (!d3.select(this).classed("disabled")) {
-       nasdaqTableNext();
-     }
-  });
-  d3.select(".nasdaqTableLastButton").on("click", function() {
-     if (!d3.select(this).classed("disabled")) {
-       nasdaqTableLast();
-     }
-  });
-}
-function nasdaqTableUpdate() {
-  // Given the current offset, redraw the table and reset pagination controls
-  // as necessary
-  nasdaqTable.beginSlice(nasdaqTableOffset);
-  nasdaqTable.endSlice(nasdaqTableOffset + nasdaqTableItemsPerPage);
-  nasdaqTable.redraw();
-  nasdaqPaginationDisplay();
-}
-function nasdaqTableFirst() {
-  // if "<< First" button clicked
-  nasdaqTableOffset = 0;
-  nasdaqTableUpdate();
-}
-function nasdaqTablePrevious() {
-  // if "< Previous" button clicked
-  if (nasdaqTableOffset >= nasdaqTableItemsPerPage) {
-    nasdaqTableOffset -= nasdaqTableItemsPerPage;
-    nasdaqTableUpdate();
-  }
-}
-function nasdaqTableNext() {
-  // if "> Next" button clicked
-  nasdaqTableOffset += nasdaqTableItemsPerPage;
-  nasdaqTableUpdate();
-}
-function nasdaqTableLast() {
-  // if ">> Last" button clicked
-  nasdaqTableOffset = facts.size() - (facts.size() % nasdaqTableItemsPerPage);
-  // TODO: we'll have to change facts.size() to the number of filtered items eventually
-  //       take care of that later
-  nasdaqTableUpdate();
-}
-// end nasdaqTable navigation controls
 
-// load the data in from the CSV with d3
-d3.csv('facts.csv', function (data) {
-    // coerce the data into the correct format (see Step 2)
-    var dateFormat = d3.time.format('%m/%d/%Y');
-    var numberFormat = d3.format('.2f');
+  // Run the data through crossfilter and load our 'facts'
+  var facts = crossfilter(tweets);
 
-    data.forEach(function (d) {
-        d.dd = dateFormat.parse(d.date);
-        d.close = +d.close; // coerce to number
-        d.open  = +d.open;
-        d.change = +d.change;
-        d.volume = +d.volume
+  // Create day of week dimension/group.
+  var dayOfWeek = facts.dimension(function (d) {
+    var day = d.date.getDay();
+    switch (day) {
+      case 0:
+        return "0.Sun";
+      case 1:
+        return "1.Mon";
+      case 2:
+        return "2.Tue";
+      case 3:
+        return "3.Wed";
+      case 4:
+        return "4.Thu";
+      case 5:
+        return "5.Fri";
+      case 6:
+        return "6.Sat";
+    }
+  });
+  var dayOfWeekGroup = dayOfWeek.group();
+
+  // Create hour dimension/group.
+  var hourDim = facts.dimension(function(d) { return d.date.getHours() + d.date.getMinutes() / 60; });
+  var hourGroup = hourDim.group(Math.floor);
+
+  // Create dataTable dimension
+  var dateDim = facts.dimension(function (d) { return d.date; });
+  var dateGroup = dateDim.group(d3.time.day);
+
+  // Create device dimension/group.
+  var deviceDim = facts.dimension(function (d) { return getDevice(d.source); });
+  var deviceGroup = deviceDim.group();
+
+  // Weekday row chart
+  dayChart.width(470)
+    .height(250)
+    .margins({top: 15, left: 40, right: 10, bottom: 20})
+    .dimension(dayOfWeek)
+    .group(dayOfWeekGroup)
+    .transitionDuration(500)
+    .colors(d3.scale.category10())
+    .label(function (d){ return d.key.split(".")[1]; })
+    .title(function(d){return d.value;})
+    .elasticX(true)
+    .xAxis();
+
+  // Device pie chart
+  deviceChart.width(250)
+    .height(250)
+    .radius(110)
+    .innerRadius(20)
+    .dimension(deviceDim)
+    .group(deviceGroup)
+    .transitionDuration(500)
+    .colors(d3.scale.category10())
+    .title(function(d){return d.value;});
+
+  // Hour bar graph
+  hourChart.width(450)
+    .height(250)
+    .margins({top: 15, left: 20, right: 10, bottom: 20})
+    .dimension(hourDim)
+    .group(hourGroup)
+    .x(d3.scale.linear().domain([0, 24]))
+    .elasticY(true)
+    .xAxis();
+
+  // Time line graph
+  dateChart.width(1100)
+    .height(250)
+    .margins({top: 10, right: 10, bottom: 20, left: 40})
+    .dimension(dateDim)
+    .group(dateGroup)
+    .transitionDuration(500)
+    .elasticY(true)
+    // .x(d3.time.scale().domain([new Date(2016, 2, 28), new Date(2017, 3, 1)]))
+    .x(d3.time.scale().domain(d3.extent(tweets, function(d) { return d.date; })))
+    .xAxis();
+
+  // Data table
+  dataTable.width(960)
+    .dimension(dateDim)
+    .group(function(d) { return "Tweet Table" })
+    .transitionDuration(500)
+    .size(100)
+    .columns([
+      function(d) { return formatDate(d.date); },
+      function(d) { return formatTime(d.date); },
+      function(d) { return '<a href="https://twitter.com/realDonaldTrump/status/' + d.id_str + '">' + d.text + '</a>'; },
+      function(d) { return d.device; }
+    ])
+    .sortBy(function(d){ return d.date; }) .order(d3.descending)
+    .on('renderlet', function (table) {
+      // each time table is rendered remove nasty extra row dc.js insists on adding
+      table.select('tr.dc-table-group').remove();
     });
-
-    // load the data into CrossFilter
-    facts = crossfilter(data);
-    var all = facts.groupAll();
-
-    // Create a data dimension
-    var dateDimension = facts.dimension(function (d) {
-        return d.dd;
-    });
-    // Create a categorical data dimension for gain/loss
-    var gainOrLoss = facts.dimension(function (d) {
-        return d.open > d.close ? 'Loss' : 'Gain';
-    });
-    var gainOrLossGroup = gainOrLoss.group();
-
-    // create the gainOrLoss pie chart
-    gainOrLossChart
-      .width(180)
-      .height(180)
-      .radius(80)
-      .dimension(gainOrLoss)
-      .group(gainOrLossGroup) // all below are optional
-      .label(function (d) {
-        if (gainOrLossChart.hasFilter() && !gainOrLossChart.hasFilter(d.key)) {
-            return d.key + '(0%)';
-        }
-        var label = d.key;
-        if (all.value()) { // add in the percentage
-            label += '(' + Math.floor(d.value / all.value() * 100) + '%)';
-        }
-        return label;
-      })
-      .transitionDuration(500) // changes transition duration (default: 350 ms)
-
-    // create the dataTable
-    nasdaqTable
-        .dimension(dateDimension) // obligatory
-        .group(function (d) {
-            // obligatory
-            return 'All';
-        })
-        .size(Infinity) // optional, default 25
-        .columns([ // obligatory
-            'date',
-            'open',
-            'close',
-            {
-                label: 'Change', // use this as the column label
-                format: function (d) {
-                    return numberFormat(d.close - d.open);
-                }
-            },
-            'volume'
-        ])
-        .sortBy(function (d) {
-            // optional
-            return d.dd;
-        })
-        .order(
-            // optional
-            d3.ascending
-        )
-
-    nasdaqTableUpdate(); // make sure pagination kicks in for the datatable
-                         // before the charts are loaded so we only display
-                         // the first $nasdaqTableItemsPerPage rows
-    // render all charts (in this case just the datatable)
-    dc.renderAll();
+    // Render the Charts
+  dc.renderAll();
 
 });
-</script>
+
+  </script>
