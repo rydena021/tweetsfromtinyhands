@@ -1,235 +1,273 @@
-<div class="container-fluid">
+<style>
+  svg {
+    border: 1px dotted red;
+    margin: 5px;
+  }
+
+  text.y-axis-label,
+  text.x-axis-label {
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+   .row {
+    margin-bottom: 5px;
+  }
+
+  .dc-chart .pie-slice {
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  #sentiment-chart text.pie-slice._1 {fill: black;}
+
+
+</style>
+
+<div class="container">
+
   <!-- TITLE/LOGO -->
-  <div class="center-align">
-    <h1>Tweets from Tiny Hands</h1>
+
+  <br>
+  <div class="row title-logo center-align">
+      <%= image_tag("logo", size: "250", align: 'center') %>
+  </div>
+  <br><hr><br>
+
+  <!-- MINI CHARTS: DAY, TIME, DEVICE, SENTIMENT -->
+  <div class="row center-align">
+      <div id="sentiment-chart">
+          <strong>Tweets by Sentiment</strong>
+          <a class="reset" href="javascript:sentimentChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+
+          <div class="clearfix"></div>
+      </div>
+
+      <div id="day-chart">
+          <strong>Tweets by Day</strong>
+          <a class="reset" href="javascript:dayChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+
+          <div class="clearfix"></div>
+      </div>
+
+      <div id="hour-chart">
+          <strong>Tweets by Hour</strong>
+          <a class="reset" href="javascript:hourChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+
+          <div class="clearfix"></div>
+      </div>
+
+      <div id="device-chart">
+          <strong>Tweets by Device</strong>
+          <a class="reset" href="javascript:deviceChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+
+          <div class="clearfix"></div>
+      </div>
   </div>
 
-  <div class="charts">
-      <!-- DAY / DEVICE -->
-    <div class='row'>
-      <div class='col s12 m4' id='dc-day-chart'>
-        <a class="reset" href="javascript:dayChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
-      </div>
-      <div class="col s12 m3 offset-m1" id='dc-device-chart'>
-        <a class="reset" href="javascript:deviceChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
-      </div>
-      <div class='col s12 m4' id='dc-hour-chart'>
-        <a class="reset" href="javascript:hourChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
-      </div>
-    </div>
-    <br>
-    <!-- TIMELINE -->
-    <div class='row center-align'>
-      <div class='col s12 m8 offset-m1' id='dc-date-chart'>
-        <a class="reset" href="javascript:dateChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
-      </div>
+  <!-- VOLUME CHART -->
+  <div class="row">
+    <div id="volume-chart">
+        <strong>Tweet Timeline</strong>
+        <a class="reset" href="javascript:volumeChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+
+        <div class="clearfix"></div>
     </div>
   </div>
 
-  <!-- DATATABLE -->
-  <div class='row'>
-    <div class='col s12'>
-      <table class='table bordered highlight' id='dc-data-table'>
-        <thead>
-          <tr class='header'>
-            <th>Date</th> <th></th> <th>Tweet</th> <th>Device</th>
-          </tr>
-        </thead>
-      </table>
+  <!-- DATATABLE AND DATA COUNT -->
+  <div class="row">
+    <div>
+      <div class="dc-data-count">
+        <span class="filter-count"></span> selected out of <span class="total-count"></span> records | <a
+              href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
+      </div>
     </div>
+    <table class="table table-hover dc-data-table"></table>
   </div>
+
+  <div class="clearfix"></div>
 
 </div>
+
 <script>
-// Create the dc.js chart objects & link to div
-var dayChart = dc.rowChart("#dc-day-chart");
-var deviceChart = dc.pieChart("#dc-device-chart");
-var hourChart = dc.barChart("#dc-hour-chart");
-var dateChart = dc.lineChart("#dc-date-chart");
-var dataTable = dc.dataTable("#dc-data-table");
 
-// Load tweet data from JSON file.
-d3.json('<%= asset_path 'tweets.json' %>', function (tweets) {
+// Create chart objects.
+// var dataCount = dc.dataTable('.dc-data-count');
+var dayChart = dc.rowChart('#day-chart');
+var hourChart = dc.barChart('#hour-chart');
+var deviceChart = dc.pieChart('#device-chart');
+var sentimentChart = dc.pieChart('#sentiment-chart');
+var volumeChart = dc.barChart('#volume-chart');
+var dataTable = dc.dataTable('.dc-data-table');
 
-  // Shitty string cleaner to remove URLs.
-  function cleanTweet(text) {
-      switch(true) {
-          case /https:\/\/t.co+\S+/i.test(text):
-            return text.replace(/https:\/\/t.co+\S+/gi,'');
-            break;
-          default:
-            return text;
-            break;
-      }
-  };
-    // Regexs for device assignment.
-  function setDevice(source) {
-      switch (true) {
-          case /Twitter for Android/i.test(source):
-            return "Android";
-            break;
-          case /Twitter for iPhone/i.test(source):
-            return "iPhone";
-            break;
-          case /Twitter Web Client/i.test(source):
-            return "Web Client";
-            break;
-          case /Twitter for iPad/i.test(source):
-            return "iPad";
-            break;
-          case /Instagram/i.test(source):
-            return "Instagram";
-            break;
-          case /Periscope/i.test(source):
-            return "Periscope";
-            break;
-          case /Media Studio/i.test(source):
-            return "Media Studio";
-            break;
-          case /Twitter Ads/i.test(source):
-            return "Ad";
-            break;
-          default:
-            return "Unknown";
-            break;
-      }
-  };
+// Various formatters.
+var parseDateFormat = d3.time.format("%a %b %d %X %Z %Y");
+var formatDate = d3.time.format('%a %m/%d');
+var formatTime = d3.time.format('%I:%M %p');
 
-  // Regexs for device assignment.
-  function getDevice(tweet) {
-      switch (true) {
-          case /Twitter for Android/i.test(tweet):
-            return "Android";
-            break;
-          case /Twitter for iPhone/i.test(tweet):
-            return "iPhone";
-            break;
-          case /Twitter Web Client/i.test(tweet):
-            return "Web Client";
-            break;
-          default:
-            return "Other";
-            break;
-      }
-  };
-
-  // Various formatters.
-  var fullDateFormat = d3.time.format("%a %b %d %X %Z %Y"),
-      formatDate = d3.time.format("%a %b %e"),
-      formatTime = d3.time.format("%I:%M %p");
-
-  // A little coercion, since the CSV is untyped.
-  tweets.forEach(function(d, i) {
-    d.index = +i;
-    d.id = +d.id;
-    d.date = fullDateFormat.parse(d.created_at);
-    d.text = cleanTweet(d.text);
-    d.device = setDevice(d.source);
-  });
-
-  // Run the data through crossfilter and load our 'facts'
-  var facts = crossfilter(tweets);
-
-  // Create day of week dimension/group.
-  var dayOfWeek = facts.dimension(function (d) {
-    var day = d.date.getDay();
-    switch (day) {
-      case 0:
-        return "0.Sun";
-      case 1:
-        return "1.Mon";
-      case 2:
-        return "2.Tue";
-      case 3:
-        return "3.Wed";
-      case 4:
-        return "4.Thu";
-      case 5:
-        return "5.Fri";
-      case 6:
-        return "6.Sat";
+// Shitty tweet cleaner to remove URLs.
+function cleanTweet(text) {
+    switch(true) {
+        case /http:\/\/t.co+\S+/i.test(text):
+          return text.replace(/https:\/\/t.co+\S+/gi,'');
+          break;
+        case /https:\/\/t.co+\S+/i.test(text):
+          return text.replace(/https:\/\/t.co+\S+/gi,'');
+          break;
+        default:
+          return text;
+          break;
     }
-  });
-  var dayOfWeekGroup = dayOfWeek.group();
+};
+// Regexs for device assignment.
+function setDevice(source) {
+    if (/Twitter for Android/i.test(source)) { return "Android"; }
+    else if (/Twitter for iPhone/i.test(source)) { return "iPhone"; }
+    else if (/Twitter Web Client/i.test(source)) { return "Web Client"; }
+    else if (/Twitter for iPad/i.test(source)) { return "iPad"; }
+    else if (/Twitter Ads/i.test(source)) { return "Ads"; }
+    else if (/Instagram/i.test(source)) { return "Instagram"; }
+    else if (/Periscope/i.test(source)) { return "Periscope"; }
+    else if (/Media Studio/i.test(source)) { return "Media Studio"; }
+    else { return "Unknown" }
+};
+// Temporary workaround to fake sentiment data.
+function fakeSentiment (n) {
+    if (n < 2) {
+        return 'Positive';
+    } else if (n > 6) {
+        return 'Negative'
+    }
+    else {
+        return 'Neutral'
+    }
+};
 
-  // Create hour dimension/group.
-  var hourDim = facts.dimension(function(d) { return d.date.getHours() + d.date.getMinutes() / 60; });
-  var hourGroup = hourDim.group(Math.floor);
 
-  // Create dataTable dimension
-  var dateDim = facts.dimension(function (d) { return d.date; });
-  var dateGroup = dateDim.group(d3.time.day);
+d3.json('<%= asset_path 'all_tweets.json' %>', function (data) {
 
-  // Create device dimension/group.
-  var deviceDim = facts.dimension(function (d) { return getDevice(d.source); });
-  var deviceGroup = deviceDim.group();
 
-  // Weekday row chart
-  dayChart.width(470)
-    .height(250)
-    .margins({top: 15, left: 40, right: 10, bottom: 20})
-    .dimension(dayOfWeek)
-    .group(dayOfWeekGroup)
-    .transitionDuration(500)
-    .colors(d3.scale.category10())
-    .label(function (d){ return d.key.split(".")[1]; })
-    .title(function(d){return d.value;})
-    .elasticX(true)
-    .xAxis();
-
-  // Device pie chart
-  deviceChart.width(250)
-    .height(250)
-    .radius(110)
-    .innerRadius(20)
-    .dimension(deviceDim)
-    .group(deviceGroup)
-    .transitionDuration(500)
-    .colors(d3.scale.category10())
-    .title(function(d){return d.value;});
-
-  // Hour bar graph
-  hourChart.width(450)
-    .height(250)
-    .margins({top: 15, left: 20, right: 10, bottom: 20})
-    .dimension(hourDim)
-    .group(hourGroup)
-    .x(d3.scale.linear().domain([0, 24]))
-    .elasticY(true)
-    .xAxis();
-
-  // Time line graph
-  dateChart.width(1100)
-    .height(250)
-    .margins({top: 10, right: 10, bottom: 20, left: 40})
-    .dimension(dateDim)
-    .group(dateGroup)
-    .transitionDuration(500)
-    .elasticY(true)
-    // .x(d3.time.scale().domain([new Date(2016, 2, 28), new Date(2017, 3, 1)]))
-    .x(d3.time.scale().domain(d3.extent(tweets, function(d) { return d.date; })))
-    .xAxis();
-
-  // Data table
-  dataTable.width(960)
-    .dimension(dateDim)
-    .group(function(d) { return "Tweet Table" })
-    .transitionDuration(500)
-    .size(100)
-    .columns([
-      function(d) { return formatDate(d.date); },
-      function(d) { return formatTime(d.date); },
-      function(d) { return '<a href="https://twitter.com/realDonaldTrump/status/' + d.id_str + '">' + d.text + '</a>'; },
-      function(d) { return d.device; }
-    ])
-    .sortBy(function(d){ return d.date; }) .order(d3.descending)
-    .on('renderlet', function (table) {
-      // each time table is rendered remove nasty extra row dc.js insists on adding
-      table.select('tr.dc-table-group').remove();
+    // Casting data into expected formats.
+    data.forEach(function(d, i) {
+        d.parsedDate = parseDateFormat.parse(d.created_at);
+        d.date = formatDate(d.parsedDate);
+        d.time = formatTime(d.parsedDate);
     });
-    // Render the Charts
-  dc.renderAll();
+
+    // Load the data into CrossFilter.
+    var facts = crossfilter(data);
+
+    // Create data dimensions and groupings.
+    var all = facts.groupAll();
+
+    // Create full date dimension.
+    var dateDimension = facts.dimension(function (d) { return d.parsedDate; });
+    var dateGroup = dateDimension.group(d3.time.day);
+
+    // Create time-of-day dimension.
+    var hourDimension = facts.dimension(function(d) { return d.parsedDate.getHours() + d.parsedDate.getMinutes() / 60; });
+    var hourGroup = hourDimension.group(Math.floor);
+
+    // Create categorical day-of-week dimension
+    var dayOfWeek = facts.dimension(function (d) {
+        var day = d.parsedDate.getDay();
+        var name = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        return day + '.' + name[day];
+    });
+    var dayOfWeekGroup = dayOfWeek.group();
+
+    // Create categorical device dimension
+    var deviceDimension = facts.dimension(function (d) {
+      if (d.device === 'Android' || d.device === 'iPhone' ) {
+          return d.device;
+      } else {
+          return 'Other'
+      }
+    });
+    var deviceGroup = deviceDimension.group();
+
+    // Create categorical device dimension
+    var sentimentDimension = facts.dimension(function (d) { return d.sentiment; });
+    var sentimentGroup = sentimentDimension.group();
+
+    // count all the facts
+    dc.dataCount(".dc-data-count")
+        .dimension(facts)
+        .group(all);
+
+    // Day of week row chart
+    dayChart.height(200).width(250)
+        .margins({top: 10, left: 10, right: 10, bottom: 40})
+        .dimension(dayOfWeek)
+        .group(dayOfWeekGroup)
+        .ordinalColors(['#01579B', '#0277BD', '#0288D1', '#039BE5', '#03A9F4', '#29B6F6', '#4FC3F7'])
+        .label(function (d) { return d.key.split('.')[1]; })
+        .title(function(d) {return d.value + ' tweets';})
+        .elasticX(true)
+        .xAxis().ticks(4);
+
+    // Time of day bar chart
+    hourChart.height(200).width(340)
+        .margins({top: 15, left: 30, right: 15, bottom: 30})
+        .dimension(hourDimension)
+        .group(hourGroup)
+        .gap(1)
+        .x(d3.scale.linear().domain([0, 24]))
+        .title(function(d) {return d.value + ' tweets';})
+        .xAxisLabel('Time of Day (24hr)')
+        .elasticY(true)
+        .yAxis().ticks(3);
+
+    // Device pie chart
+    deviceChart.height(200).width(175)
+        .radius(80)
+        .innerRadius(25)
+        .dimension(deviceDimension)
+        .group(deviceGroup)
+        .ordinalColors(['#76FF03', '#424242', '#0091EA'])
+        .title(function(d) {return d.value + ' tweets';})
+        .label(function (d) { return d.key });
+
+
+        // Device pie chart
+    sentimentChart.height(200).width(175)
+        .radius(80)
+        .dimension(sentimentDimension)
+        .group(sentimentGroup)
+        .ordinalColors(['#ff0000', '#ffff00', '#00cf00'])
+        .title(function(d) {return d.value + ' tweets';})
+        .label(function (d) { return d.key });
+
+    // Tweet bar chart
+    volumeChart.height(175).width(1000)
+        .margins({top: 20, left: 30, right: 20, bottom: 30})
+        .dimension(dateDimension)
+        .group(dateGroup)
+        .round(d3.time.day.round)
+        .x(d3.time.scale().domain(d3.extent(data, function(d) { return d.parsedDate; })))
+        // .x(d3.time.scale().domain([new Date(2015, 5, 15), new Date(2017, 3, 1)]))
+        .yAxisLabel('Tweets')
+        .yAxis().ticks(5);
+
+    // Data table
+    dataTable
+        .dimension(dateDimension)
+        .group(function(d) { return "Tweet Table" })
+        .size(50)
+        .columns([
+            'date',
+            'time',
+            'tweet',
+            'device'
+        ])
+        .sortBy(function(d){ return d.parsedDate; })
+        .order(d3.descending)
+        .on('renderlet', function (table) {
+            table.select('tr.dc-table-group').remove();
+        });
+
+    dc.renderAll();
 
 });
-
-  </script>
+</script>
