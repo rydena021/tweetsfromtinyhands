@@ -1,95 +1,156 @@
-<style>
-  svg {
-    /*border: 1px dotted red;*/
-    margin: 5px;
-  }
+<!-- BANNER -->
+<div id="index-banner" class="parallax-container valign-wrapper">
+  <div class="section">
+    <div class="container">
+      <br><br>
+      <h1 class="header center grey-text text-darken-2">Tweets from<br>Tiny Hands</h1>
+      <br><br>
 
-  text.y-axis-label,
-  text.x-axis-label {
-    font-size: 10px;
-    font-weight: 700;
-  }
-
-   .row {
-    margin-bottom: 5px;
-  }
-
-  .dc-chart .pie-slice {
-    font-size: 12px;
-    font-weight: bold;
-  }
-
-  #sentiment-chart text.pie-slice._1 {fill: black;}
+    </div>
+  </div>
+  <div class="parallax"><%= image_tag 'clouds_wooden' %></div>
+</div>
 
 
-</style>
-
+<!-- ABOUT -->
 <div class="container">
-
-  <!-- TITLE/LOGO -->
-
-  <br>
-  <div class="row title-logo center-align">
-      <%= image_tag("logo", size: "250", align: 'center') %>
-  <p>Under construction... <br><br>In the meantime, you can click on any chart area to apply filters (click + drag for Tweets by Hour/Tweet Timeline). <br> 100 most recent tweets matching selection will be displayed. To reset all filters, click 'reset all' above datatable.</p>
+  <div class="section">
+    <div class="row">
+      <div class="col s12">
+          <h5 class="header col s12 grey-text text-darken-2 center">Visualizing Donald Trump's Twitter Data</h5><hr>
+          <p>This site is currently under construction... The dataset is complete and the charts are functional though - so go ahead and click (or click + drag on some) to filter through Trump's tweets. You can stack several filters (i.e. on Wednesdays and Saturdays from iPhone before 1/1/17) and datatable beneath the graphs will render the 100 most recent tweets that match the selection.
+          <br><br>
+          Please let me know if you have any suggestions for the site! I plan to sort RTs, replies, vs Trump's own tweets. Sentiment analysis needs to be refined. Also may add reading level or some other text analyses. Also need to configure live-updates so new tweets are added automatically. I'm not sure if the site itself will end up looking anything like this-  I plan to spend a lot of time on styling after I finish the behind the scenes stuff!
+          <br><br>
+          Enjoy.</p>
+          <br><br>
+      </div>
+    </div>
   </div>
-  <br><hr><br>
+</div>
 
-  <!-- MINI CHARTS: DAY, TIME, DEVICE, SENTIMENT -->
-  <div class="row center-align">
-      <div id="sentiment-chart">
-          <strong>Tweets by Sentiment</strong>
-          <a class="reset" href="javascript:sentimentChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
 
-          <div class="clearfix"></div>
+<!-- PARALLAX -->
+<div class="parallax-container valign-wrapper">
+  <div class="section">
+    <div class="container">
+      <div class="row center">
+        <%= image_tag("logo", size: "300", align: 'center') %>
       </div>
-
-      <div id="day-chart">
-          <strong>Tweets by Day</strong>
-          <a class="reset" href="javascript:dayChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
-
-          <div class="clearfix"></div>
-      </div>
-
-      <div id="hour-chart">
-          <strong>Tweets by Hour</strong>
-          <a class="reset" href="javascript:hourChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
-
-          <div class="clearfix"></div>
-      </div>
-
-      <div id="device-chart">
-          <strong>Tweets by Device</strong>
-          <a class="reset" href="javascript:deviceChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
-
-          <div class="clearfix"></div>
-      </div>
+    </div>
   </div>
+  <div class="parallax"><%= image_tag 'clouds_wooden' %></div>
+</div>
 
-  <!-- VOLUME CHART -->
-  <div class="row">
-    <div id="volume-chart">
-        <strong>Tweet Timeline</strong>
-        <a class="reset" href="javascript:volumeChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+
+<!-- CHARTS -->
+<div class="container">
+  <div class="section">
+
+
+    <div class="row">
+      <div class="col s12 center">
+
+        <div id="sentiment-chart">
+            <strong>Tweets by Sentiment</strong>
+            <a class="reset" href="javascript:sentimentChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+
+            <div class="clearfix"></div>
+        </div>
+
+        <div id="day-chart">
+            <strong>Tweets by Day</strong>
+            <a class="reset" href="javascript:dayChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+
+            <div class="clearfix"></div>
+        </div>
+
+        <div id="hour-chart">
+            <strong>Tweets by Hour</strong>
+            <a class="reset" href="javascript:hourChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+
+            <div class="clearfix"></div>
+        </div>
+
+        <div id="device-chart">
+            <strong>Tweets by Device</strong>
+            <a class="reset" href="javascript:deviceChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+
+            <div class="clearfix"></div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col s12 center">
+
+        <div id="volume-chart">
+            <strong>Tweet Timeline</strong>
+            <a class="reset" href="javascript:volumeChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+
+            <div class="clearfix"></div>
+        </div>
+
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+<!-- PARALLAX SKINNY -->
+<div class="parallax-container valign-wrapper parallax-skinny">
+  <div class="section">
+    <div class="container">
+      <div class="row center">
+        <div>
+          <div class="dc-data-count">
+            <p><span class="filter-count"></span> selected out of <span class="total-count"></span> records | <a
+                  href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="parallax"><%= image_tag 'clouds_wooden' %></div>
+</div>
+
+
+<!-- DATATABLE -->
+<div class="container">
+  <div class="section">
+
+    <div class="row">
+      <div class="col s12 center">
+
+
+        <table class="table bordered highlight dc-data-table"></table>
 
         <div class="clearfix"></div>
-    </div>
-  </div>
 
-  <!-- DATATABLE AND DATA COUNT -->
-  <div class="row">
-    <div>
-      <div class="dc-data-count">
-        <span class="filter-count"></span> selected out of <span class="total-count"></span> records | <a
-              href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
+
       </div>
     </div>
-    <table class="table table-hover dc-data-table"></table>
+
   </div>
-
-  <div class="clearfix"></div>
-
 </div>
+
+
+<!-- PARALLAX -->
+<div class="parallax-container valign-wrapper parallax-skinny">
+  <div class="section">
+    <div class="container">
+      <div class="row center">
+
+      </div>
+    </div>
+  </div>
+  <div class="parallax"><%= image_tag 'clouds_wooden' %></div>
+</div>
+
 
 <script>
 
@@ -160,7 +221,7 @@ d3.json('<%= asset_path 'all_tweets.json' %>', function (data) {
         .group(all);
 
     // Day of week row chart
-    dayChart.height(200).width(250)
+    dayChart.height(200).width(225)
         .margins({top: 10, left: 10, right: 10, bottom: 40})
         .dimension(dayOfWeek)
         .group(dayOfWeekGroup)
@@ -171,7 +232,7 @@ d3.json('<%= asset_path 'all_tweets.json' %>', function (data) {
         .xAxis().ticks(4);
 
     // Time of day bar chart
-    hourChart.height(200).width(340)
+    hourChart.height(200).width(325)
         .margins({top: 15, left: 30, right: 15, bottom: 30})
         .dimension(hourDimension)
         .group(hourGroup)
@@ -183,9 +244,9 @@ d3.json('<%= asset_path 'all_tweets.json' %>', function (data) {
         .yAxis().ticks(3);
 
     // Device pie chart
-    deviceChart.height(200).width(175)
-        .radius(80)
-        .innerRadius(25)
+    deviceChart.height(160).width(175)
+        .radius(75)
+        .innerRadius(20)
         .dimension(deviceDimension)
         .group(deviceGroup)
         .ordinalColors(['#76FF03', '#424242', '#0091EA'])
@@ -194,8 +255,8 @@ d3.json('<%= asset_path 'all_tweets.json' %>', function (data) {
 
 
         // Device pie chart
-    sentimentChart.height(200).width(175)
-        .radius(80)
+    sentimentChart.height(160).width(175)
+        .radius(75)
         .dimension(sentimentDimension)
         .group(sentimentGroup)
         .ordinalColors(['#ff0000', '#ffff00', '#00cf00'])

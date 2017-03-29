@@ -1,20 +1,19 @@
-<div class="navbar-fixed">
-  <nav>
-    <div class="nav-wrapper blue-grey darken-4">
-      <a href="https://www.lewagon.com/copenhagen" class="brand-logo"><div class="logo-background"><%= image_tag("bird_avatar", size: "50", align: "center", class: "logo-image") %></div></a>
-      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+<header>
+  <nav class="white" role="navigation">
+    <div class="nav-wrapper container">
+      <a id="logo-container" href="#" class="brand-logo"><%= image_tag("bird_avatar", size: "50", align: "center")%></a>
       <ul class="right hide-on-med-and-down">
-        <li><%= link_to "Home", '/' %></li>
-        <li><%= link_to "Materialize", '/test1' %></li>
-        <li><%= link_to "dc.js", '/test2' %></li>
-        <li><%= link_to "GitHub", 'https://github.com/rydena021/rails-tiny-hands' %></li>
+        <li><a href="https://github.com/rydena021/rails-tiny-hands">GitHub</a></li>
+        <li><a href="https://www.lewagon.com/copenhagen">Lewagon</a></li>
+        <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Do Not Press</a></li>
       </ul>
-      <ul class="side-nav" id="mobile-demo">
-        <li><%= link_to "Home", '/' %></li>
-        <li><%= link_to "Materialize", '/test1' %></li>
-        <li><%= link_to "dc.js", '/test2' %></li>
-        <li><%= link_to "GitHub", 'https://github.com/rydena021/rails-tiny-hands' %></li>
+
+      <ul id="nav-mobile" class="side-nav">
+        <li><a href="https://github.com/rydena021/rails-tiny-hands">GitHub</a></li>
+        <li><a href="https://www.lewagon.com/copenhagen">Lewagon</a></li>
+        <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Do Not Press</a></li>
       </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
   </nav>
-</div>
+</header>

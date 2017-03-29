@@ -21,7 +21,159 @@
 
 body {
   background: white;
+  width: 1440px;
 }
 
 
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+nav ul a,
+nav .brand-logo {
+  color: #444;
+}
+
+p {
+  line-height: 2rem;
+}
+
+h1 {
+  font-size: 75px;
+}
+.button-collapse {
+  color: #26a69a;
+}
+
+#index-banner {
+    // height:450px;
+}
+
+.parallax-container {
+  min-height: 550px;
+  line-height: 0;
+  height: auto;
+  color: rgba(255,255,255,.9);
+}
+
+.parallax-skinny {
+  min-height: 65px;
+}
+
+.parallax-container .section {
+  width: 100%;
+}
+
+.icon-block {
+  padding: 0 15px;
+}
+.icon-block .material-icons {
+  font-size: inherit;
+}
+
+footer.page-footer {
+  margin: 0;
+}
+
+svg {
+  border: 1px dotted red;
+  margin: 6px;
+}
+
+text.y-axis-label,
+text.x-axis-label {
+  font-size: 10px;
+  font-weight: 700;
+}
+
+ .row {
+  margin-bottom: 5px;
+}
+
+.dc-chart .pie-slice {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+div#device-chart.dc-chart,
+div#sentiment-chart.dc-chart {
+    margin-bottom: 40px;
+}
+
+#sentiment-chart text.pie-slice._1 {
+  fill: black;
+}
+
+.dc-data-count {
+  font-size: 25px;
+  font-weight: bold;
+  color: black;
+  background-color: white;
+  width: 100%;
+}
+.dc-data-count {
+}
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+// .button-collapse {
+//   color: #26a69a;
+// }
+
+// .parallax-container {
+//   min-height: 600px;
+//   line-height: 0;
+//   height: auto;
+//   color: black;
+// }
+
+// .parallax-container .section {
+//     width: 100%;
+//   }
+
+// #index-banner {
+//     height:70vh;
+// }
+// @media only screen and (max-width : 992px) {
+//   .parallax-container .section {
+//     position: absolute;
+//     top: 40%;
+//   }
+//   #index-banner .section {
+//     top: 10%;
+//   }
+// }
+
+// @media only screen and (max-width : 600px) {
+//   #index-banner .section {
+//     top: 0;
+//   }
+// }
+
+// .icon-block {
+//   padding: 0 15px;
+// }
+// .icon-block .material-icons {
+//   font-size: inherit;
+// }
+
+// .parallax-spacer {
+//   display: flex;
+//   justify-content: space-around;
+//   align-items: center;
+//   height: 800px;
+// }
+
+// .parallax-skinny {
+//   height: 50px;
+// }
 

@@ -1,6 +1,6 @@
 <style>
   svg {
-    border: 1px dotted red;
+    /*border: 1px dotted red;*/
     margin: 5px;
   }
 
@@ -31,6 +31,7 @@
   <br>
   <div class="row title-logo center-align">
       <%= image_tag("logo", size: "250", align: 'center') %>
+  <p>Under construction... <br><br>In the meantime, you can click on any chart area to apply filters (click + drag for Tweets by Hour/Tweet Timeline). <br> 100 most recent tweets matching selection will be displayed. To reset all filters, click 'reset all' above datatable.</p>
   </div>
   <br><hr><br>
 
@@ -105,44 +106,6 @@ var dataTable = dc.dataTable('.dc-data-table');
 var parseDateFormat = d3.time.format("%a %b %d %X %Z %Y");
 var formatDate = d3.time.format('%a %m/%d');
 var formatTime = d3.time.format('%I:%M %p');
-
-// Shitty tweet cleaner to remove URLs.
-function cleanTweet(text) {
-    switch(true) {
-        case /http:\/\/t.co+\S+/i.test(text):
-          return text.replace(/https:\/\/t.co+\S+/gi,'');
-          break;
-        case /https:\/\/t.co+\S+/i.test(text):
-          return text.replace(/https:\/\/t.co+\S+/gi,'');
-          break;
-        default:
-          return text;
-          break;
-    }
-};
-// Regexs for device assignment.
-function setDevice(source) {
-    if (/Twitter for Android/i.test(source)) { return "Android"; }
-    else if (/Twitter for iPhone/i.test(source)) { return "iPhone"; }
-    else if (/Twitter Web Client/i.test(source)) { return "Web Client"; }
-    else if (/Twitter for iPad/i.test(source)) { return "iPad"; }
-    else if (/Twitter Ads/i.test(source)) { return "Ads"; }
-    else if (/Instagram/i.test(source)) { return "Instagram"; }
-    else if (/Periscope/i.test(source)) { return "Periscope"; }
-    else if (/Media Studio/i.test(source)) { return "Media Studio"; }
-    else { return "Unknown" }
-};
-// Temporary workaround to fake sentiment data.
-function fakeSentiment (n) {
-    if (n < 2) {
-        return 'Positive';
-    } else if (n > 6) {
-        return 'Negative'
-    }
-    else {
-        return 'Neutral'
-    }
-};
 
 
 d3.json('<%= asset_path 'all_tweets.json' %>', function (data) {
@@ -254,7 +217,7 @@ d3.json('<%= asset_path 'all_tweets.json' %>', function (data) {
     dataTable
         .dimension(dateDimension)
         .group(function(d) { return "Tweet Table" })
-        .size(50)
+        .size(100)
         .columns([
             'date',
             'time',
