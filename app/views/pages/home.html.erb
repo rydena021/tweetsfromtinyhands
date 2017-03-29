@@ -1,6 +1,6 @@
 <style>
   svg {
-    /*border: 1px dotted grey;*/
+    border: 1px dotted red;
     margin: 5px;
   }
 
@@ -15,9 +15,12 @@
   }
 
   .dc-chart .pie-slice {
-    font-size: 11px;
-    font-weight: 700;
+    font-size: 12px;
+    font-weight: bold;
   }
+
+  #sentiment-chart text.pie-slice._1 {fill: black;}
+
 
 </style>
 
@@ -41,14 +44,14 @@
       </div>
 
       <div id="day-chart">
-          <strong>Tweets by Day of Week</strong>
+          <strong>Tweets by Day</strong>
           <a class="reset" href="javascript:dayChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
 
           <div class="clearfix"></div>
       </div>
 
       <div id="hour-chart">
-          <strong>Tweets by Hour of Day</strong>
+          <strong>Tweets by Hour</strong>
           <a class="reset" href="javascript:hourChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
 
           <div class="clearfix"></div>
@@ -99,13 +102,16 @@ var volumeChart = dc.barChart('#volume-chart');
 var dataTable = dc.dataTable('.dc-data-table');
 
 // Various formatters.
-var formatFullDate = d3.time.format("%a %b %d %X %Z %Y");
+var parseDateFormat = d3.time.format("%a %b %d %X %Z %Y");
 var formatDate = d3.time.format('%a %m/%d');
 var formatTime = d3.time.format('%I:%M %p');
 
 // Shitty tweet cleaner to remove URLs.
 function cleanTweet(text) {
     switch(true) {
+        case /http:\/\/t.co+\S+/i.test(text):
+          return text.replace(/https:\/\/t.co+\S+/gi,'');
+          break;
         case /https:\/\/t.co+\S+/i.test(text):
           return text.replace(/https:\/\/t.co+\S+/gi,'');
           break;
@@ -144,13 +150,11 @@ d3.json('<%= asset_path 'tweets.json' %>', function (data) {
 
     // Casting data into expected formats.
     data.forEach(function(d, i) {
-        d.fullDate = formatFullDate.parse(d.created_at);
-        d.date = formatDate(d.fullDate);
-        d.time = formatTime(d.fullDate);
-        d.text = cleanTweet(d.text);
-        d.tweet = '<a href="https://twitter.com/realDonaldTrump/status/' + d.id_str + '">' + d.text + '</a>';
-        d.device = setDevice(d.source);
+        d.parsedDate = parseDateFormat.parse(d.created_at);
+        d.date = formatDate(d.parsedDate);
+        d.time = formatTime(d.parsedDate);
         d.sentiment = fakeSentiment(Math.random(10)*10);
+        d.tweet = '<a href=' + d.url + '>' + d.text + '</a>';
     });
 
     // Load the data into CrossFilter.
@@ -160,16 +164,16 @@ d3.json('<%= asset_path 'tweets.json' %>', function (data) {
     var all = facts.groupAll();
 
     // Create full date dimension.
-    var dateDimension = facts.dimension(function (d) { return d.fullDate; });
+    var dateDimension = facts.dimension(function (d) { return d.parsedDate; });
     var dateGroup = dateDimension.group(d3.time.day);
 
     // Create time-of-day dimension.
-    var hourDimension = facts.dimension(function(d) { return d.fullDate.getHours() + d.fullDate.getMinutes() / 60; });
+    var hourDimension = facts.dimension(function(d) { return d.parsedDate.getHours() + d.parsedDate.getMinutes() / 60; });
     var hourGroup = hourDimension.group(Math.floor);
 
     // Create categorical day-of-week dimension
     var dayOfWeek = facts.dimension(function (d) {
-        var day = d.fullDate.getDay();
+        var day = d.parsedDate.getDay();
         var name = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         return day + '.' + name[day];
     });
@@ -199,9 +203,9 @@ d3.json('<%= asset_path 'tweets.json' %>', function (data) {
         .margins({top: 10, left: 10, right: 10, bottom: 40})
         .dimension(dayOfWeek)
         .group(dayOfWeekGroup)
-        .ordinalColors(['#0000B3', 'blue', '#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#dadaeb'])
+        .ordinalColors(['#01579B', '#0277BD', '#0288D1', '#039BE5', '#03A9F4', '#29B6F6', '#4FC3F7'])
         .label(function (d) { return d.key.split('.')[1]; })
-        .title(function (d) { return d.value; })
+        .title(function(d) {return d.value + ' tweets';})
         .elasticX(true)
         .xAxis().ticks(4);
 
@@ -212,6 +216,7 @@ d3.json('<%= asset_path 'tweets.json' %>', function (data) {
         .group(hourGroup)
         .gap(1)
         .x(d3.scale.linear().domain([0, 24]))
+        .title(function(d) {return d.value + ' tweets';})
         .xAxisLabel('Time of Day (24hr)')
         .elasticY(true)
         .yAxis().ticks(3);
@@ -232,18 +237,18 @@ d3.json('<%= asset_path 'tweets.json' %>', function (data) {
         .radius(80)
         .dimension(sentimentDimension)
         .group(sentimentGroup)
-        .ordinalColors(['red', 'yellow', 'green'])
-        .title(function(d) {return d.value;})
+        .ordinalColors(['#ff0000', '#ffff00', '#00cf00'])
+        .title(function(d) {return d.value + ' tweets';})
         .label(function (d) { return d.key });
 
     // Tweet bar chart
-    volumeChart.height(150).width(1000)
+    volumeChart.height(175).width(1000)
         .margins({top: 20, left: 30, right: 20, bottom: 30})
         .dimension(dateDimension)
         .group(dateGroup)
         .round(d3.time.day.round)
-        // .x(d3.time.scale().domain(d3.extent(data, function(d) { return d.fullDate; })))
-        .x(d3.time.scale().domain([new Date(2015, 5, 15), new Date(2017, 3, 1)]))
+        .x(d3.time.scale().domain(d3.extent(data, function(d) { return d.parsedDate; })))
+        // .x(d3.time.scale().domain([new Date(2015, 5, 15), new Date(2017, 3, 1)]))
         .yAxisLabel('Tweets')
         .yAxis().ticks(5);
 
@@ -258,7 +263,7 @@ d3.json('<%= asset_path 'tweets.json' %>', function (data) {
             'tweet',
             'device'
         ])
-        .sortBy(function(d){ return d.fullDate; })
+        .sortBy(function(d){ return d.parsedDate; })
         .order(d3.descending)
         .on('renderlet', function (table) {
             table.select('tr.dc-table-group').remove();
