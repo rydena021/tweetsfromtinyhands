@@ -145,7 +145,7 @@ function fakeSentiment (n) {
 };
 
 
-d3.json('<%= asset_path 'tweets.json' %>', function (data) {
+d3.json('<%= asset_path 'all_tweets.json' %>', function (data) {
 
 
     // Casting data into expected formats.
@@ -153,8 +153,6 @@ d3.json('<%= asset_path 'tweets.json' %>', function (data) {
         d.parsedDate = parseDateFormat.parse(d.created_at);
         d.date = formatDate(d.parsedDate);
         d.time = formatTime(d.parsedDate);
-        d.sentiment = fakeSentiment(Math.random(10)*10);
-        d.tweet = '<a href=' + d.url + '>' + d.text + '</a>';
     });
 
     // Load the data into CrossFilter.
