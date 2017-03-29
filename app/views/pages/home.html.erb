@@ -1,6 +1,6 @@
 <style>
   svg {
-    border: 1px dotted red;
+    /*border: 1px dotted red;*/
     margin: 5px;
   }
 
@@ -31,6 +31,7 @@
   <br>
   <div class="row title-logo center-align">
       <%= image_tag("logo", size: "250", align: 'center') %>
+  <p>Under construction... <br><br>In the meantime, you can click on any chart area to apply filters (click + drag for Tweets by Hour/Tweet Timeline). <br> 100 most recent tweets matching selection will be displayed. To reset all filters, click 'reset all' above datatable.</p>
   </div>
   <br><hr><br>
 
@@ -216,7 +217,7 @@ d3.json('<%= asset_path 'all_tweets.json' %>', function (data) {
     dataTable
         .dimension(dateDimension)
         .group(function(d) { return "Tweet Table" })
-        .size(50)
+        .size(100)
         .columns([
             'date',
             'time',
